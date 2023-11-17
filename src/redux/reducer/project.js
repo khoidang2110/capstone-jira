@@ -1,0 +1,14 @@
+import { SET_PROJECTDATA } from "../constant/project";
+
+const initialState = {
+  projectDataRedux: false,
+};
+
+export let projectReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case SET_PROJECTDATA:
+      return { ...state, projectDataRedux: payload };
+    default:
+      return state;
+  }
+};

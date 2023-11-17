@@ -1,0 +1,51 @@
+.anticon-down{
+    font-size: 10px;
+    vertical-align: initial;
+}
+.anticon{
+    display: inline-block;
+    color: inherit;
+    font-style: normal;
+    line-height: 0;
+    text-align: center;
+    text-transform: none;
+    vertical-align: -0.125em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+.anticon svg{
+    display: inline-block;
+
+}
+.header_active__3Buyc:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 4px;
+    right: 4px;
+    height: 3px;
+    --tw-bg-opacity: 1;
+    background-color: rgba(29,78,216,var(--tw-bg-opacity));
+}
+.header_active__3Buyc {
+    position: relative;
+}
+.tabs-extra-demo-button {
+    margin-right: 16px;
+  }
+  
+  .ant-row-rtl .tabs-extra-demo-button {
+    margin-right: 0;
+    margin-left: 16px;
+  }
+  :where(.css-dev-only-do-not-override-i36w9w).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled {
+    color:white;
+    cursor: default;
+}
+:where(.css-dev-only-do-not-override-1adbn6x).ant-layout .ant-layout-sider {
+    position: relative;
+    min-width: 0;
+    background: #f5f5f5;
+    transition: all 0.2s,background 0s;
+}
+
