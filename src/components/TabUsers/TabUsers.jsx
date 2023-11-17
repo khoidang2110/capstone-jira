@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { usersManageService } from "../../service/service";
+import { setUsersData } from "../../redux/action/userManage";
 const columns = [
   {
     title: "No.",
@@ -46,8 +48,10 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 export default function TabUsers() {
+  const dispatch = useDispatch();
   let {usersRedux} = useSelector(state=>state.usersManageReducer);
   console.log("usersDataRedux",usersRedux)
+
   return (
   
     <div  className="container py-20"

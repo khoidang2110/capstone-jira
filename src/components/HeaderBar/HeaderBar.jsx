@@ -9,6 +9,8 @@ export default function HeaderBar() {
   let navigate = useNavigate();
    //let info = useSelector((state)=> {return state.userReducer.info;})
    let {info} = useSelector(state=>state.userReducer);
+   let userJson = localStorage.getItem("USER");
+   let USER = JSON.parse(userJson);
    let handleLogout = ()=>{
     // vừa chuyển trang vừa reload 
     window.location.href="/login"
@@ -17,7 +19,7 @@ export default function HeaderBar() {
 
    }
   let renderUserNav = ()=>{
-    if(info){
+    if(USER){
       return (
         <>
         <div className="flex justify-start">
