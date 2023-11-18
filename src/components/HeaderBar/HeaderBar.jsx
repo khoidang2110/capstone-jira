@@ -12,10 +12,13 @@ export default function HeaderBar() {
    let userJson = localStorage.getItem("USER");
    let USER = JSON.parse(userJson);
    let handleLogout = ()=>{
+    
+   // xoá toàn bộ local storage
+   localStorage.clear();
     // vừa chuyển trang vừa reload 
-    window.location.href="/login"
-    localStorage.clear();
-    // xoá toàn bộ local storage
+   window.location.href="/"
+
+ 
 
    }
   let renderUserNav = ()=>{
