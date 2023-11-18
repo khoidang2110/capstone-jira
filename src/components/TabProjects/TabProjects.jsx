@@ -9,6 +9,8 @@ const columns = [
   {
     title: "Id",
     dataIndex: "id",
+    
+    width: 80,
   },
   {
     title: "Project name",
@@ -36,6 +38,8 @@ const columns = [
       compare: (a, b) => a.english - b.english,
       multiple: 1,
     },
+    
+    width: 100,
   },
   {
     title: "Members",
@@ -191,10 +195,10 @@ export default function TabProjects() {
    
   // }, []);
   return (
-    <div className="container py-20">
-     <div className="mb-3 flex items-start"><h3 className="ant-typography flex-grow">Projects</h3><a className="flex justify-center items-center h-8 bg-blue-700 hover:bg-blue-600 focus:bg-blue-600 text-white hover:text-white font-medium py-1.5 px-3 rounded cursor-pointer" href="/projects/new">Create project</a></div>
-
-      <Table columns={columns} dataSource={projectDataRedux} onChange={onChange} />
+    <div className="container pt-20 px-5">
+     <button>Create Project</button>
+      <Table columns={columns} dataSource={projectDataRedux} onChange={onChange} scroll={{
+      y: 280,}} />
     </div>
   );
 }

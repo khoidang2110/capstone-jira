@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
 import { setUsersData } from "../../redux/action/userManage";
 const columns = [
-  {
-    title: "No.",
-    dataIndex: "nam",
-  },
+
   {
     title: "Name",
     dataIndex: "name",
@@ -15,11 +12,12 @@ const columns = [
       compare: (a, b) => a.chinese - b.chinese,
       multiple: 3,
     },
+    width: 150,
   },
   {
     title: "User ID",
     dataIndex: "userId",
-    
+    width: 80,
   },
   {
     title: "Email",
@@ -28,10 +26,13 @@ const columns = [
       compare: (a, b) => a.english - b.english,
       multiple: 1,
     },
-  },,
+    width: 200,
+  },
   {
     title: "Phone Number",
-    dataIndex: "phoneNumber",
+    dataIndex: "phoneNumber"
+    ,
+    width: 150,
     
   },
   {
@@ -41,6 +42,8 @@ const columns = [
       compare: (a, b) => a.english - b.english,
       multiple: 1,
     },
+    width: 200,
+    
   }
 ];
 
@@ -54,7 +57,7 @@ export default function TabUsers() {
 
   return (
   
-    <div  className="container py-20"
+    <div  className="container pt-20 px-5"
     //  style={{
     //   margin: '24px 16px',
     //   padding: 24,
@@ -63,7 +66,9 @@ export default function TabUsers() {
     // }}
     >
       <button>ada</button>
-      <Table columns={columns} dataSource={usersRedux} onChange={onChange} />
+      <Table columns={columns} dataSource={usersRedux} onChange={onChange} scroll={{
+      y: 280,
+    }} />
     </div>
   );
 }

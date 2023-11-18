@@ -50,13 +50,13 @@ export default function Layout() {
         <div>
           <HeaderBar />
           <div className="flex">
-            <div>
+            <div className="">
               <MenuBar />
             </div>
-            <div>
+            <div >
               <Outlet />
             </div>
-          </div>
+          </div >
         </div>
       ) : (
         <div>
