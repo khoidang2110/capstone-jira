@@ -23,17 +23,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { useSelector } from "react-redux";
 import { projectService } from "../../service/service";
+import toast from "react-hot-toast";
 
 const { Option } = Select;
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+// const onFinish = (values) => {
+//   console.log("Success:", values);
+// };
 
 const MenuBar = () => {
+  const [form] = Form.useForm();
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
   console.log("USER id", USER.id);
@@ -48,14 +47,15 @@ const MenuBar = () => {
 
   console.log("projectDataReduxById", projectDataReduxById);
   const [taskPriority, setTaskPriority] = useState();
-  console.log("task priority state", taskPriority);
+  //console.log("task priority state", taskPriority);
   const [taskStatus, setTaskStatus] = useState();
   const [taskType, setTaskType] = useState();
+  console.log("task type", taskType);
   const [open, setOpen] = useState(false);
   const [productSelected, setProductSelected] = useState();
-  console.log("pick product", productSelected);
+  //console.log("pick product", productSelected);
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     const productSelected = projectDataReduxById.find(
       (item) => item.id == value
     );
@@ -75,6 +75,7 @@ const MenuBar = () => {
   const onChangeSpentTime = (newValue) => {
     setSpentTime(newValue);
   };
+
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -138,6 +139,26 @@ const MenuBar = () => {
       })
       .catch((err) => {});
   }, []);
+  const onFinish = (values) => {
+    const data = { ...values, timeTrackingRemaining: totalTime - spentTime };
+    //console.log("Success:", data);
+    projectService
+      .createTask(data)
+      .then((result) => {
+        toast.success("Đăng ký thành công");
+        console.log("dk thanh cong",result);
+        form.resetFields();
+        setOpen(false);
+        
+      })
+      .catch((err) => {
+        toast.error("Đăng ký thất bại");
+      });
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div>
       <Layout
@@ -179,6 +200,7 @@ const MenuBar = () => {
           }}
         >
           <Form
+            form={form}
             name="basic"
             // labelCol={{
             //   span: 8,
@@ -266,7 +288,11 @@ const MenuBar = () => {
               >
                 {taskType?.map((item, index) => {
                   return (
-                    <Option value={item.TypeId} key={index}>
+                    <Option
+                      value={item.id}
+                      //value={parseInt(item.TypeId)}
+                      key={index}
+                    >
                       {item.taskType}
                     </Option>
                   );
@@ -279,7 +305,7 @@ const MenuBar = () => {
                 {productSelected?.members?.map((member, index) => {
                   return (
                     <Option
-                      value={member.name}
+                      value={member.userId}
                       //value={JSON.stringify(member)}
                       // value={member.obj}
                       key={index}
@@ -318,6 +344,28 @@ const MenuBar = () => {
               rules={[
                 {
                   type: "number",
+                  // min: 0,
+                  // max:3,
+                },
+              ]}
+              style={{
+                display: "inline-block",
+                width: "calc(50% - 8px)",
+              }}
+            >
+              <InputNumber
+                value={spentTime}
+                onChange={onChangeSpentTime}
+                min={0}
+                max={totalTime}
+              />
+            </Form.Item>
+            {/* <Form.Item
+              name="timeTrackingRemaining"
+              label="Time remaining"
+              rules={[
+                {
+                  type: "number",
                   min: 0,
                   max: 99,
                 },
@@ -327,23 +375,22 @@ const MenuBar = () => {
                 width: "calc(50% - 8px)",
               }}
             >
-              <InputNumber value={spentTime} onChange={onChangeSpentTime} />
-            </Form.Item>
+              <InputNumber  defaultValue={typeof spentTime === "number" ? totalTime-spentTime : 0} />
+            </Form.Item> */}
+
             <Form.Item label="Slider" name="timeTrackingRemaining">
               <Slider
-              reverse={true}
                 min={0}
-                max={5}
-                 onChange={onChangeTotalTime}
-                //value={typeof spentTime === "number" ? totalTime-spentTime : 0}
-                value={totalTime}
+                max={totalTime}
+                onChange={onChangeTotalTime}
+                value={typeof spentTime === "number" ? spentTime : 0}
               />
               <span className="flex space-x-96 font-medium">
                 <p>{spentTime} hour(s)spent</p>
-                <p>{totalTime-spentTime} hour(s)remaining</p>
+                <p>{totalTime - spentTime} hour(s)remaining</p>
               </span>
             </Form.Item>
-            
+
             <Form.Item label="Description" name="description">
               <Input.TextArea rows={4} />
             </Form.Item>

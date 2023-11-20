@@ -22,6 +22,9 @@ export let projectService = {
   getTaskType: () => {
     return https.get("/api/TaskType/getAll");
   },
+  createTask:(values)=>{
+    return https.post("/api/Project/createTask",values)
+  }
 };
 
 export let usersManageService = {
