@@ -18,7 +18,7 @@ export default function Layout() {
   // console.log("lấy info", info);
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
-  // Outlet la nhung gi ben trong Layout
+
   const dispatch = useDispatch();
   useEffect(() => {
     projectService
@@ -49,11 +49,12 @@ export default function Layout() {
       {USER ? (
         <div>
           <HeaderBar />
-          <div className="flex">
+          <div className="container flex">
             <div className="">
               <MenuBar />
             </div>
             <div >
+             {/* Outlet la nhung gi ben trong Layout */}
               <Outlet />
             </div>
           </div >
