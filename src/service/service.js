@@ -13,12 +13,6 @@ export let projectService = {
   getProjectList: () => {
     return https.get(`/api/Project/getAllProject`);
   },
-  projectCategory: () => {
-    return https.get(`/api/ProjectCategory`);
-  },
-  createProjectAuthorize: (values) => {
-    return https.post(`/api/Project/createProjectAuthorize`, values);
-  },
 };
 
 export let usersManageService = {
