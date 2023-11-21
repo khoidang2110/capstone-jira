@@ -7,17 +7,22 @@ export let userService = {
   register: (valueForm) => {
     return https.post("/api/QuanLyNguoiDung/DangKy", valueForm);
   },
-  
 };
 
 export let projectService = {
-  getProjectList: () =>{
-    return https.get(`/api/Project/getAllProject`)
-  }
-}
+  getProjectList: () => {
+    return https.get(`/api/Project/getAllProject`);
+  },
+  projectCategory: () => {
+    return https.get(`/api/ProjectCategory`);
+  },
+  createProjectAuthorize: (values) => {
+    return https.post(`/api/Project/createProjectAuthorize`, values);
+  },
+};
 
 export let usersManageService = {
-  getUsersList: ()=>{
-    return https.get(`/api/Users/getUser`)
-  }
-}
+  getUsersList: () => {
+    return https.get(`/api/Users/getUser`);
+  },
+};
