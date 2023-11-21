@@ -18,9 +18,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<TabProjects />}></Route>
-            <Route path="/newproject" element={<NewProject />}></Route>
             <Route path="/users" element={<TabUsers />}></Route>
           </Route>
+          <Route path="/newproject" element={<NewProject />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
         </Routes>
       </BrowserRouter>
