@@ -35,7 +35,7 @@ const MenuBar = () => {
   const [form] = Form.useForm();
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
-  console.log("USER id", USER.id);
+ // console.log("USER id", USER.id);
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   if (projectDataRedux == false) {
     projectDataRedux = [];
@@ -45,12 +45,12 @@ const MenuBar = () => {
     (item) => item.creator.id == USER.id
   );
 
-  console.log("projectDataReduxById", projectDataReduxById);
+  //console.log("projectDataReduxById", projectDataReduxById);
   const [taskPriority, setTaskPriority] = useState();
   //console.log("task priority state", taskPriority);
   const [taskStatus, setTaskStatus] = useState();
   const [taskType, setTaskType] = useState();
-  console.log("task type", taskType);
+  //console.log("task type", taskType);
   const [open, setOpen] = useState(false);
   const [productSelected, setProductSelected] = useState();
   //console.log("pick product", productSelected);
@@ -141,7 +141,7 @@ const MenuBar = () => {
   }, []);
   const onFinish = (values) => {
     const data = { ...values, timeTrackingRemaining: totalTime - spentTime };
-    //console.log("Success:", data);
+   console.log("Success:", data);
     projectService
       .createTask(data)
       .then((result) => {
@@ -153,6 +153,7 @@ const MenuBar = () => {
       })
       .catch((err) => {
         toast.error("Đăng ký thất bại");
+        console.log("dk thanh cong",err);
       });
   };
   const onFinishFailed = (errorInfo) => {
