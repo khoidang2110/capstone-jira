@@ -17,14 +17,20 @@ export let projectService = {
     return https.get("/api/Priority/getAll?id=0");
   },
   getTaskStatus: () => {
-    return https.get('/api/Status/getAll');
+    return https.get("/api/Status/getAll");
   },
   getTaskType: () => {
     return https.get("/api/TaskType/getAll");
   },
-  createTask:(values)=>{
-    return https.post("/api/Project/createTask",values)
-  }
+  createTask: (values) => {
+    return https.post("/api/Project/createTask", values);
+  },
+  projectCategory: () => {
+    return https.get(`/api/ProjectCategory`);
+  },
+  createProjectAuthorize: (values) => {
+    return https.post(`/api/Project/createProjectAuthorize`, values);
+  },
 };
 
 export let usersManageService = {
