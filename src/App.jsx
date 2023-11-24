@@ -8,8 +8,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TabProjects from "./components/TabProjects/TabProjects";
 import TabUsers from "./components/TabUsers/TabUsers";
+import ProjectDetail from "./components/ProjectDetail/ProjectDetail"
 
-import HomePage from "./pages/HomePage/HomePage";
 import NewProject from "./components/NewProject/NewProject";
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<TabProjects />}></Route>
             <Route path="/users" element={<TabUsers />}></Route>
+            <Route path="/projectdetail/:id" element={<ProjectDetail/>}></Route>
           </Route>
           <Route path="/newproject" element={<NewProject />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import HeaderBar from "../components/HeaderBar/HeaderBar.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
 import MenuBar from "../components/MenuBar/MenuBar.jsx";
-import PageContent from "../components/PageContent/PageContent.jsx";
+//import PageContent from "../components/PageContent/PageContent.jsx";
 import LoginPage from "../pages/LoginPage/LoginPage.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjectData } from "../redux/action/project.js";
@@ -49,7 +49,7 @@ export default function Layout() {
       {USER ? (
         <div>
           <HeaderBar />
-          <div className="container flex">
+          <div className="container flex" style={{marginLeft:0}}>
             <div className="">
               <MenuBar />
             </div>

@@ -18,6 +18,7 @@ import {
   InputNumber,
   Slider,
   ConfigProvider,
+  message,
 } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
@@ -145,13 +146,13 @@ const MenuBar = () => {
     projectService
       .createTask(data)
       .then((result) => {
-        toast.success("Đăng ký thành công");
+        message.success("Đăng ký thành công");
         console.log("dk thanh cong", result);
         form.resetFields();
         setOpen(false);
       })
       .catch((err) => {
-        toast.error("Đăng ký thất bại");
+        message.error("Đăng ký thất bại");
         console.log("dk thanh cong",err);
       });
   };

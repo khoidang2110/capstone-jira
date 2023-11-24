@@ -10,6 +10,9 @@ export let userService = {
 };
 
 export let projectService = {
+  getProjectDetail:(id)=>{
+    return https.get(`/api/Project/getProjectDetail?id=${id}`);
+  },
   getProjectList: () => {
     return https.get(`/api/Project/getAllProject`);
   },
@@ -31,6 +34,9 @@ export let projectService = {
   createProjectAuthorize: (values) => {
     return https.post(`/api/Project/createProjectAuthorize`, values);
   },
+  updateStatus:(values) =>{
+    return https.put(`/api/Project/updateStatus`,values);
+  }
 };
 
 export let usersManageService = {

@@ -15,6 +15,10 @@ const columns = [
   {
     title: "Project name",
     dataIndex: "projectName",
+    
+      render: (text, record, index) => {
+        return <NavLink to={`/projectdetail/${record.id}`} className="text-blue-700">{text}</NavLink>;
+      },
     sorter: {
       compare: (a, b) => a.chinese - b.chinese,
       multiple: 3,
