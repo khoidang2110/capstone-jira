@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, message } from "antd";
 import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
+import { nanoid } from 'nanoid'
 const tasks = [
   { id: "1", content: "First task" },
   { id: "2", content: "Second task" },
@@ -35,43 +36,72 @@ const taskStatus = {
   },
 };
 
-const onDragEnd = (result, columns, setColumns) => {
-  if (!result.destination) return;
-  const { source, destination } = result;
-
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.lstTaskDeTail];
-    const destItems = [...destColumn.lstTaskDeTail];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        lstTaskDeTail: sourceItems,
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        lstTaskDeTail: destItems,
-      },
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.lstTaskDeTail];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        lstTaskDeTail: copiedItems,
-      },
-    });
-  }
-};
 export default function ProjectDetail() {
+  const [randomNumber, setRandomNumber] = useState("11");
+  const onDragEnd = (result, columns, setColumns) => {
+  
+    if (!result.destination) return;
+    const { source, destination } = result;
+  
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
+      const sourceItems = [...sourceColumn.lstTaskDeTail];
+      // item đang chọn
+      
+      const destItems = [...destColumn.lstTaskDeTail];
+      //destColumn.lstTaskDeTail item của collum đang chọn
+      //console.log("destColumn.lstTaskDeTail",destColumn.lstTaskDeTail)
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          lstTaskDeTail: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          lstTaskDeTail: destItems,
+        },
+        
+      });
+      console.log("sourceColumn.lstTaskDeTail ",sourceColumn.lstTaskDeTail[0].taskId)
+      console.log("status id ",destination.droppableId)
+      let data ={
+        taskId:sourceColumn.lstTaskDeTail[0]?.taskId,
+        statusId:destination.droppableId*1+1
+      }
+      console.log("data",data)
+      projectService
+      .updateStatus(data)
+      .then((result) => {
+        message.success("cập nhật thành công");
+        setRandomNumber(Math.random())
+      }).catch((err) => {
+       // message.error("cập nhật thất bại");
+      });
+  
+      //console.log("sourceItems",sourceItems)
+      //console.log("drop end ",destItems)
+    } else {
+      const column = columns[source.droppableId];
+      const copiedItems = [...column.lstTaskDeTail];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...column,
+          lstTaskDeTail: copiedItems,
+        },
+      });
+       console.log("drop end same column");
+       setRandomNumber(Math.random());
+    }
+  
+  };
+  console.log("random number",randomNumber)
   //lấy tên project
   let { id } = useParams();
   //const [columns, setColumns] = useState(taskStatus);
@@ -88,24 +118,6 @@ export default function ProjectDetail() {
   const [columns, setColumns] = useState(false);
   console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
 
-  const [stt1, setStt1] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:92 ~ stt1:", stt1)
-  
-  const [stt2, setStt2] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:93 ~ ProjectDetail ~ stt2:", stt2);
-
-  const [stt3, setStt3] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:98 ~ stt3:", stt3)
-  const [stt4, setStt4] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:100 ~ stt4:", stt4)
-
-  // if(columns){
-
-  // }
-
-  // useEffect(() => {
-
-  // }, [columns]);
   // lấy data project detail
   useEffect(() => {
     projectService
@@ -114,23 +126,21 @@ export default function ProjectDetail() {
         // console.log("project detail", result.data.content);
         setProjectDetail(result.data.content);
         setColumns(result.data.content.lstTask);
-      })
-      .then((res)=>{
-        setStt1(columns[0]?.lstTaskDeTail);
-        setStt2(columns[1]?.lstTaskDeTail);
-        setStt3(columns[2]?.lstTaskDeTail);
-        setStt4(columns[3]?.lstTaskDeTail);
-      }
-       
-        )
+      }) 
       .catch((err) => {});
   }, []);
-  // useEffect(() => {
-
-  //   return cleanUp = () => {
-
-  //   }
-  // }, []);
+    // lấy data project detail khi cập nhật status
+    useEffect(() => {
+      projectService
+        .getProjectDetail(id)
+        .then((result) => {
+          // console.log("project detail", result.data.content);
+          setProjectDetail(result.data.content);
+          setColumns(result.data.content.lstTask);
+          console.log("lay data luc update status")
+        }) 
+        .catch((err) => {});
+    }, [randomNumber]);
   return (
     <div className="container pt-20 px-5">
       {/* ProjectDetail{id} */}
