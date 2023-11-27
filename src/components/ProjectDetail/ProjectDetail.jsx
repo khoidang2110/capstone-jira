@@ -4,7 +4,7 @@ import { Breadcrumb, message } from "antd";
 import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
-import { nanoid } from 'nanoid'
+
 const tasks = [
   { id: "1", content: "First task" },
   { id: "2", content: "Second task" },
