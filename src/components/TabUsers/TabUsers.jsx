@@ -57,7 +57,7 @@ export default function TabUsers() {
 
   return (
   
-    <div  className="container pt-20 px-5"
+    <div  className=""
     //  style={{
     //   margin: '24px 16px',
     //   padding: 24,

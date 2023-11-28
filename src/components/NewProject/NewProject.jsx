@@ -10,7 +10,7 @@ import {
   Select,
   message,
 } from "antd";
-import HeaderBar from "../HeaderBar/HeaderBar";
+
 import { Option } from "antd/es/mentions";
 import { Editor } from "@tinymce/tinymce-react";
 import toast from "react-hot-toast";
@@ -60,8 +60,8 @@ const NewProject = () => {
 
   return (
     <div>
-      <HeaderBar />
-      <div className="container py-20 px-5">
+      {/* <HeaderBar /> */}
+      <div className="">
         <h3 className="m-4">New Project</h3>
         <Breadcrumb
           items={[
