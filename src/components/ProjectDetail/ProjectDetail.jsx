@@ -89,15 +89,15 @@ export default function ProjectDetail() {
   console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
 
   const [stt1, setStt1] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:92 ~ stt1:", stt1)
-  
+  console.log("🚀 ~ file: ProjectDetail.jsx:92 ~ stt1:", stt1);
+
   const [stt2, setStt2] = useState([]);
   console.log("🚀 ~ file: ProjectDetail.jsx:93 ~ ProjectDetail ~ stt2:", stt2);
 
   const [stt3, setStt3] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:98 ~ stt3:", stt3)
+  console.log("🚀 ~ file: ProjectDetail.jsx:98 ~ stt3:", stt3);
   const [stt4, setStt4] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:100 ~ stt4:", stt4)
+  console.log("🚀 ~ file: ProjectDetail.jsx:100 ~ stt4:", stt4);
 
   // if(columns){
 
@@ -115,14 +115,12 @@ export default function ProjectDetail() {
         setProjectDetail(result.data.content);
         setColumns(result.data.content.lstTask);
       })
-      .then((res)=>{
+      .then((res) => {
         setStt1(columns[0]?.lstTaskDeTail);
         setStt2(columns[1]?.lstTaskDeTail);
         setStt3(columns[2]?.lstTaskDeTail);
         setStt4(columns[3]?.lstTaskDeTail);
-      }
-       
-        )
+      })
       .catch((err) => {});
   }, []);
   // useEffect(() => {

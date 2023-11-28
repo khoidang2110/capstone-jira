@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { projectService } from "../../service/service";
-import { Button, ConfigProvider, Form, Input, Select, message } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  ConfigProvider,
+  Form,
+  Input,
+  Select,
+  message,
+} from "antd";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import { Option } from "antd/es/mentions";
 import { Editor } from "@tinymce/tinymce-react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const NewProject = () => {
   let navigate = useNavigate();
@@ -55,6 +63,16 @@ const NewProject = () => {
       <HeaderBar />
       <div className="container py-20 px-5">
         <h3 className="m-4">New Project</h3>
+        <Breadcrumb
+          items={[
+            {
+              title: <NavLink to="/">Projects</NavLink>,
+            },
+            {
+              title: "New Project",
+            },
+          ]}
+        />
         <ConfigProvider
           theme={{
             //     token:{
