@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { AutoComplete, Avatar, Button, Popover, Space, Table, Tag } from "antd";
+import { AutoComplete, Avatar, Button, Popover, Space, Switch, Table, Tag } from "antd";
 import { userService } from "../../service/service";
 import { NavLink } from "react-router-dom";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 
 const columns = [
@@ -176,32 +176,61 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 export default function TabProjects() {
+  let userJson = localStorage.getItem("USER");
+  let USER = JSON.parse(userJson);
+ 
   let {projectDataRedux} = useSelector(state=>state.projectReducer);
   console.log("projectDataRedux",projectDataRedux)
-  //   if(projectDataRedux == false){
-  //     console.log('chay false')
-  //     userService
-  //     .getProjectList()
-  //     .then((result) => {
-  //       console.log("project list",result.data.content)
-  //       setProjectData(result.data.content)
-  //       dispatch(setProjectData(result.data.content))
-  //       localStorage.setItem("PROJECTDATA", JSON.stringify(result.data.content));
-  //     }).catch((err) => {
-  //       console.log("err",err)
-  //     });
-    
-  //   }
-  //   else {
-  //  return;
-  //   }
-    
-   
-  // }, []);
+
+
+  // promise
+  // .then(data => {
+  //   // do something with data
+  // })
+  // .catch(error => {
+  //  // do something with error
+  // })
+  // .finally(() => {
+  //   //dataIsLoading = false;
+  // })
+  if (projectDataRedux == false) {
+    projectDataRedux = [];
+  }
+ 
+  const projectDataReduxById = projectDataRedux.filter(
+    (item) => item.creator.id == USER.id
+  );
+  console.log("data by id",projectDataReduxById)
+  // useEffect(() => {
+  //   setToggleData(projectDataReduxById)
+  //  }, [projectDataReduxById]);
+  const [toggleData, setToggleData] = useState(false);
+  console.log("toggleData",toggleData)
+
+// if(toggleData == false){
+//   setToggleData(projectDataReduxById)
+// }
+  const onChangeSwitch = (checked) => {
+    console.log(`switch to ${checked}`);
+  
+    if(checked==true){
+      setToggleData(projectDataReduxById);
+    }
+    else if(checked==false){
+      setToggleData(projectDataRedux);
+    }
+  };
+
+ 
   return (
-    <div className="container pt-20 px-5">
-     <button>Create Project</button>
-      <Table columns={columns} dataSource={projectDataRedux} onChange={onChange} scroll={{
+    <div className="">
+
+    <Switch 
+    style={{marginBottom:"25px"}}
+    checkedChildren="Your Project" unCheckedChildren="All Project"  defaultChecked onChange={onChangeSwitch}/>
+   
+
+      <Table columns={columns} dataSource={toggleData} onChange={onChange} scroll={{
       y: 280,}} />
     </div>
   );

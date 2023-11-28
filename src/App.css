@@ -1,4 +1,8 @@
-.anticon-down {
+.jira {
+  font-family: 'Poppins', sans-serif;
+  /* height:100%; */
+}
+/* .anticon-down {
   font-size: 10px;
   vertical-align: initial;
 }
@@ -36,8 +40,8 @@
 .ant-row-rtl .tabs-extra-demo-button {
   margin-right: 0;
   margin-left: 16px;
-}
-:where(.css-dev-only-do-not-override-i36w9w).ant-tabs
+} */
+/* :where(.css-dev-only-do-not-override-i36w9w).ant-tabs
   .ant-tabs-tab.ant-tabs-tab-disabled {
   color: white;
   cursor: default;
@@ -47,7 +51,7 @@
   min-width: 0;
   background: #f5f5f5;
   transition: all 0.2s, background 0s;
-}
+} */
 
 /*back ground của tiêu đề tab Board */
 
@@ -62,4 +66,35 @@
 }
 .DONE {
   background-color: #a7f3d0;
+}
+.btnTrigger:focus{
+  outline: 0 !important
+}
+:where(.css-dev-only-do-not-override-1adbn6x).ant-btn-text:not(:disabled):not(.ant-btn-disabled):hover {
+  /* color: rgba(0, 0, 0, 0.88); */
+  background-color: white;
+}
+:where(.css-dev-only-do-not-override-1adbn6x).ant-switch:not(.ant-switch-disabled) {
+  background: rgba(0, 0, 0, 0.45);
+}
+:where(.css-dev-only-do-not-override-1adbn6x).ant-switch.ant-switch-checked {
+  background: #001529 !important;
+}
+.jiraLogo{
+  color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 20px;
+    text-transform: uppercase;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color:#001529;
+    cursor:pointer;
+   font-family:  'Poppins', sans-serif;
+}
+button:focus {
+  outline: 0px dotted !important;
+
 }
