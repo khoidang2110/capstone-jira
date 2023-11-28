@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { AutoComplete, Avatar, Button, Popover, Space, Switch, Table, Tag } from "antd";
+import {
+  AutoComplete,
+  Avatar,
+  Button,
+  Popover,
+  Space,
+  Switch,
+  Table,
+  Tag,
+} from "antd";
 import { userService } from "../../service/service";
 import { NavLink } from "react-router-dom";
-import { CheckOutlined, CloseOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { usersManageReducer } from "../../redux/reducer/userManage";
 
-function TabProjects() {
+export default function TabProjects() {
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   console.log("projectDataRedux", projectDataRedux);
   let { usersRedux } = useSelector((state) => state.usersManageReducer);
@@ -278,67 +291,58 @@ function TabProjects() {
     },
   ];
 
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
-export default function TabProjects() {
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
- 
-  let {projectDataRedux} = useSelector(state=>state.projectReducer);
-  console.log("projectDataRedux",projectDataRedux)
 
-
-  // promise
-  // .then(data => {
-  //   // do something with data
-  // })
-  // .catch(error => {
-  //  // do something with error
-  // })
-  // .finally(() => {
-  //   //dataIsLoading = false;
-  // })
   if (projectDataRedux == false) {
     projectDataRedux = [];
   }
- 
+
   const projectDataReduxById = projectDataRedux.filter(
     (item) => item.creator.id == USER.id
   );
-  console.log("data by id",projectDataReduxById)
+  console.log("data by id", projectDataReduxById);
   // useEffect(() => {
   //   setToggleData(projectDataReduxById)
   //  }, [projectDataReduxById]);
   const [toggleData, setToggleData] = useState(false);
-  console.log("toggleData",toggleData)
+  console.log("toggleData", toggleData);
 
-// if(toggleData == false){
-//   setToggleData(projectDataReduxById)
-// }
+  // if(toggleData == false){
+  //   setToggleData(projectDataReduxById)
+  // }
   const onChangeSwitch = (checked) => {
     console.log(`switch to ${checked}`);
-  
-    if(checked==true){
+
+    if (checked == true) {
       setToggleData(projectDataReduxById);
-    }
-    else if(checked==false){
+    } else if (checked == false) {
       setToggleData(projectDataRedux);
     }
   };
 
- 
   return (
     <div className="">
+      <Switch
+        style={{ marginBottom: "25px" }}
+        checkedChildren="Your Project"
+        unCheckedChildren="All Project"
+        defaultChecked
+        onChange={onChangeSwitch}
+      />
 
-    <Switch 
-    style={{marginBottom:"25px"}}
-    checkedChildren="Your Project" unCheckedChildren="All Project"  defaultChecked onChange={onChangeSwitch}/>
-   
-
-      <Table columns={columns} dataSource={toggleData} onChange={onChange} scroll={{
-      y: 280,}} />
+      <Table
+        columns={columns}
+        dataSource={toggleData}
+        onChange={onChange}
+        scroll={{
+          y: 280,
+        }}
+      />
     </div>
   );
 }
-export default TabProjects;

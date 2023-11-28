@@ -21,6 +21,7 @@ const NewProject = () => {
   const [form] = Form.useForm();
   let dispatch = useDispatch();
   const [category, setCategory] = useState();
+  const [randomNumber, setRandomNumber] = useState("11");
   console.log(" NewProject.jsx:10  NewProject category:", category);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const NewProject = () => {
       .catch((err) => {
         console.log("🚀 ~ file: NewProject.jsx:15 ~ render ~ err:", err);
       });
-  }, []);
+  }, [randomNumber]);
   const onFinish = (values) => {
     projectService
       .createProjectAuthorize(values)
@@ -44,10 +45,11 @@ const NewProject = () => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
         setTimeout(() => {
-          navigate("/");
+          window.location.href = "/";
         }, 1000);
 
         form.resetFields();
+        setRandomNumber(Math.random());
       })
       .catch((err) => {
         console.log("🚀 ~ file: NewProject.jsx:49 ~ onFinish ~ err:", err);
