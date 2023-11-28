@@ -5,7 +5,7 @@ export let userService = {
     return https.post("/api/Users/signin", valueForm);
   },
   register: (valueForm) => {
-    return https.post("/api/QuanLyNguoiDung/DangKy", valueForm);
+    return https.post("/api/Users/signup", valueForm);
   },
 };
 
@@ -47,6 +47,6 @@ export let usersManageService = {
     return https.get(`/api/Users/getUser?keyword=${value}`);
   },
   getAssignUser: (value) => {
-    return https.post('/api/Project/assignUserProject',value)
-  }
+    return https.post("/api/Project/assignUserProject", value);
+  },
 };
