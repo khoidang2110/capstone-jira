@@ -238,35 +238,19 @@ export default function TabProjects() {
  
   let {projectDataRedux} = useSelector(state=>state.projectReducer);
   console.log("projectDataRedux",projectDataRedux)
-
-
-  // promise
-  // .then(data => {
-  //   // do something with data
-  // })
-  // .catch(error => {
-  //  // do something with error
-  // })
-  // .finally(() => {
-  //   //dataIsLoading = false;
-  // })
-  if (projectDataRedux == false) {
-    projectDataRedux = [];
-  }
- 
-  const projectDataReduxById = projectDataRedux.filter(
-    (item) => item.creator.id == USER.id
-  );
-  console.log("data by id",projectDataReduxById)
-  // useEffect(() => {
-  //   setToggleData(projectDataReduxById)
-  //  }, [projectDataReduxById]);
+  const [projectDataReduxById, setProjectDataReduxById] = useState([])
   const [toggleData, setToggleData] = useState(false);
   console.log("toggleData",toggleData)
 
-// if(toggleData == false){
-//   setToggleData(projectDataReduxById)
-// }
+  useEffect(() => {
+    if(projectDataRedux) {
+      const projectDataReduxById = projectDataRedux.filter(
+        (item) => item.creator.id == USER.id
+      );
+      setProjectDataReduxById(projectDataReduxById)
+      setToggleData(projectDataReduxById);
+    }
+  },[projectDataRedux])
   const onChangeSwitch = (checked) => {
     console.log(`switch to ${checked}`);
 
