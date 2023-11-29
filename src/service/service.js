@@ -5,12 +5,12 @@ export let userService = {
     return https.post("/api/Users/signin", valueForm);
   },
   register: (valueForm) => {
-    return https.post("/api/QuanLyNguoiDung/DangKy", valueForm);
+    return https.post("/api/Users/signup", valueForm);
   },
 };
 
 export let projectService = {
-  getProjectDetail:(id)=>{
+  getProjectDetail: (id) => {
     return https.get(`/api/Project/getProjectDetail?id=${id}`);
   },
   getProjectList: () => {
@@ -34,13 +34,19 @@ export let projectService = {
   createProjectAuthorize: (values) => {
     return https.post(`/api/Project/createProjectAuthorize`, values);
   },
-  updateStatus:(values) =>{
-    return https.put(`/api/Project/updateStatus`,values);
-  }
+  updateStatus: (values) => {
+    return https.put(`/api/Project/updateStatus`, values);
+  },
 };
 
 export let usersManageService = {
   getUsersList: () => {
     return https.get(`/api/Users/getUser`);
+  },
+  getUser: (value) => {
+    return https.get(`/api/Users/getUser?keyword=${value}`);
+  },
+  getAssignUser: (value) => {
+    return https.post("/api/Project/assignUserProject", value);
   },
 };

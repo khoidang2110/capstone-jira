@@ -17,9 +17,6 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { usersManageReducer } from "../../redux/reducer/userManage";
-
-export default function TabProjects() {
 
   const columns = [
     {
@@ -232,20 +229,44 @@ export default function TabProjects() {
     },
   ];
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
-
-  let { projectDataRedux } = useSelector((state) => state.projectReducer);
-  console.log("projectDataRedux", projectDataRedux);
-
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log("params", pagination, filters, sorter, extra);
+};
+export default function TabProjects() {
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
+ 
+  let {projectDataRedux} = useSelector(state=>state.projectReducer);
+  console.log("projectDataRedux",projectDataRedux)
 
-  const [projectDataReduxById, setProjectDataReduxById] = useState([])
-  const [toggleData, setToggleData] = useState([]);
-  console.log("toggleData", toggleData);
 
+  // promise
+  // .then(data => {
+  //   // do something with data
+  // })
+  // .catch(error => {
+  //  // do something with error
+  // })
+  // .finally(() => {
+  //   //dataIsLoading = false;
+  // })
+  if (projectDataRedux == false) {
+    projectDataRedux = [];
+  }
+ 
+  const projectDataReduxById = projectDataRedux.filter(
+    (item) => item.creator.id == USER.id
+  );
+  console.log("data by id",projectDataReduxById)
+  // useEffect(() => {
+  //   setToggleData(projectDataReduxById)
+  //  }, [projectDataReduxById]);
+  const [toggleData, setToggleData] = useState(false);
+  console.log("toggleData",toggleData)
+
+// if(toggleData == false){
+//   setToggleData(projectDataReduxById)
+// }
   const onChangeSwitch = (checked) => {
     console.log(`switch to ${checked}`);
 
@@ -256,16 +277,7 @@ export default function TabProjects() {
     }
   };
 
-  useEffect(() => {
-    if(projectDataRedux) {
-      const projectDataReduxById = projectDataRedux.filter(
-        (item) => item.creator.id == USER.id
-      );
-      setProjectDataReduxById(projectDataReduxById)
-      setToggleData(projectDataReduxById);
-    }
-  },[projectDataRedux])
-
+ 
   return (
     <div className="">
       <Switch

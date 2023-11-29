@@ -7,7 +7,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../redux/action/user";
 export default function LoginPage() {
@@ -15,11 +15,9 @@ export default function LoginPage() {
   let dispatch = useDispatch();
   const onFinish = (values) => {
     console.log("values", values);
-    let onSuccess = () => (
-      window.location.href = "/"
-      //navigate('/')
-      );
-    
+    let onSuccess = () => (window.location.href = "/");
+    //navigate('/')
+
     dispatch(loginAction(values, onSuccess));
   };
   const onFinishFailed = (errorInfo) => {
@@ -88,9 +86,11 @@ export default function LoginPage() {
             </Form.Item>
             <Form.Item>
               Or{" "}
-              <a href="" style={{ color: "#0082f8" }}>
-                register now!
-              </a>
+              <NavLink to={"/register"}>
+                <a href="" style={{ color: "#0082f8" }}>
+                  register now!
+                </a>
+              </NavLink>
             </Form.Item>
           </Form>
         </div>

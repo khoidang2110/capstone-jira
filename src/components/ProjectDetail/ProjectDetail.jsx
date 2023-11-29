@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { Breadcrumb, Button, Drawer, message,Select,Form, ConfigProvider,Input,InputNumber,Slider } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Drawer,
+  message,
+  Select,
+  Form,
+  ConfigProvider,
+  Input,
+  InputNumber,
+  Slider,
+} from "antd";
 import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
 
 const { Option } = Select;
 export default function ProjectDetail() {
   const [form] = Form.useForm();
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
- // console.log("USER id", USER.id);
+  // console.log("USER id", USER.id);
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   if (projectDataRedux == false) {
     projectDataRedux = [];
@@ -43,7 +53,6 @@ export default function ProjectDetail() {
   };
   const onClose = () => {
     setOpen(false);
-    
   };
   const [totalTime, setTotalTime] = useState(0);
   const onChangeTotalTime = (newValue) => {
@@ -53,7 +62,6 @@ export default function ProjectDetail() {
   const onChangeSpentTime = (newValue) => {
     setSpentTime(newValue);
   };
-
 
   useEffect(() => {
     projectService
@@ -84,7 +92,7 @@ export default function ProjectDetail() {
   }, []);
   const onFinish = (values) => {
     const data = { ...values, timeTrackingRemaining: totalTime - spentTime };
-   console.log("Success:", data);
+    console.log("Success:", data);
     projectService
       .createTask(data)
       .then((result) => {
@@ -95,25 +103,24 @@ export default function ProjectDetail() {
       })
       .catch((err) => {
         message.error("Đăng ký thất bại");
-        console.log("dk thanh cong",err);
+        console.log("dk thanh cong", err);
       });
-      setRandomNumber(Math.random())
+    setRandomNumber(Math.random());
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   const [randomNumber, setRandomNumber] = useState("11");
   const onDragEnd = (result, columns, setColumns) => {
-  
     if (!result.destination) return;
     const { source, destination } = result;
-  
+
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
       const sourceItems = [...sourceColumn.lstTaskDeTail];
       // item đang chọn
-      
+
       const destItems = [...destColumn.lstTaskDeTail];
       //destColumn.lstTaskDeTail item của collum đang chọn
       //console.log("destColumn.lstTaskDeTail",destColumn.lstTaskDeTail)
@@ -129,24 +136,27 @@ export default function ProjectDetail() {
           ...destColumn,
           lstTaskDeTail: destItems,
         },
-        
       });
-      console.log("sourceColumn.lstTaskDeTail ",sourceColumn.lstTaskDeTail[0].taskId)
-      console.log("status id ",destination.droppableId)
-      let data ={
-        taskId:sourceColumn.lstTaskDeTail[0]?.taskId,
-        statusId:destination.droppableId*1+1
-      }
-      console.log("data",data)
+      console.log(
+        "sourceColumn.lstTaskDeTail ",
+        sourceColumn.lstTaskDeTail[0].taskId
+      );
+      console.log("status id ", destination.droppableId);
+      let data = {
+        taskId: sourceColumn.lstTaskDeTail[0]?.taskId,
+        statusId: destination.droppableId * 1 + 1,
+      };
+      console.log("data", data);
       projectService
-      .updateStatus(data)
-      .then((result) => {
-        message.success("cập nhật thành công");
-        setRandomNumber(Math.random())
-      }).catch((err) => {
-       // message.error("cập nhật thất bại");
-      });
-  
+        .updateStatus(data)
+        .then((result) => {
+          message.success("cập nhật thành công");
+          setRandomNumber(Math.random());
+        })
+        .catch((err) => {
+          // message.error("cập nhật thất bại");
+        });
+
       //console.log("sourceItems",sourceItems)
       //console.log("drop end ",destItems)
     } else {
@@ -161,12 +171,11 @@ export default function ProjectDetail() {
           lstTaskDeTail: copiedItems,
         },
       });
-       console.log("drop end same column");
-       setRandomNumber(Math.random());
+      console.log("drop end same column");
+      setRandomNumber(Math.random());
     }
-  
   };
-  console.log("random number",randomNumber)
+  console.log("random number", randomNumber);
   //lấy tên project
   let { id } = useParams();
   //const [columns, setColumns] = useState(taskStatus);
@@ -183,6 +192,24 @@ export default function ProjectDetail() {
   const [columns, setColumns] = useState(false);
   console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
 
+  const [stt1, setStt1] = useState([]);
+  console.log("🚀 ~ file: ProjectDetail.jsx:92 ~ stt1:", stt1);
+
+  const [stt2, setStt2] = useState([]);
+  console.log("🚀 ~ file: ProjectDetail.jsx:93 ~ ProjectDetail ~ stt2:", stt2);
+
+  const [stt3, setStt3] = useState([]);
+  console.log("🚀 ~ file: ProjectDetail.jsx:98 ~ stt3:", stt3);
+  const [stt4, setStt4] = useState([]);
+  console.log("🚀 ~ file: ProjectDetail.jsx:100 ~ stt4:", stt4);
+
+  // if(columns){
+
+  // }
+
+  // useEffect(() => {
+
+  // }, [columns]);
   // lấy data project detail
   useEffect(() => {
     projectService
@@ -191,23 +218,30 @@ export default function ProjectDetail() {
         // console.log("project detail", result.data.content);
         setProjectDetail(result.data.content);
         setColumns(result.data.content.lstTask);
-      }) 
+      })
+      // .then((res) => {
+      //   setStt1(columns[0]?.lstTaskDeTail);
+      //   setStt2(columns[1]?.lstTaskDeTail);
+      //   setStt3(columns[2]?.lstTaskDeTail);
+      //   setStt4(columns[3]?.lstTaskDeTail);
+      // })
+      // })
       .catch((err) => {});
   }, []);
-    // lấy data project detail khi cập nhật status
-    useEffect(() => {
-      projectService
-        .getProjectDetail(id)
-        .then((result) => {
-          // console.log("project detail", result.data.content);
-          setProjectDetail(result.data.content);
-          setColumns(result.data.content.lstTask);
-          console.log("lay data luc update status")
-        }) 
-        .catch((err) => {});
-    }, [randomNumber]);
+  // lấy data project detail khi cập nhật status
+  useEffect(() => {
+    projectService
+      .getProjectDetail(id)
+      .then((result) => {
+        // console.log("project detail", result.data.content);
+        setProjectDetail(result.data.content);
+        setColumns(result.data.content.lstTask);
+        console.log("lay data luc update status");
+      })
+      .catch((err) => {});
+  }, [randomNumber]);
   return (
-    <div >
+    <div>
       {/* ProjectDetail{id} */}
       <Breadcrumb
         items={[
