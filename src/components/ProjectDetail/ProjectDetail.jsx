@@ -220,11 +220,12 @@ export default function ProjectDetail() {
         ]}
       />
       <div>
-        <div className="">
+        <div className="flex">
         
           <Button  type="text" className="mr-10 mt-3 btnAddTask" style={{backgroundColor:"#001529",color:"white"}} onClick={()=>{
             showDrawer()
           }}>Create Task</Button>
+          <div>Members:</div>
         </div>
 
         <div
