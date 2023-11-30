@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import VirtualList from 'rc-virtual-list';
 import { NavLink, useParams } from "react-router-dom";
 import {
   Breadcrumb,
@@ -11,23 +12,61 @@ import {
   Input,
   InputNumber,
   Slider,
+  Avatar,
+  Popover,
+  Divider,
+  Tooltip,
+  Modal,
+  Row,
+  Col,
+  List,
+  Space,
 } from "antd";
 import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { AntDesignOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
+const data = [
+  'Racing car ',
+  'Japanese princess ',
+  'Australian',
+  'Man charged .',
+  'Los Angeles ',
+  'Australian.',
+  'Man charged ',
+  'Los Angeles .',
+];
+const ContainerHeight = 250;
 export default function ProjectDetail() {
+
+  const onScroll = (e) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+      appendData();
+    }
+  };
+  // modal thêm user
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const [form] = Form.useForm();
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
-  // console.log("USER id", USER.id);
+
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   if (projectDataRedux == false) {
     projectDataRedux = [];
   }
-
+let usersRedux = useSelector((state)=>state.usersManageReducer.usersRedux)
+console.log("users redux",usersRedux)
   const projectDataReduxById = projectDataRedux.filter(
     (item) => item.creator.id == USER.id
   );
@@ -110,7 +149,7 @@ export default function ProjectDetail() {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const [randomNumber, setRandomNumber] = useState("11");
+
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -175,7 +214,40 @@ export default function ProjectDetail() {
       setRandomNumber(Math.random());
     }
   };
-  console.log("random number", randomNumber);
+  const onAddUserOfProject = (UserId)=>{
+    const item = { "projectId": projectDetail.id,
+"userId": UserId}
+projectService
+.addUserFromProject(item)
+.then((result) => {
+  message.success("thêm thành công");
+}).catch((err) => {
+  message.error("thêm thất bại");
+});
+setRandomNumber(Math.random());
+SetSearchInput("")
+  }
+  const onDeleteUserOfProject = (UserId)=>{
+console.log("delete id", UserId)
+console.log("project id",projectDetail.id)
+const item = { "projectId": projectDetail.id,
+"userId": UserId}
+console.log("item",item)
+projectService
+      .removeUserFromProject(item)
+      .then((result) => {
+        message.success("xoá thành công");
+        //console.log("dk thanh cong", result);
+   
+      })
+      .catch((err) => {
+        message.error("xoá thất bại");
+       // console.log("dk thanh cong", err);
+      });
+    setRandomNumber(Math.random());
+  }
+
+  //console.log("random number", randomNumber);
   //lấy tên project
   let { id } = useParams();
   //const [columns, setColumns] = useState(taskStatus);
@@ -184,34 +256,19 @@ export default function ProjectDetail() {
   // }
 
   // console.log("columns",columns)
-  const [projectDetail, setProjectDetail] = useState([]);
+
+  const [columns, setColumns] = useState(false);
+  console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
+
+  const [randomNumber, setRandomNumber] = useState("11");
+  const [projectDetail, setProjectDetail] = useState(false);
   console.log(
     "🚀 ~ file: ProjectDetail.jsx:84 ~ projectDetail:",
     projectDetail
   );
-  const [columns, setColumns] = useState(false);
-  console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
-
-  const [stt1, setStt1] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:92 ~ stt1:", stt1);
-
-  const [stt2, setStt2] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:93 ~ ProjectDetail ~ stt2:", stt2);
-
-  const [stt3, setStt3] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:98 ~ stt3:", stt3);
-  const [stt4, setStt4] = useState([]);
-  console.log("🚀 ~ file: ProjectDetail.jsx:100 ~ stt4:", stt4);
-
-  // if(columns){
-
-  // }
-
-  // useEffect(() => {
-
-  // }, [columns]);
   // lấy data project detail
   useEffect(() => {
+    console.log("lay projectdetail lan dau");
     projectService
       .getProjectDetail(id)
       .then((result) => {
@@ -219,13 +276,7 @@ export default function ProjectDetail() {
         setProjectDetail(result.data.content);
         setColumns(result.data.content.lstTask);
       })
-      // .then((res) => {
-      //   setStt1(columns[0]?.lstTaskDeTail);
-      //   setStt2(columns[1]?.lstTaskDeTail);
-      //   setStt3(columns[2]?.lstTaskDeTail);
-      //   setStt4(columns[3]?.lstTaskDeTail);
-      // })
-      // })
+
       .catch((err) => {});
   }, []);
   // lấy data project detail khi cập nhật status
@@ -240,6 +291,26 @@ export default function ProjectDetail() {
       })
       .catch((err) => {});
   }, [randomNumber]);
+  let usersFilter=[]
+  if(usersRedux && (projectDetail)){
+     usersFilter = usersRedux?.filter(item1 =>!projectDetail.members.some(item2=>item2.userId ===item1.userId));
+    console.log("users Filter",usersFilter)
+  }
+  const [searchInput, SetSearchInput] = useState("");
+  console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput)
+
+    const FilteredData = () => {
+        return usersFilter.filter(
+            (user) =>
+                user.name.toLowerCase().includes(searchInput.toLowerCase()) 
+                // ||
+                // user.position.toLowerCase().includes(searchInput.toLowerCase()) ||
+                // user.gender.toLowerCase().includes(searchInput.toLowerCase()) ||
+                // user.office.toLowerCase().includes(searchInput.toLowerCase()) ||
+                // user.email.toLowerCase().includes(searchInput.toLowerCase())
+        );
+    };
+
   return (
     <div>
       {/* ProjectDetail{id} */}
@@ -255,11 +326,50 @@ export default function ProjectDetail() {
       />
       <div>
         <div className="flex">
-        
-          <Button  type="text" className="mr-10 mt-3 btnAddTask" style={{backgroundColor:"#001529",color:"white"}} onClick={()=>{
-            showDrawer()
-          }}>Create Task</Button>
-          <div>Members:</div>
+          <Button
+            type="text"
+            className="mr-10 mt-3 btnAddTask"
+            style={{ backgroundColor: "#001529", color: "white" }}
+            onClick={() => {
+              showDrawer();
+            }}
+          >
+            Create Task
+          </Button>
+          <div>
+            Members:
+
+            <Avatar.Group
+              maxCount={3}
+              maxPopoverTrigger="click"
+              size="large"
+              maxStyle={{
+                color: "#f56a00",
+                backgroundColor: "#fde3cf",
+                cursor: "pointer",
+              }}
+            >
+              {projectDetail?.members?.map((item, index) => {
+                return (
+                  <Tooltip title="Ant User" placement="top">
+                    <Avatar
+                      key={index}
+                      style={{
+                        backgroundColor: "#dddddd",
+                      }}
+                    >
+                      {item.name.slice(0, 2).toUpperCase()}
+                    </Avatar>
+                  </Tooltip>
+                );
+              })}
+            </Avatar.Group>
+            <Tooltip>
+              <Button type="primary" shape="circle" onClick={showModal}>
+                +
+              </Button>
+            </Tooltip>
+          </div>
         </div>
 
         <div
@@ -615,9 +725,7 @@ export default function ProjectDetail() {
                   );
                 })}
 
-                {/* const projectDataReduxById = projectDataRedux.filter(
-    (item) => item.creator.id == USER.id
-  ); */}
+
               </Select>
             </Form.Item>
             <p>Time tracker</p>
@@ -660,24 +768,7 @@ export default function ProjectDetail() {
                 max={totalTime}
               />
             </Form.Item>
-            {/* <Form.Item
-              name="timeTrackingRemaining"
-              label="Time remaining"
-              rules={[
-                {
-                  type: "number",
-                  min: 0,
-                  max: 99,
-                },
-              ]}
-              style={{
-                display: "inline-block",
-                width: "calc(50% - 8px)",
-              }}
-            >
-              <InputNumber  defaultValue={typeof spentTime === "number" ? totalTime-spentTime : 0} />
-            </Form.Item> */}
-
+ 
             <Form.Item label="Slider" name="timeTrackingRemaining">
               <Slider
                 min={0}
@@ -711,6 +802,97 @@ export default function ProjectDetail() {
           </Form>
         </ConfigProvider>
       </Drawer>
+      <Modal
+        title="Add members to project"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={[]}
+        width={600}
+      >
+        {/* <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p> */}
+          <Row>
+      <Col span={20} className="">
+        
+     
+        <Space.Compact  size="small">
+      <Input addonAfter={<SearchOutlined />} placeholder="Search users" 
+      value={searchInput}
+       onChange={(e) => SetSearchInput(e.target.value)
+    
+      } />
+      
+    </Space.Compact></Col>
+    </Row>
+        <Row>
+        <Col span={11}><h5>Not yet added</h5>
+        <List
+      size="small"
+
+    >
+     <VirtualList
+        data={FilteredData()}
+        height={ContainerHeight}
+        itemHeight={30}
+        itemKey="assigner"
+        onScroll={onScroll}
+      >
+        {(item) => (
+         <List.Item>
+         <List.Item.Meta
+           avatar={     <Avatar
+          
+            style={{
+              backgroundColor: "#dddddd",
+            }}
+          >
+            {item.name.slice(0, 2).toUpperCase()}
+          </Avatar>}
+           title={<a href="https://ant.design">{item.name}</a>}
+           description={<p>User ID: {item.userId}</p>}
+         />
+            <Button size="small" onClick={()=> onAddUserOfProject(item.userId)}>Add</Button>
+       </List.Item>
+        )}
+        </VirtualList>
+        </List>
+        </Col>
+      <Col span={11} offset={2}> <h5>Already in project</h5>
+      <List
+      size="small"
+
+    >
+     <VirtualList
+        data={projectDetail.members}
+        height={ContainerHeight}
+        itemHeight={20}
+        itemKey="assigner"
+        onScroll={onScroll}
+      >
+        {(item) => (
+       <List.Item>
+       <List.Item.Meta
+         avatar={     <Avatar
+         
+          style={{
+            backgroundColor: "#dddddd",
+          }}
+        >
+          {item.name.slice(0, 2).toUpperCase()}
+        </Avatar>}
+         title={<a href="https://ant.design">{item.name}</a>}
+         description={<p>User ID: {item.userId}</p>}
+       />
+          <Button  size="small" onClick={()=> onDeleteUserOfProject(item.userId)}>remove</Button>
+     </List.Item>
+        )}
+        </VirtualList>
+        </List></Col>
+        </Row>
+   
+        
+      </Modal>
     </div>
   );
 }

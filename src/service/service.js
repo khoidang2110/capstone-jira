@@ -37,6 +37,12 @@ export let projectService = {
   updateStatus: (values) => {
     return https.put(`/api/Project/updateStatus`, values);
   },
+  removeUserFromProject: (value)=> {
+    return https.post(`/api/Project/removeUserFromProject`,value)
+  },
+  addUserFromProject:(value)=>{
+    return https.post(`/api/Project/assignUserProject`,value)
+  }
 };
 
 export let usersManageService = {
@@ -49,4 +55,7 @@ export let usersManageService = {
   getAssignUser: (value) => {
     return https.post("/api/Project/assignUserProject", value);
   },
+  // deleteUser:(value)=> {
+  //   return https.delete(``)
+  // }
 };

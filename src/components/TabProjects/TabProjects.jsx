@@ -239,10 +239,11 @@ export default function TabProjects() {
   let {projectDataRedux} = useSelector(state=>state.projectReducer);
   console.log("projectDataRedux",projectDataRedux)
   const [projectDataReduxById, setProjectDataReduxById] = useState([])
-  const [toggleData, setToggleData] = useState(false);
+  const [toggleData, setToggleData] = useState([]);
   console.log("toggleData",toggleData)
 
   useEffect(() => {
+    console.log("chạy ueff")
     if(projectDataRedux) {
       const projectDataReduxById = projectDataRedux.filter(
         (item) => item.creator.id == USER.id
@@ -251,6 +252,7 @@ export default function TabProjects() {
       setToggleData(projectDataReduxById);
     }
   },[projectDataRedux])
+
   const onChangeSwitch = (checked) => {
     console.log(`switch to ${checked}`);
 
