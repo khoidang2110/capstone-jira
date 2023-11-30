@@ -179,24 +179,25 @@ function Register() {
               <Form.Item className="w-full flex justify-center items-center">
                 <>
                   <Button
-                    type="primary"
+                    type="text"
                     htmlType="submit"
                     style={{ backgroundColor: "#1890ff" }}
-                    className="px-3 mx-2 lg:px-7"
+                    className="px-3 mx-2 lg:px-7 btnBlue"
                   >
                     Register
                   </Button>
                   <Button htmlType="reset" danger className="px-3 mx-2 lg:px-7">
-                    Xóa
+                    Delete
                   </Button>
                   <Button
                     className="px-3 mx-2 lg:px-7"
+                    type="text"
                     onClick={() => {
                       window.location.href = "/login";
                     }}
                     style={{ backgroundColor: "#808080", color: "white" }}
                   >
-                    BACK
+                   Login
                   </Button>
                 </>
               </Form.Item>

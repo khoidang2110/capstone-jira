@@ -9,6 +9,7 @@ import ProjectDetail from "./components/ProjectDetail/ProjectDetail";
 import NewProject from "./components/NewProject/NewProject";
 import LayoutMain from "./Layout/LayoutMain";
 import Register from "./pages/LoginPage/Register";
+import TabUserSetting from "./components/TabUserSetting/TabUserSetting";
 function App() {
   return (
     <div className="jira">
@@ -22,6 +23,7 @@ function App() {
               element={<ProjectDetail />}
             ></Route>
             <Route path="/newproject" element={<NewProject />}></Route>
+            <Route path="/usersetting" element={<TabUserSetting />}></Route>
           </Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>

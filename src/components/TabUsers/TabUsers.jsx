@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
-import { Table } from "antd";
+import { Button, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
 import { setUsersData } from "../../redux/action/userManage";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const columns = [
 
+  
+  {
+    title: "User ID",
+    dataIndex: "userId",
+    // width: 80,
+  },
   {
     title: "Name",
     dataIndex: "name",
@@ -12,12 +19,7 @@ const columns = [
       compare: (a, b) => a.chinese - b.chinese,
       multiple: 3,
     },
-    width: 150,
-  },
-  {
-    title: "User ID",
-    dataIndex: "userId",
-    width: 80,
+    // width: 150,
   },
   {
     title: "Email",
@@ -26,25 +28,26 @@ const columns = [
       compare: (a, b) => a.english - b.english,
       multiple: 1,
     },
-    width: 200,
+    // width: 200,
   },
   {
     title: "Phone Number",
     dataIndex: "phoneNumber"
     ,
-    width: 150,
+    // width: 150,
     
   },
   {
     title: "Action",
-    dataIndex: "english",
-    sorter: {
-      compare: (a, b) => a.english - b.english,
-      multiple: 1,
-    },
-    width: 200,
-    
-  }
+    key: "action",
+
+    render: (_, record) => (
+      <Space size="middle">
+        <Button className="btnBlue" type="text" icon= {<EditOutlined />}></Button>
+        <Button type="text" className="btnRed" icon={<DeleteOutlined />}></Button>
+      </Space>
+    ),
+  },
 ];
 
 const onChange = (pagination, filters, sorter, extra) => {
@@ -65,7 +68,7 @@ export default function TabUsers() {
      
     // }}
     >
-      <button>ada</button>
+      <div>USER MANAGEMENT</div>
       <Table columns={columns} dataSource={usersRedux} onChange={onChange} scroll={{
       y: 280,
     }} />

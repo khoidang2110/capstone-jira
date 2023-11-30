@@ -15,18 +15,19 @@ import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 
   const columns = [
     {
-      title: "Id",
+      title: "ID",
       dataIndex: "id",
 
       width: 80,
     },
     {
-      title: "Project name",
+      title: "Project Name",
       dataIndex: "projectName",
 
       render: (text, record, index) => {
@@ -42,7 +43,7 @@ import { useDispatch, useSelector } from "react-redux";
       },
     },
     {
-      title: "Category name",
+      title: "Category",
       dataIndex: "categoryName",
       sorter: {
         compare: (a, b) => a.math - b.math,
@@ -68,8 +69,19 @@ import { useDispatch, useSelector } from "react-redux";
       render: (text, record, index) => {
         return (
           <div>
-            {record.members?.slice(0, 3).map((member, index) => {
+             <Avatar.Group
+                maxCount={3}
+                maxPopoverTrigger="click"
+                size="medium"
+                maxStyle={{
+                  color: "#f56a00",
+                  backgroundColor: "#fde3cf",
+                  cursor: "pointer",
+                }}
+              >
+            {record.members?.map((member, index) => {
               return (
+               
                 <Popover
                   key={index}
                   placement="top"
@@ -100,22 +112,7 @@ import { useDispatch, useSelector } from "react-redux";
                                   />
                                 </td>
                                 <td>{item.name}</td>
-                                <td>
-                                  {/* <button className="btn btn-danger">X</button> */}
-                                  <NavLink
-                                    onClick={() => {
-                                      dispatch(
-                                        callDeleteUserProject({
-                                          projectId: record.id,
-                                          userId: item.userId,
-                                        })
-                                      );
-                                    }}
-                                    style={{ color: "red" }}
-                                  >
-                                    <DeleteOutlined />
-                                  </NavLink>
-                                </td>
+                             
                               </tr>
                             );
                           })}
@@ -124,11 +121,15 @@ import { useDispatch, useSelector } from "react-redux";
                     );
                   }}
                 >
+
                   <Avatar key={index} src={member.avatar} />
                 </Popover>
+               
               );
             })}
-            {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+         
+            
+            </Avatar.Group>
             <Popover
               className="ml-1"
               placement="rightBottom"
@@ -163,67 +164,23 @@ import { useDispatch, useSelector } from "react-redux";
                   </div>
                 );
               }}
-              // content={() => {
-              //   return (
-              //     <AutoComplete
-              //       options={userSearch?.map((user, index) => {
-              //         return {
-              //           label: user.name,
-              //           value: user.userId.toString(),
-              //         };
-              //       })}
-              //       value={value}
-              //       onChange={(value) => {
-              //         setValue(value);
-              //       }}
-              //       onSelect={(value, option) => {
-              //         setValue(option.label);
-              //         dispatch(
-              //           callAssignUser({
-              //             projectId: record.id,
-              //             userId: value,
-              //           })
-              //         );
-              //       }}
-              //       style={{ width: "100%" }}
-              //       onSearch={(value) => {
-              //         // if (searchRef.current) {
-              //         //   clearTimeout(searchRef.current);
-              //         // }
-              //         // searchRef.current = setTimeout(() => {
-              //         //   dispatch(callGetUser(value));
-              //         // }, 300);
-              //         userSearch(value);
-              //       }}
-              //     />
-              //   );
-              // }}
+             
               trigger="click"
             >
-              <Button
-                style={{
-                  borderRadius: "50%",
-                  height: "32px",
-                  width: "32px",
-                  padding: "0",
-                  fontSize: "14px",
-                }}
-              >
-                +
-              </Button>
+     
             </Popover>
           </div>
         );
       },
     },
     {
-      title: "Actions",
+      title: "Action",
       key: "action",
 
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <Button className="btnBlue" type="text" icon= {<EditOutlined />}></Button>
+          <Button type="text" className="btnRed" icon={<DeleteOutlined />}></Button>
         </Space>
       ),
     },

@@ -26,7 +26,7 @@ import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { AntDesignOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { AntDesignOutlined, DeleteOutlined, PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const data = [
@@ -314,7 +314,7 @@ projectService
   return (
     <div>
       {/* ProjectDetail{id} */}
-      <Breadcrumb
+      <Breadcrumb className="mb-3"
         items={[
           {
             title: <NavLink to="/">Projects</NavLink>,
@@ -325,10 +325,10 @@ projectService
         ]}
       />
       <div>
-        <div className="flex">
+        <div className="flex ">
           <Button
             type="text"
-            className="mr-10 mt-3 btnAddTask"
+            className="mr-10  btnAddTask ml-3"
             style={{ backgroundColor: "#001529", color: "white" }}
             onClick={() => {
               showDrawer();
@@ -336,13 +336,16 @@ projectService
           >
             Create Task
           </Button>
-          <div>
-            Members:
+          <div className="" >
+            <p className="font-semibold pt-1 pr-2" >
+            Members: 
+            </p>{" "}
+            </div>
 
             <Avatar.Group
               maxCount={3}
               maxPopoverTrigger="click"
-              size="large"
+              size="medium"
               maxStyle={{
                 color: "#f56a00",
                 backgroundColor: "#fde3cf",
@@ -351,11 +354,12 @@ projectService
             >
               {projectDetail?.members?.map((item, index) => {
                 return (
-                  <Tooltip title="Ant User" placement="top">
+                  <Tooltip title={item.name} placement="top">
                     <Avatar
                       key={index}
                       style={{
                         backgroundColor: "#dddddd",
+                        color:"black"
                       }}
                     >
                       {item.name.slice(0, 2).toUpperCase()}
@@ -364,12 +368,12 @@ projectService
                 );
               })}
             </Avatar.Group>
-            <Tooltip>
-              <Button type="primary" shape="circle" onClick={showModal}>
-                +
+            <Tooltip title="Add member" placement="top">
+              <Button type="text" className="btnBlue" shape="circle" onClick={showModal}icon= {<PlusOutlined />}>
+                
               </Button>
             </Tooltip>
-          </div>
+          
         </div>
 
         <div
@@ -852,7 +856,8 @@ projectService
            title={<a href="https://ant.design">{item.name}</a>}
            description={<p>User ID: {item.userId}</p>}
          />
-            <Button size="small" onClick={()=> onAddUserOfProject(item.userId)}>Add</Button>
+         
+            <Button className="btnBlue" type="text" icon= {<PlusOutlined />}  onClick={()=> onAddUserOfProject(item.userId)}></Button>
        </List.Item>
         )}
         </VirtualList>
@@ -884,7 +889,8 @@ projectService
          title={<a href="https://ant.design">{item.name}</a>}
          description={<p>User ID: {item.userId}</p>}
        />
-          <Button  size="small" onClick={()=> onDeleteUserOfProject(item.userId)}>remove</Button>
+
+          <Button type="text" className="btnRed" icon={<DeleteOutlined />} onClick={()=> onDeleteUserOfProject(item.userId)}></Button>
      </List.Item>
         )}
         </VirtualList>

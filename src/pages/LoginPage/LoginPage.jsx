@@ -73,9 +73,9 @@ export default function LoginPage() {
 
             <Form.Item>
               <Button
-                type="primary"
+                type="text"
                 htmlType="submit"
-                className="login-form-button"
+                className="btnBlue"
                 style={{
                   backgroundColor: "rgb(102, 117, 223)",
                   minWidth: "200px",

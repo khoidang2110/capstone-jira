@@ -72,9 +72,9 @@ export default function LayoutMain() {
     ),
     ,
     getItem(
-      "Setting",
+      "User Setting",
       "4",
-      <NavLink to="/setting">
+      <NavLink to="/usersetting">
         {" "}
         <SettingOutlined />
       </NavLink>
@@ -166,7 +166,7 @@ export default function LayoutMain() {
                 <Avatar
                   size={30}
                   className="mx-3 my-3 "
-                  style={{ fontSize: "14px" }}
+                  style={{ fontSize: "12px",color:"black" }}
                 >
                   {USER.name.slice(0, 2).toUpperCase()}
                 </Avatar>
