@@ -27,6 +27,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AntDesignOutlined, BugOutlined, DeleteOutlined, PlusOutlined, RocketOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 const { Option } = Select;
 const data = [
@@ -55,6 +56,19 @@ export default function ProjectDetail() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+  const handleChangeTaskEdit = (value) => {
+    console.log(`selected ${value}`);
+  };
+  //modal task update
+  const [isModalTaskOpen, setIsModalTaskOpen] = useState(false);
+  const showModalTask = (id) => {
+    setIsModalTaskOpen(true);
+console.log("task id click",id)
+  };
+
+  const handleCancelTask = () => {
+    setIsModalTaskOpen(false);
   };
 
   const [form] = Form.useForm();
@@ -176,16 +190,14 @@ console.log("users redux",usersRedux)
           lstTaskDeTail: destItems,
         },
       });
-      console.log(
-        "sourceColumn.lstTaskDeTail ",
-        sourceColumn.lstTaskDeTail[0].taskId
-      );
-      console.log("status id ", destination.droppableId);
+   
+      // console.log("remove",removed)
+      // console.log("status id ", destination.droppableId);
       let data = {
-        taskId: sourceColumn.lstTaskDeTail[0]?.taskId,
-        statusId: destination.droppableId * 1 + 1,
+        taskId: removed.taskId,
+        statusId: destination.droppableId * 1+1 ,
       };
-      console.log("data", data);
+      // console.log("data", data);
       projectService
         .updateStatus(data)
         .then((result) => {
@@ -311,9 +323,11 @@ projectService
         );
     };
 
+    const [editableStr, setEditableStr] = useState('This is an editable text.');
+
   return (
     <div>
-      {/* ProjectDetail{id} */}
+      
       <Breadcrumb className="mb-3"
         items={[
           {
@@ -410,7 +424,9 @@ projectService
                               width: 230,
                               minHeight: 100,
                               borderRadius: "6px",
+                              
                             }}
+                            className="shadow-md hover:shadow-2xl"
                           >
                             <h2
                               style={{
@@ -448,21 +464,27 @@ projectService
                                           color: "white",
                                           ...provided.draggableProps.style,
                                           borderRadius: "4px",
-                                          boxShadow:
-                                            "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                                 
                                           color: "black",
                                         }}
+                                        className="shadow-md"
                                       >
-                                        <div className="flex justify-between">
+                                        <div className="flex justify-between" onClick={()=>showModalTask(item.taskId)}>
                                           <div className="ant-col ant-col-18">
                                             <div className="iconBlue text-lg">{item.taskName}</div>
                                             <div className="flex justify-start items-center mt-2">
                                               <div className=" mr-2 h-5">
                                               {item.taskTypeDetail.taskType ==
-                                              "bug" ? (<BugOutlined className="iconRed"/>
+                                              "bug" ? (
+                                                <Tooltip title="Bug" placement="top">
+                                                  <BugOutlined className="iconBrown"/>
+                                                </Tooltip>
+                                              
                                                
                                               ) : (
-                                                <RocketOutlined className="iconPurple" />
+                                                <Tooltip title="New Task" placement="top">
+                                                <RocketOutlined className="iconBrown" />
+                                                </Tooltip>
                                               )}
 
                                               </div>
@@ -569,13 +591,12 @@ projectService
               help="* You can only create tasks of your own projects!"
             >
               <Select onChange={handleChange}>
-                {projectDataReduxById?.map((project, index) => {
-                  return (
-                    <Option value={project.id} key={index}>
-                      {project.projectName}
+                {/* {projectDataReduxById?.map((project, index) => { */}
+                
+                    <Option value={projectDetail.projectName} key={projectDetail.id}>
+                      {projectDetail.projectName}
                     </Option>
-                  );
-                })}
+              
               </Select>
             </Form.Item>
 
@@ -646,7 +667,7 @@ projectService
 
             <Form.Item label="Assigners" name="listUserAsign">
               <Select mode="multiple" placeholder="Please select Assigners">
-                {productSelected?.members?.map((member, index) => {
+                {projectDetail?.members?.map((member, index) => {
                   return (
                     <Option
                       value={member.userId}
@@ -825,6 +846,57 @@ projectService
         )}
         </VirtualList>
         </List></Col>
+        </Row>
+   
+        
+      </Modal>
+      <Modal
+        // title="Task update"
+        title={ <Row className="flex justify-between">
+          <Select
+      defaultValue="new task"
+      style={{
+        width: 120,
+      }}
+      onChange={handleChangeTaskEdit}
+      options={[
+        {
+          value: 'new task',
+          label: 'new task',
+        },
+        {
+          value: 'bug',
+          label: 'bug',
+        },
+        
+      ]}
+    />
+    <div>task name: </div>
+        <Button type="link" danger className="pr-5">
+        <DeleteOutlined />
+    </Button>
+     </Row>}
+        open={isModalTaskOpen}
+        onCancel={handleCancelTask}
+        footer={[]}
+        width={800}
+      >
+
+        <Row>
+        <Col span={16}>
+        <Paragraph
+        editable={{
+          onChange: setEditableStr,
+        }}
+      >
+        {editableStr}
+      </Paragraph>
+        <div>adfa</div>
+        </Col>
+      <Col span={8} offset={2}> 
+      <h5>Already in project</h5>
+     
+        </Col>
         </Row>
    
         

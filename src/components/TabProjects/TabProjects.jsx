@@ -34,7 +34,7 @@ import { useDispatch, useSelector } from "react-redux";
       render: (text, record, index) => {
         return (
           <Tag color="purple">
- <NavLink to={`/projectdetail/${record.id}`} style={{color:"#531dab"}}>
+ <NavLink to={`/projectdetail/${record.id}`} style={{color:"#531dab", fontSize:"14px"}}>
             {text}
           </NavLink>
           </Tag>
