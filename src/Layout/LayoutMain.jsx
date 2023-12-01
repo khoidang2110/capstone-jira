@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Layout, Menu, theme, Button, Avatar } from "antd";
+import { Layout, Menu, theme, Button, Avatar, ConfigProvider } from "antd";
 import {
   FileTextOutlined,
   FolderAddOutlined,
@@ -131,7 +131,17 @@ export default function LayoutMain() {
             >
               JIRA
             </div>
-            <Menu
+            <ConfigProvider
+  theme={{
+    components: {
+      Menu: {
+        /* here is your component tokens */
+        // darkItemBg:"252935"
+      },
+    },
+  }}
+>
+<Menu
               defaultSelectedKeys={["1"]}
               theme="dark"
               mode="inline"
@@ -141,6 +151,8 @@ export default function LayoutMain() {
 
               // }}
             />
+</ConfigProvider>
+         
           </Sider>
           <Layout>
             <Header

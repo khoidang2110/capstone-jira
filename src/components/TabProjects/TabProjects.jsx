@@ -3,6 +3,7 @@ import {
   AutoComplete,
   Avatar,
   Button,
+  ConfigProvider,
   Popover,
   Space,
   Switch,
@@ -23,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
     {
       title: "ID",
       dataIndex: "id",
-
+      render:(text) => <p style={{color:"#252935"}}>{text}</p>,
       width: 80,
     },
     {
@@ -32,9 +33,12 @@ import { useDispatch, useSelector } from "react-redux";
 
       render: (text, record, index) => {
         return (
-          <NavLink to={`/projectdetail/${record.id}`} className="text-blue-700">
+          <Tag color="purple">
+ <NavLink to={`/projectdetail/${record.id}`} style={{color:"#531dab"}}>
             {text}
           </NavLink>
+          </Tag>
+         
         );
       },
       sorter: {
@@ -45,6 +49,7 @@ import { useDispatch, useSelector } from "react-redux";
     {
       title: "Category",
       dataIndex: "categoryName",
+      render:(text) => <p style={{color:"#252935"}}>{text}</p>,
       sorter: {
         compare: (a, b) => a.math - b.math,
         multiple: 2,
@@ -54,7 +59,7 @@ import { useDispatch, useSelector } from "react-redux";
       title: "Creator",
       key: "creator",
       render: (text, record, index) => {
-        return <Tag color="green">{record.creator?.name}</Tag>;
+        return <div style={{color:"#252935"}} >{record.creator?.name}</div>;
       },
       sorter: {
         compare: (a, b) => a.english - b.english,
@@ -74,8 +79,8 @@ import { useDispatch, useSelector } from "react-redux";
                 maxPopoverTrigger="click"
                 size="medium"
                 maxStyle={{
-                  color: "#f56a00",
-                  backgroundColor: "#fde3cf",
+                  color: "white",
+                  backgroundColor: "#A2987A",
                   cursor: "pointer",
                 }}
               >
@@ -122,7 +127,10 @@ import { useDispatch, useSelector } from "react-redux";
                   }}
                 >
 
-                  <Avatar key={index} src={member.avatar} />
+                  {/* <Avatar key={index} src={member.avatar}     /> */}
+                  <Avatar style={{
+        backgroundColor: '#B7BCCC',
+      }}>{member.name.slice(0, 2).toUpperCase()}</Avatar>
                 </Popover>
                
               );
@@ -223,13 +231,28 @@ export default function TabProjects() {
  
   return (
     <div className="">
-      <Switch
-        style={{ marginBottom: "25px" }}
-        checkedChildren="Your Project"
-        unCheckedChildren="All Project"
-        defaultChecked
-        onChange={onChangeSwitch}
-      />
+      <ConfigProvider
+ 
+    theme={{
+      token: {
+        /* here is your global tokens */
+        colorPrimary:"#001529",
+        color:"red"
+      },
+    }}
+ 
+>
+<Switch
+     className="switch"
+     style={{ marginBottom: "25px"  }}
+     checkedChildren="Your Project"
+     unCheckedChildren="All Project"
+     defaultChecked
+     onChange={onChangeSwitch}
+   />
+ 
+</ConfigProvider>
+   
 
       <Table
         columns={columns}

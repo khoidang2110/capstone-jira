@@ -26,7 +26,7 @@ import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { AntDesignOutlined, DeleteOutlined, PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { AntDesignOutlined, BugOutlined, DeleteOutlined, PlusOutlined, RocketOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const data = [
@@ -359,7 +359,7 @@ projectService
                       key={index}
                       style={{
                         backgroundColor: "#dddddd",
-                        color:"black"
+                        color:"#AE8EBB"
                       }}
                     >
                       {item.name.slice(0, 2).toUpperCase()}
@@ -455,123 +455,53 @@ projectService
                                       >
                                         <div className="flex justify-between">
                                           <div className="ant-col ant-col-18">
-                                            <div>{item.taskName}</div>
-                                            <div className="flex justify-start items-center">
+                                            <div className="iconBlue text-lg">{item.taskName}</div>
+                                            <div className="flex justify-start items-center mt-2">
+                                              <div className=" mr-2 h-5">
                                               {item.taskTypeDetail.taskType ==
-                                              "bug" ? (
-                                                <span>
-                                                  <svg
-                                                    width="16px"
-                                                    height="16px"
-                                                    viewBox="0 0 16 16"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                    className="mr-1"
-                                                  >
-                                                    <g
-                                                      id="Page-1"
-                                                      stroke="none"
-                                                      strokeWidth={1}
-                                                      fill="none"
-                                                      fillRule="evenodd"
-                                                    >
-                                                      <g>
-                                                        <g transform="translate(1.000000, 1.000000)">
-                                                          <rect
-                                                            fill="#E5493A"
-                                                            x={0}
-                                                            y={0}
-                                                            width={14}
-                                                            height={14}
-                                                            rx={2}
-                                                          />
-                                                          <path
-                                                            d="M10,7 C10,8.657 8.657,10 7,10 C5.343,10 4,8.657 4,7 C4,5.343 5.343,4 7,4 C8.657,4 10,5.343 10,7"
-                                                            fill="#FFFFFF"
-                                                          />
-                                                        </g>
-                                                      </g>
-                                                    </g>
-                                                  </svg>
-                                                </span>
+                                              "bug" ? (<BugOutlined className="iconRed"/>
+                                               
                                               ) : (
-                                                <span>
-                                                  <svg
-                                                    width="16px"
-                                                    height="16px"
-                                                    viewBox="0 0 16 16"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                    className="mr-1"
-                                                  >
-                                                    <defs />
-                                                    <g
-                                                      stroke="none"
-                                                      strokeWidth={1}
-                                                      fill="none"
-                                                      fillRule="evenodd"
-                                                    >
-                                                      <g>
-                                                        <g transform="translate(1.000000, 1.000000)">
-                                                          <rect
-                                                            id="Rectangle-36"
-                                                            fill="#4BADE8"
-                                                            x={0}
-                                                            y={0}
-                                                            width={14}
-                                                            height={14}
-                                                            rx={2}
-                                                          />
-                                                          <g
-                                                            transform="translate(4.000000, 4.500000)"
-                                                            stroke="#FFFFFF"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                          >
-                                                            <path
-                                                              d="M2,5 L6,0"
-                                                              id="Stroke-1"
-                                                            />
-                                                            <path
-                                                              d="M2,5 L0,3"
-                                                              id="Stroke-3"
-                                                            />
-                                                          </g>
-                                                        </g>
-                                                      </g>
-                                                    </g>
-                                                  </svg>
-                                                </span>
+                                                <RocketOutlined className="iconPurple" />
                                               )}
 
-                                              <span className="text-xs rounded px-1 pb-0.5  border ">
-                                                {item.priorityTask.priority}
+                                              </div>
+                                           
+                                              <span className={ item.priorityTask.priority}>
+                                              {item.priorityTask.priority}
                                               </span>
                                             </div>
                                           </div>
-                                          <div className="ant-col ant-col-6">
-                                            <div className="h-full w-full flex justify-end items-end">
-                                              <span className="ant-avatar ant-avatar-sm ant-avatar-circle ant-avatar-icon">
-                                                <span
-                                                  role="img"
-                                                  aria-label="user"
-                                                  className="anticon anticon-user"
-                                                >
-                                                  <svg
-                                                    viewBox="64 64 896 896"
-                                                    focusable="false"
-                                                    data-icon="user"
-                                                    width="1em"
-                                                    height="1em"
-                                                    fill="currentColor"
-                                                    aria-hidden="true"
-                                                  >
-                                                    <path d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z" />
-                                                  </svg>
-                                                </span>
-                                              </span>
-                                              <div className="ant-avatar-group" />
-                                            </div>
+                                          <div className="ant-col ant-col-6 pt-3">
+                                      
+                                             <Avatar.Group
+              maxCount={3}
+              maxPopoverTrigger="click"
+              size="medium"
+              maxStyle={{
+                color: "#f56a00",
+                backgroundColor: "#fde3cf",
+                cursor: "pointer",
+           
+              }}
+            >
+              {item.assigness?.map((item1, index) => {
+                return (
+                  <Tooltip title={item1.alias} placement="top">
+                    <Avatar
+                      key={index}
+                      style={{
+                        backgroundColor: "#dddddd",
+                        color:"#AE8EBB",
+                       
+                      }}
+                    >
+                      {item1.alias.slice(0, 2).toUpperCase()}
+                    </Avatar>
+                  </Tooltip>
+                );
+              })}
+            </Avatar.Group>
                                           </div>
                                         </div>
                                       </div>
