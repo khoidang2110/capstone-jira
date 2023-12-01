@@ -76,6 +76,9 @@ button:focus {
   background-color: rgba(0, 0, 0, 0.45) !important;
 
 }
+:where(.css-vzou9h).ant-switch.ant-switch-checked {
+  background: #092136!important;
+}
 /* .btnTrigger:focus{
   outline: 0 !important
 }*/
