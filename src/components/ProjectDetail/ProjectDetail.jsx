@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VirtualList from 'rc-virtual-list';
+import VirtualList from "rc-virtual-list";
 import { NavLink, useParams } from "react-router-dom";
 import {
   Breadcrumb,
@@ -26,25 +26,35 @@ import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { AntDesignOutlined, BugOutlined, DeleteOutlined, PlusOutlined, RocketOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AntDesignOutlined,
+  BugOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  RocketOutlined,
+  SearchOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import Paragraph from "antd/es/skeleton/Paragraph";
 
 const { Option } = Select;
 const data = [
-  'Racing car ',
-  'Japanese princess ',
-  'Australian',
-  'Man charged .',
-  'Los Angeles ',
-  'Australian.',
-  'Man charged ',
-  'Los Angeles .',
+  "Racing car ",
+  "Japanese princess ",
+  "Australian",
+  "Man charged .",
+  "Los Angeles ",
+  "Australian.",
+  "Man charged ",
+  "Los Angeles .",
 ];
 const ContainerHeight = 250;
 export default function ProjectDetail() {
-
   const onScroll = (e) => {
-    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+    if (
+      e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
+      ContainerHeight
+    ) {
       appendData();
     }
   };
@@ -64,7 +74,7 @@ export default function ProjectDetail() {
   const [isModalTaskOpen, setIsModalTaskOpen] = useState(false);
   const showModalTask = (id) => {
     setIsModalTaskOpen(true);
-console.log("task id click",id)
+    console.log("task id click", id);
   };
 
   const handleCancelTask = () => {
@@ -79,8 +89,8 @@ console.log("task id click",id)
   if (projectDataRedux == false) {
     projectDataRedux = [];
   }
-let usersRedux = useSelector((state)=>state.usersManageReducer.usersRedux)
-console.log("users redux",usersRedux)
+  let usersRedux = useSelector((state) => state.usersManageReducer.usersRedux);
+  console.log("users redux", usersRedux);
   const projectDataReduxById = projectDataRedux.filter(
     (item) => item.creator.id == USER.id
   );
@@ -190,12 +200,12 @@ console.log("users redux",usersRedux)
           lstTaskDeTail: destItems,
         },
       });
-   
+
       // console.log("remove",removed)
       // console.log("status id ", destination.droppableId);
       let data = {
         taskId: removed.taskId,
-        statusId: destination.droppableId * 1+1 ,
+        statusId: destination.droppableId * 1 + 1,
       };
       // console.log("data", data);
       projectService
@@ -226,38 +236,36 @@ console.log("users redux",usersRedux)
       setRandomNumber(Math.random());
     }
   };
-  const onAddUserOfProject = (UserId)=>{
-    const item = { "projectId": projectDetail.id,
-"userId": UserId}
-projectService
-.addUserFromProject(item)
-.then((result) => {
-  message.success("thêm thành công");
-}).catch((err) => {
-  message.error("thêm thất bại");
-});
-setRandomNumber(Math.random());
-SetSearchInput("")
-  }
-  const onDeleteUserOfProject = (UserId)=>{
-console.log("delete id", UserId)
-console.log("project id",projectDetail.id)
-const item = { "projectId": projectDetail.id,
-"userId": UserId}
-console.log("item",item)
-projectService
+  const onAddUserOfProject = (UserId) => {
+    const item = { projectId: projectDetail.id, userId: UserId };
+    projectService
+      .addUserFromProject(item)
+      .then((result) => {
+        message.success("thêm thành công");
+      })
+      .catch((err) => {
+        message.error("thêm thất bại");
+      });
+    setRandomNumber(Math.random());
+    SetSearchInput("");
+  };
+  const onDeleteUserOfProject = (UserId) => {
+    console.log("delete id", UserId);
+    console.log("project id", projectDetail.id);
+    const item = { projectId: projectDetail.id, userId: UserId };
+    console.log("item", item);
+    projectService
       .removeUserFromProject(item)
       .then((result) => {
         message.success("xoá thành công");
         //console.log("dk thanh cong", result);
-   
       })
       .catch((err) => {
         message.error("xoá thất bại");
-       // console.log("dk thanh cong", err);
+        // console.log("dk thanh cong", err);
       });
     setRandomNumber(Math.random());
-  }
+  };
 
   //console.log("random number", randomNumber);
   //lấy tên project
@@ -303,32 +311,34 @@ projectService
       })
       .catch((err) => {});
   }, [randomNumber]);
-  let usersFilter=[]
-  if(usersRedux && (projectDetail)){
-     usersFilter = usersRedux?.filter(item1 =>!projectDetail.members.some(item2=>item2.userId ===item1.userId));
-    console.log("users Filter",usersFilter)
+  let usersFilter = [];
+  if (usersRedux && projectDetail) {
+    usersFilter = usersRedux?.filter(
+      (item1) =>
+        !projectDetail.members.some((item2) => item2.userId === item1.userId)
+    );
+    console.log("users Filter", usersFilter);
   }
   const [searchInput, SetSearchInput] = useState("");
-  console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput)
+  console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput);
 
-    const FilteredData = () => {
-        return usersFilter.filter(
-            (user) =>
-                user.name.toLowerCase().includes(searchInput.toLowerCase()) 
-                // ||
-                // user.position.toLowerCase().includes(searchInput.toLowerCase()) ||
-                // user.gender.toLowerCase().includes(searchInput.toLowerCase()) ||
-                // user.office.toLowerCase().includes(searchInput.toLowerCase()) ||
-                // user.email.toLowerCase().includes(searchInput.toLowerCase())
-        );
-    };
+  const FilteredData = () => {
+    return usersFilter.filter(
+      (user) => user.name.toLowerCase().includes(searchInput.toLowerCase())
+      // ||
+      // user.position.toLowerCase().includes(searchInput.toLowerCase()) ||
+      // user.gender.toLowerCase().includes(searchInput.toLowerCase()) ||
+      // user.office.toLowerCase().includes(searchInput.toLowerCase()) ||
+      // user.email.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  };
 
-    const [editableStr, setEditableStr] = useState('This is an editable text.');
+  const [editableStr, setEditableStr] = useState("This is an editable text.");
 
   return (
     <div>
-      
-      <Breadcrumb className="mb-3"
+      <Breadcrumb
+        className="mb-3"
         items={[
           {
             title: <NavLink to="/">Projects</NavLink>,
@@ -350,44 +360,45 @@ projectService
           >
             Create Task
           </Button>
-          <div className="" >
-            <p className="font-semibold pt-1 pr-2" >
-            Members: 
-            </p>{" "}
-            </div>
+          <div className="">
+            <p className="font-semibold pt-1 pr-2">Members:</p>{" "}
+          </div>
 
-            <Avatar.Group
-              maxCount={3}
-              maxPopoverTrigger="click"
-              size="medium"
-              maxStyle={{
-                color: "#f56a00",
-                backgroundColor: "#fde3cf",
-                cursor: "pointer",
-              }}
-            >
-              {projectDetail?.members?.map((item, index) => {
-                return (
-                  <Tooltip title={item.name} placement="top">
-                    <Avatar
-                      key={index}
-                      style={{
-                        backgroundColor: "#dddddd",
-                        color:"#AE8EBB"
-                      }}
-                    >
-                      {item.name.slice(0, 2).toUpperCase()}
-                    </Avatar>
-                  </Tooltip>
-                );
-              })}
-            </Avatar.Group>
-            <Tooltip title="Add member" placement="top">
-              <Button type="text" className="btnBlue" shape="circle" onClick={showModal}icon= {<PlusOutlined />}>
-                
-              </Button>
-            </Tooltip>
-          
+          <Avatar.Group
+            maxCount={3}
+            maxPopoverTrigger="click"
+            size="medium"
+            maxStyle={{
+              color: "#f56a00",
+              backgroundColor: "#fde3cf",
+              cursor: "pointer",
+            }}
+          >
+            {projectDetail?.members?.map((item, index) => {
+              return (
+                <Tooltip title={item.name} placement="top">
+                  <Avatar
+                    key={index}
+                    style={{
+                      backgroundColor: "#dddddd",
+                      color: "#AE8EBB",
+                    }}
+                  >
+                    {item.name.slice(0, 2).toUpperCase()}
+                  </Avatar>
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+          <Tooltip title="Add member" placement="top">
+            <Button
+              type="text"
+              className="btnBlue"
+              shape="circle"
+              onClick={showModal}
+              icon={<PlusOutlined />}
+            ></Button>
+          </Tooltip>
         </div>
 
         <div
@@ -424,7 +435,6 @@ projectService
                               width: 230,
                               minHeight: 100,
                               borderRadius: "6px",
-                              
                             }}
                             className="shadow-md hover:shadow-2xl"
                           >
@@ -464,66 +474,85 @@ projectService
                                           color: "white",
                                           ...provided.draggableProps.style,
                                           borderRadius: "4px",
-                                 
+
                                           color: "black",
                                         }}
                                         className="shadow-md"
                                       >
-                                        <div className="flex justify-between" onClick={()=>showModalTask(item.taskId)}>
+                                        <div
+                                          className="flex justify-between"
+                                          onClick={() =>
+                                            showModalTask(item.taskId)
+                                          }
+                                        >
                                           <div className="ant-col ant-col-18">
-                                            <div className="iconBlue text-lg">{item.taskName}</div>
+                                            <div className="iconBlue text-lg">
+                                              {item.taskName}
+                                            </div>
                                             <div className="flex justify-start items-center mt-2">
                                               <div className=" mr-2 h-5">
-                                              {item.taskTypeDetail.taskType ==
-                                              "bug" ? (
-                                                <Tooltip title="Bug" placement="top">
-                                                  <BugOutlined className="iconBrown"/>
-                                                </Tooltip>
-                                              
-                                               
-                                              ) : (
-                                                <Tooltip title="New Task" placement="top">
-                                                <RocketOutlined className="iconBrown" />
-                                                </Tooltip>
-                                              )}
-
+                                                {item.taskTypeDetail.taskType ==
+                                                "bug" ? (
+                                                  <Tooltip
+                                                    title="Bug"
+                                                    placement="top"
+                                                  >
+                                                    <BugOutlined className="iconBrown" />
+                                                  </Tooltip>
+                                                ) : (
+                                                  <Tooltip
+                                                    title="New Task"
+                                                    placement="top"
+                                                  >
+                                                    <RocketOutlined className="iconBrown" />
+                                                  </Tooltip>
+                                                )}
                                               </div>
-                                           
-                                              <span className={ item.priorityTask.priority}>
-                                              {item.priorityTask.priority}
+
+                                              <span
+                                                className={
+                                                  item.priorityTask.priority
+                                                }
+                                              >
+                                                {item.priorityTask.priority}
                                               </span>
                                             </div>
                                           </div>
                                           <div className="ant-col ant-col-6 pt-3">
-                                      
-                                             <Avatar.Group
-              maxCount={3}
-              maxPopoverTrigger="click"
-              size="medium"
-              maxStyle={{
-                color: "#f56a00",
-                backgroundColor: "#fde3cf",
-                cursor: "pointer",
-           
-              }}
-            >
-              {item.assigness?.map((item1, index) => {
-                return (
-                  <Tooltip title={item1.alias} placement="top">
-                    <Avatar
-                      key={index}
-                      style={{
-                        backgroundColor: "#dddddd",
-                        color:"#AE8EBB",
-                       
-                      }}
-                    >
-                      {item1.alias.slice(0, 2).toUpperCase()}
-                    </Avatar>
-                  </Tooltip>
-                );
-              })}
-            </Avatar.Group>
+                                            <Avatar.Group
+                                              maxCount={3}
+                                              maxPopoverTrigger="click"
+                                              size="medium"
+                                              maxStyle={{
+                                                color: "#f56a00",
+                                                backgroundColor: "#fde3cf",
+                                                cursor: "pointer",
+                                              }}
+                                            >
+                                              {item.assigness?.map(
+                                                (item1, index) => {
+                                                  return (
+                                                    <Tooltip
+                                                      title={item1.alias}
+                                                      placement="top"
+                                                    >
+                                                      <Avatar
+                                                        key={index}
+                                                        style={{
+                                                          backgroundColor:
+                                                            "#dddddd",
+                                                          color: "#AE8EBB",
+                                                        }}
+                                                      >
+                                                        {item1.alias
+                                                          .slice(0, 2)
+                                                          .toUpperCase()}
+                                                      </Avatar>
+                                                    </Tooltip>
+                                                  );
+                                                }
+                                              )}
+                                            </Avatar.Group>
                                           </div>
                                         </div>
                                       </div>
@@ -592,11 +621,13 @@ projectService
             >
               <Select onChange={handleChange}>
                 {/* {projectDataReduxById?.map((project, index) => { */}
-                
-                    <Option value={projectDetail.projectName} key={projectDetail.id}>
-                      {projectDetail.projectName}
-                    </Option>
-              
+
+                <Option
+                  value={projectDetail.projectName}
+                  key={projectDetail.id}
+                >
+                  {projectDetail.projectName}
+                </Option>
               </Select>
             </Form.Item>
 
@@ -679,8 +710,6 @@ projectService
                     </Option>
                   );
                 })}
-
-
               </Select>
             </Form.Item>
             <p>Time tracker</p>
@@ -723,7 +752,7 @@ projectService
                 max={totalTime}
               />
             </Form.Item>
- 
+
             <Form.Item label="Slider" name="timeTrackingRemaining">
               <Slider
                 min={0}
@@ -767,139 +796,143 @@ projectService
         {/* <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p> */}
-          <Row>
-      <Col span={20} className="">
-        
-     
-        <Space.Compact  size="small">
-      <Input addonAfter={<SearchOutlined />} placeholder="Search users" 
-      value={searchInput}
-       onChange={(e) => SetSearchInput(e.target.value)
-    
-      } />
-      
-    </Space.Compact></Col>
-    </Row>
         <Row>
-        <Col span={11}><h5>Not yet added</h5>
-        <List
-      size="small"
-
-    >
-     <VirtualList
-        data={FilteredData()}
-        height={ContainerHeight}
-        itemHeight={30}
-        itemKey="assigner"
-        onScroll={onScroll}
-      >
-        {(item) => (
-         <List.Item>
-         <List.Item.Meta
-           avatar={     <Avatar
-          
-            style={{
-              backgroundColor: "#dddddd",
-            }}
-          >
-            {item.name.slice(0, 2).toUpperCase()}
-          </Avatar>}
-           title={<a href="https://ant.design">{item.name}</a>}
-           description={<p>User ID: {item.userId}</p>}
-         />
-         
-            <Button className="btnBlue" type="text" icon= {<PlusOutlined />}  onClick={()=> onAddUserOfProject(item.userId)}></Button>
-       </List.Item>
-        )}
-        </VirtualList>
-        </List>
-        </Col>
-      <Col span={11} offset={2}> <h5>Already in project</h5>
-      <List
-      size="small"
-
-    >
-     <VirtualList
-        data={projectDetail.members}
-        height={ContainerHeight}
-        itemHeight={20}
-        itemKey="assigner"
-        onScroll={onScroll}
-      >
-        {(item) => (
-       <List.Item>
-       <List.Item.Meta
-         avatar={     <Avatar
-         
-          style={{
-            backgroundColor: "#dddddd",
-          }}
-        >
-          {item.name.slice(0, 2).toUpperCase()}
-        </Avatar>}
-         title={<a href="https://ant.design">{item.name}</a>}
-         description={<p>User ID: {item.userId}</p>}
-       />
-
-          <Button type="text" className="btnRed" icon={<DeleteOutlined />} onClick={()=> onDeleteUserOfProject(item.userId)}></Button>
-     </List.Item>
-        )}
-        </VirtualList>
-        </List></Col>
+          <Col span={20} className="">
+            <Space.Compact size="small">
+              <Input
+                addonAfter={<SearchOutlined />}
+                placeholder="Search users"
+                value={searchInput}
+                onChange={(e) => SetSearchInput(e.target.value)}
+              />
+            </Space.Compact>
+          </Col>
         </Row>
-   
-        
+        <Row>
+          <Col span={11}>
+            <h5>Not yet added</h5>
+            <List size="small">
+              <VirtualList
+                data={FilteredData()}
+                height={ContainerHeight}
+                itemHeight={30}
+                itemKey="assigner"
+                onScroll={onScroll}
+              >
+                {(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          style={{
+                            backgroundColor: "#dddddd",
+                          }}
+                        >
+                          {item.name.slice(0, 2).toUpperCase()}
+                        </Avatar>
+                      }
+                      title={<a href="https://ant.design">{item.name}</a>}
+                      description={<p>User ID: {item.userId}</p>}
+                    />
+
+                    <Button
+                      className="btnBlue"
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={() => onAddUserOfProject(item.userId)}
+                    ></Button>
+                  </List.Item>
+                )}
+              </VirtualList>
+            </List>
+          </Col>
+          <Col span={11} offset={2}>
+            {" "}
+            <h5>Already in project</h5>
+            <List size="small">
+              <VirtualList
+                data={projectDetail.members}
+                height={ContainerHeight}
+                itemHeight={20}
+                itemKey="assigner"
+                onScroll={onScroll}
+              >
+                {(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          style={{
+                            backgroundColor: "#dddddd",
+                          }}
+                        >
+                          {item.name.slice(0, 2).toUpperCase()}
+                        </Avatar>
+                      }
+                      title={<a href="https://ant.design">{item.name}</a>}
+                      description={<p>User ID: {item.userId}</p>}
+                    />
+
+                    <Button
+                      type="text"
+                      className="btnRed"
+                      icon={<DeleteOutlined />}
+                      onClick={() => onDeleteUserOfProject(item.userId)}
+                    ></Button>
+                  </List.Item>
+                )}
+              </VirtualList>
+            </List>
+          </Col>
+        </Row>
       </Modal>
       <Modal
         // title="Task update"
-        title={ <Row className="flex justify-between">
-          <Select
-      defaultValue="new task"
-      style={{
-        width: 120,
-      }}
-      onChange={handleChangeTaskEdit}
-      options={[
-        {
-          value: 'new task',
-          label: 'new task',
-        },
-        {
-          value: 'bug',
-          label: 'bug',
-        },
-        
-      ]}
-    />
-    <div>task name: </div>
-        <Button type="link" danger className="pr-5">
-        <DeleteOutlined />
-    </Button>
-     </Row>}
+        title={
+          <Row className="flex justify-between">
+            <Select
+              defaultValue="new task"
+              style={{
+                width: 120,
+              }}
+              onChange={handleChangeTaskEdit}
+              options={[
+                {
+                  value: "new task",
+                  label: "new task",
+                },
+                {
+                  value: "bug",
+                  label: "bug",
+                },
+              ]}
+            />
+            <div>task name: </div>
+            <Button type="link" danger className="pr-5">
+              <DeleteOutlined />
+            </Button>
+          </Row>
+        }
         open={isModalTaskOpen}
         onCancel={handleCancelTask}
         footer={[]}
         width={800}
       >
-
         <Row>
-        <Col span={16}>
-        <Paragraph
-        editable={{
-          onChange: setEditableStr,
-        }}
-      >
-        {editableStr}
-      </Paragraph>
-        <div>adfa</div>
-        </Col>
-      <Col span={8} offset={2}> 
-      <h5>Already in project</h5>
-     
-        </Col>
+          <Col span={16}>
+            <Paragraph
+              editable={{
+                onChange: setEditableStr,
+              }}
+            >
+              {editableStr}
+            </Paragraph>
+            <div>adfa</div>
+          </Col>
+          <Col span={8} offset={2}>
+            <h5>Already in project</h5>
+          </Col>
         </Row>
-   
-        
       </Modal>
     </div>
   );
