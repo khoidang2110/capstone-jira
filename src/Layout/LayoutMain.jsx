@@ -122,7 +122,7 @@ export default function LayoutMain() {
     <>
       {USER ? (
         <Layout>
-          <Sider trigger={null} collapsible collapsed={collapsed}>
+          <Sider trigger={null} collapsible collapsed={collapsed} width={201} style={{ height:"100vh"}}>
             <div
               className="jiraLogo"
               onClick={() => {

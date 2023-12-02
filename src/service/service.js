@@ -42,7 +42,10 @@ export let projectService = {
   },
   addUserFromProject:(value)=>{
     return https.post(`/api/Project/assignUserProject`,value)
-  }
+  },
+  getTaskDetail: (taskId) => {
+    return https.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
+  },
 };
 
 export let usersManageService = {
