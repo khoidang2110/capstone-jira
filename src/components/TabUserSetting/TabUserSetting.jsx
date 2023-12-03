@@ -58,7 +58,6 @@ export default function TabUserSetting() {
   return (
     <div className="container">
       <div className="flex flex-col justify-center items-center">
-        <h3 className="m-4 text-center">TabUserSetting</h3>
         <ConfigProvider
           theme={{
             //     token:{
@@ -73,13 +72,15 @@ export default function TabUserSetting() {
           }}
         >
           <Form
-            className=""
+            className=" flex flex-col align-center justify-center"
             form={form}
             name="register"
-            style={{
-              maxWidth: 800,
-              maxHeight: 800,
-            }}
+            style={
+              {
+                // maxWidth: 1000,
+                // maxHeight: 1000,
+              }
+            }
             initialValues={{
               id: data.id,
               name: data.name,
@@ -92,6 +93,12 @@ export default function TabUserSetting() {
             autoComplete="off"
             layout="vertical"
           >
+            <h3
+              className="text-center"
+              style={{ fontWeight: 500, fontSize: 50 }}
+            >
+              Edit User
+            </h3>
             <Form.Item
               label="Id"
               name="id"
@@ -102,7 +109,15 @@ export default function TabUserSetting() {
                 },
               ]}
             >
-              <Input disabled={true} />
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
+                disabled={true}
+              />
             </Form.Item>
 
             <Form.Item
@@ -115,7 +130,15 @@ export default function TabUserSetting() {
                 },
               ]}
             >
-              <Input value={data.name} />
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
+                value={data.name}
+              />
             </Form.Item>
 
             <Form.Item
@@ -123,7 +146,14 @@ export default function TabUserSetting() {
               name="passWord"
               rules={[{ required: true }]}
             >
-              <Input.Password />
+              <Input.Password
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
+              />
             </Form.Item>
 
             <Form.Item
@@ -137,7 +167,15 @@ export default function TabUserSetting() {
                 },
               ]}
             >
-              <Input value={data.email} />
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
+                value={data.email}
+              />
             </Form.Item>
 
             <Form.Item
@@ -150,7 +188,16 @@ export default function TabUserSetting() {
                 },
               ]}
             >
-              <Input addonBefore={prefixSelector} value={data.phoneNumber} />
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
+                // addonBefore={prefixSelector}
+                value={data.phoneNumber}
+              />
             </Form.Item>
 
             <Form.Item className="w-full flex justify-center items-center">
@@ -159,18 +206,27 @@ export default function TabUserSetting() {
                 <Button
                   type="text"
                   htmlType="submit"
-                  style={{ backgroundColor: "#1890ff" }}
-                  className="px-3 mx-2 lg:px-7 btnBlue"
+                  style={{
+                    backgroundColor: "#1890ff",
+                    minWidth: "200px",
+                    borderRadius: "30px",
+                  }}
+                  className="btnBlue"
                 >
                   Edit
                 </Button>
                 <Button
-                  className="px-3 mx-2 lg:px-7"
+                  className="px-3 mx-2 "
                   type="text"
                   onClick={() => {
                     window.location.href = "/";
                   }}
-                  style={{ backgroundColor: "#808080", color: "white" }}
+                  style={{
+                    backgroundColor: "#808080",
+                    color: "white",
+                    borderRadius: "30px",
+                    minWidth: "200px",
+                  }}
                 >
                   Cancel
                 </Button>

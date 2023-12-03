@@ -63,7 +63,6 @@ function Register() {
     <div>
       <div className="register container">
         <div className="flex flex-col justify-center items-center ">
-          <h3 className="m-4 text-center">FORM REGISTER</h3>
           <ConfigProvider
             theme={{
               //     token:{
@@ -96,6 +95,7 @@ function Register() {
               autoComplete="off"
               layout="vertical"
             >
+              <h3 className="m-4 text-center">FORM REGISTER</h3>
               <Form.Item
                 label="Name"
                 name="name"
@@ -106,7 +106,14 @@ function Register() {
                   },
                 ]}
               >
-                <Input />
+                <Input
+                  style={{
+                    borderColor: "black",
+                    borderStyle: "dashed",
+                    width: "400px",
+                    height: "50px",
+                  }}
+                />
               </Form.Item>
 
               <Alert message="Create Password" type="info" showIcon />
@@ -116,7 +123,15 @@ function Register() {
                 name="passWord"
                 rules={[{ required: true }]}
               >
-                <Input type="password" />
+                <Input
+                  style={{
+                    borderColor: "black",
+                    borderStyle: "dashed",
+                    width: "400px",
+                    height: "50px",
+                  }}
+                  type="password"
+                />
               </Form.Item>
 
               <Form.Item
@@ -141,7 +156,15 @@ function Register() {
                   }),
                 ]}
               >
-                <Input type="password" />
+                <Input
+                  style={{
+                    borderColor: "black",
+                    borderStyle: "dashed",
+                    width: "400px",
+                    height: "50px",
+                  }}
+                  type="password"
+                />
               </Form.Item>
 
               <Form.Item
@@ -155,7 +178,14 @@ function Register() {
                   },
                 ]}
               >
-                <Input />
+                <Input
+                  style={{
+                    borderColor: "black",
+                    borderStyle: "dashed",
+                    width: "400px",
+                    height: "50px",
+                  }}
+                />
               </Form.Item>
 
               <Form.Item
@@ -197,7 +227,7 @@ function Register() {
                     }}
                     style={{ backgroundColor: "#808080", color: "white" }}
                   >
-                   Login
+                    Login
                   </Button>
                 </>
               </Form.Item>

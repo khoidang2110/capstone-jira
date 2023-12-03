@@ -64,7 +64,12 @@ const NewProject = () => {
     <div>
       {/* <HeaderBar /> */}
       <div className="">
-        <h3 className="m-4">New Project</h3>
+        <h3
+          className="m-4 text-center"
+          style={{ fontWeight: 500, fontSize: 50 }}
+        >
+          New Project
+        </h3>
         <Breadcrumb
           items={[
             {
@@ -95,7 +100,7 @@ const NewProject = () => {
             //   span: 8,
             // }}
             style={{
-              maxWidth: 800,
+              maxWidth: 1300,
               maxHeight: 700,
             }}
             initialValues={{
@@ -107,11 +112,24 @@ const NewProject = () => {
             layout="vertical"
           >
             <Form.Item label="Project Name" name="projectname" rules={[]}>
-              <Input />
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "50px",
+                }}
+              />
             </Form.Item>
 
             <Form.Item label="Project category" name="category" rules={[]}>
-              <Select defaultValue="Lựa chọn loại dự án ">
+              <Select
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "50px",
+                }}
+                defaultValue="Lựa chọn loại dự án "
+              >
                 {category?.map((item, index) => {
                   return (
                     <Option value={item.id} key={index}>
@@ -144,21 +162,45 @@ const NewProject = () => {
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
               /> */}
-              <Input.TextArea rows={4} />
+              <Input.TextArea
+                rows={4}
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "350px",
+                }}
+              />
             </Form.Item>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
+            <Form.Item>
               <Button
+                className="px-3 mx-2 "
                 type="primary"
                 htmlType="submit"
-                style={{ backgroundColor: "#1890ff" }}
+                style={{
+                  backgroundColor: "#1890ff",
+                  borderRadius: "30px",
+                  minWidth: "500px",
+                  height: "50px",
+                }}
               >
                 Submit
+              </Button>
+              <Button
+                className="px-3 mx-2 "
+                type="text"
+                onClick={() => {
+                  window.location.href = "/";
+                }}
+                style={{
+                  backgroundColor: "#808080",
+                  borderRadius: "30px",
+                  color: "white",
+                  minWidth: "500px",
+                  height: "50px",
+                }}
+              >
+                Cancel
               </Button>
             </Form.Item>
           </Form>

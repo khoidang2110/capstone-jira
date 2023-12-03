@@ -51,6 +51,12 @@ export default function LoginPage() {
               ]}
             >
               <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Email"
               />
@@ -65,6 +71,12 @@ export default function LoginPage() {
               ]}
             >
               <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  width: "400px",
+                  height: "50px",
+                }}
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
@@ -78,7 +90,7 @@ export default function LoginPage() {
                 className="btnBlue"
                 style={{
                   backgroundColor: "rgb(102, 117, 223)",
-                  minWidth: "200px",
+                  minWidth: "400px",
                 }}
               >
                 Log in
