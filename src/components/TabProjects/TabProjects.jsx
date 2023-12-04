@@ -35,6 +35,7 @@ export default function TabProjects() {
     project.projectName
   );
   const showDrawer = () => {
+    form.resetFields();
     setOpen(true);
 console.log("mo drawer");
 console.log("data luc mo drawer",project.projectName)
@@ -42,7 +43,7 @@ console.log("data luc mo drawer",project.projectName)
   const onClose = () => {
     console.log("dong drawer")
     setOpen(false);
-     form.resetFields();
+    //  form.resetFields();
      
   };
   const onFinish = (values) => {
