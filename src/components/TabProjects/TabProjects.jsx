@@ -29,16 +29,21 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function TabProjects() {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const [project, setProject] = useState("");
+  const [project, setProject] = useState("");  
   console.log(
     "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
     project.projectName
   );
   const showDrawer = () => {
     setOpen(true);
+console.log("mo drawer");
+console.log("data luc mo drawer",project.projectName)
   };
   const onClose = () => {
+    console.log("dong drawer")
     setOpen(false);
+     form.resetFields();
+     
   };
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -54,6 +59,7 @@ export default function TabProjects() {
   console.log("projectDataRedux", projectDataRedux);
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
   const [toggleData, setToggleData] = useState([]);
+
   console.log("toggleData", toggleData);
 
   useEffect(() => {
@@ -303,6 +309,7 @@ export default function TabProjects() {
           placement="right"
           onClose={() => {
             onClose();
+           
           }}
           open={open}
         >
@@ -314,10 +321,7 @@ export default function TabProjects() {
                 // maxWidth: 600,
               }
             }
-            initialValues={{
-              id: project?.id,
-              projectName: project?.projectName,
-            }}
+           
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -338,10 +342,14 @@ export default function TabProjects() {
                   message: "Please input your name!",
                 },
               ]}
+            //    defaultValue={{
+            //   id: project?.id,
+            //   projectName: project?.projectName,
+            // }}
             >
               <Input
-                value={project?.projectName}
-                onChange={(e) => setProject(e.target.value)}
+                defaultValue={project.projectName}
+                // onChange={(e) => setProject(e.target.value)}
               />
             </Form.Item>
 
