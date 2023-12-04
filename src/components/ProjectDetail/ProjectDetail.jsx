@@ -336,11 +336,7 @@ export default function ProjectDetail() {
   const FilteredData = () => {
     return usersFilter.filter(
       (user) => user.name.toLowerCase().includes(searchInput.toLowerCase())
-      // ||
-      // user.position.toLowerCase().includes(searchInput.toLowerCase()) ||
-      // user.gender.toLowerCase().includes(searchInput.toLowerCase()) ||
-      // user.office.toLowerCase().includes(searchInput.toLowerCase()) ||
-      // user.email.toLowerCase().includes(searchInput.toLowerCase())
+
     );
   };
 
@@ -633,7 +629,7 @@ export default function ProjectDetail() {
             >
               <Select onChange={handleChange}
               defaultValue={{
-                value:projectDetail.id,
+                value:projectDetail.projectName,
               }}
               disabled
               >
@@ -823,9 +819,10 @@ export default function ProjectDetail() {
         {/* <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p> */}
+        <Divider/>
         <Row>
-          <Col span={20} className="">
-            <Space.Compact size="small">
+          <Col span={20} className="pb-3 pl-3">
+            <Space.Compact size="small" >
               <Input
                 addonAfter={<SearchOutlined />}
                 placeholder="Search users"
@@ -837,7 +834,7 @@ export default function ProjectDetail() {
         </Row>
         <Row>
           <Col span={11}>
-            <h5>Not yet added</h5>
+            <h5 className="font-medium pb-2 pl-3">Not yet added</h5>
             <List size="small">
               <VirtualList
                 data={FilteredData()}
@@ -875,7 +872,7 @@ export default function ProjectDetail() {
           </Col>
           <Col span={11} offset={2}>
             {" "}
-            <h5>Already in project</h5>
+            <h5 className="font-medium pb-2 pl-3">Already in project</h5>
             <List size="small">
               <VirtualList
                 data={projectDetail.members}
