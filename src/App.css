@@ -85,10 +85,10 @@ button:focus {
 :where(.css-dev-only-do-not-override-1adbn6x).ant-pagination .ant-pagination-item-active {
   font-weight: 600;
   background-color: #ffffff;
-  border-color: #252935;
+  border-color: #252935 !important;
 }
 :where(.css-dev-only-do-not-override-1adbn6x).ant-pagination .ant-pagination-item-active:hover {
-  border-color: #252935;
+  border-color: #252935 !important;
 }
 
 .High{
