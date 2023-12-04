@@ -72,13 +72,16 @@ export default function ProjectDetail() {
   };
   //modal task update
   const [isModalTaskOpen, setIsModalTaskOpen] = useState(false);
+  const [taskData, setTaskData] = useState({});
+  console.log("task data", taskData);
   const showModalTask = (id) => {
     setIsModalTaskOpen(true);
     console.log("task id click", id);
     projectService
       .getTaskDetail(id)
       .then((result) => {
-        console.log("task detail", result.data.content);
+        
+        setTaskData(result.data.content)
       })
       .catch((err) => {
         console.log("err task detail", err);
@@ -623,9 +626,15 @@ export default function ProjectDetail() {
             <Form.Item
               label="Project"
               name="projectId"
+              
               // help="* You can only create tasks of your own projects!"
             >
-              <Select onChange={handleChange}>
+              <Select onChange={handleChange}
+              defaultValue={{
+                value:projectDetail.id,
+              }}
+              disabled
+              >
                 {/* {projectDataReduxById?.map((project, index) => { */}
 
                 <Option
@@ -642,10 +651,13 @@ export default function ProjectDetail() {
             </Form.Item>
             <Form.Item label="Status" name="statusId">
               <Select
-              //defaultValue={taskStatus? taskStatus[0].statusName : ""}
+              
+              defaultValue={{
+               value: taskStatus? taskStatus[0].statusName : "",
+              }}
               >
                 {taskStatus?.map((item, index) => {
-                  // return  <Select.Option selected={taskStatus[0].statusName === item.statusName ? true : false} value={item.statusName} key={index}>{item.statusName}</Select.Option>
+                
                   return (
                     <Option value={item.statusId} key={index}>
                       {item.statusName}
@@ -664,7 +676,10 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-              // defaultValue={taskPriority ? taskPriority[0].priority : ""}
+                  defaultValue={{
+                  value:  taskPriority ? taskPriority[0].priority : "",
+                   }}
+              
               >
                 {taskPriority?.map((item, index) => {
                   return (
@@ -686,7 +701,10 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-              // defaultValue={taskType ? taskType[0].taskType : ""}
+               defaultValue={{
+                value: taskType ? taskType[0].taskType : "",
+                 }}
+              
               >
                 {taskType?.map((item, index) => {
                   return (
@@ -899,18 +917,21 @@ export default function ProjectDetail() {
         title={
           <Row className="flex justify-between">
             <Select
-              defaultValue="new task"
+              defaultValue={{
+                value: taskData.Id,
+                // label: 'Lucy (101)',
+              }}
               style={{
                 width: 120,
               }}
               onChange={handleChangeTaskEdit}
               options={[
                 {
-                  value: "new task",
+                  value: 2,
                   label: "new task",
                 },
                 {
-                  value: "bug",
+                  value: 1,
                   label: "bug",
                 },
               ]}

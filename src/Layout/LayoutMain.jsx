@@ -186,7 +186,7 @@ export default function LayoutMain() {
             </Header>
             <Content
               style={{
-                margin: "24px 10px",
+                margin: "9px 9px",
                 //   padding: 24,
                 minHeight: 475,
                 //   background: colorBgContainer,
