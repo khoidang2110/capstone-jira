@@ -139,7 +139,6 @@ export default function ProjectDetail() {
     projectService
       .getTaskStatus()
       .then((result) => {
-        //console.log("project service",result.data.content)
         setTaskStatus(result.data.content);
       })
       .catch((err) => {});
@@ -148,7 +147,6 @@ export default function ProjectDetail() {
     projectService
       .getTaskType()
       .then((result) => {
-        //console.log("project service",result.data.content)
         setTaskType(result.data.content);
       })
       .catch((err) => {});
@@ -597,12 +595,6 @@ export default function ProjectDetail() {
           <Form
             form={form}
             name="basic"
-            // labelCol={{
-            //   span: 8,
-            // }}
-            // wrapperCol={{
-            //   span: 16,
-            // }}
             style={{
               maxWidth: 600,
             }}
@@ -700,12 +692,7 @@ export default function ProjectDetail() {
               <Select mode="multiple" placeholder="Please select Assigners">
                 {projectDetail?.members?.map((member, index) => {
                   return (
-                    <Option
-                      value={member.userId}
-                      //value={JSON.stringify(member)}
-                      // value={member.obj}
-                      key={index}
-                    >
+                    <Option value={member.userId} key={index}>
                       {member.name}
                     </Option>
                   );
