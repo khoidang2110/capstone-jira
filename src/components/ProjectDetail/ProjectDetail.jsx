@@ -344,6 +344,8 @@ export default function ProjectDetail() {
     );
   };
 
+  const [editableStr, setEditableStr] = useState("This is an editable text.");
+
   return (
     <div>
       <Breadcrumb
@@ -638,7 +640,7 @@ export default function ProjectDetail() {
                 {/* {projectDataReduxById?.map((project, index) => { */}
 
                 <Option
-                  value={projectDetail.id}
+                  value={projectDetail.projectName}
                   key={projectDetail.id}
                 >
                   {projectDetail.projectName}
@@ -821,9 +823,8 @@ export default function ProjectDetail() {
         {/* <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p> */}
-        <Divider />
         <Row>
-          <Col span={20} className="pb-3">
+          <Col span={20} className="">
             <Space.Compact size="small">
               <Input
                 addonAfter={<SearchOutlined />}
@@ -836,7 +837,7 @@ export default function ProjectDetail() {
         </Row>
         <Row>
           <Col span={11}>
-            <h5 className=" pb-3 pl-3 font-medium">Not yet added</h5>
+            <h5>Not yet added</h5>
             <List size="small">
               <VirtualList
                 data={FilteredData()}
@@ -857,7 +858,7 @@ export default function ProjectDetail() {
                           {item.name.slice(0, 2).toUpperCase()}
                         </Avatar>
                       }
-                      title={<p>{item.name}</p>}
+                      title={<a href="https://ant.design">{item.name}</a>}
                       description={<p>User ID: {item.userId}</p>}
                     />
 
@@ -874,7 +875,7 @@ export default function ProjectDetail() {
           </Col>
           <Col span={11} offset={2}>
             {" "}
-            <h5 className=" pb-3 pl-3 font-medium">Already in project</h5>
+            <h5>Already in project</h5>
             <List size="small">
               <VirtualList
                 data={projectDetail.members}
@@ -895,7 +896,7 @@ export default function ProjectDetail() {
                           {item.name.slice(0, 2).toUpperCase()}
                         </Avatar>
                       }
-                      title={<p>{item.name}</p>}
+                      title={<a href="https://ant.design">{item.name}</a>}
                       description={<p>User ID: {item.userId}</p>}
                     />
 
@@ -949,6 +950,13 @@ export default function ProjectDetail() {
       >
         <Row>
           <Col span={16}>
+            <Paragraph
+              editable={{
+                onChange: setEditableStr,
+              }}
+            >
+              {editableStr}
+            </Paragraph>
             <div>adfa</div>
           </Col>
           <Col span={8} offset={2}>

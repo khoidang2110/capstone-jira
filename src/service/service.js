@@ -37,11 +37,14 @@ export let projectService = {
   updateStatus: (values) => {
     return https.put(`/api/Project/updateStatus`, values);
   },
-  removeUserFromProject: (value)=> {
-    return https.post(`/api/Project/removeUserFromProject`,value)
+  removeUserFromProject: (value) => {
+    return https.post(`/api/Project/removeUserFromProject`, value);
   },
-  addUserFromProject:(value)=>{
-    return https.post(`/api/Project/assignUserProject`,value)
+  addUserFromProject: (value) => {
+    return https.post(`/api/Project/assignUserProject`, value);
+  },
+  addUserFromProject: (value) => {
+    return https.post(`/api/Project/assignUserProject`, value);
   },
   getTaskDetail: (taskId) => {
     return https.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
@@ -58,6 +61,10 @@ export let usersManageService = {
   getAssignUser: (value) => {
     return https.post("/api/Project/assignUserProject", value);
   },
+  editUser: (value) => {
+    return https.put("/api/Users/editUser", value);
+  },
+
   // deleteUser:(value)=> {
   //   return https.delete(``)
   // }
