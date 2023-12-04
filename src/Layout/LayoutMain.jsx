@@ -132,27 +132,26 @@ export default function LayoutMain() {
               JIRA
             </div>
             <ConfigProvider
-  theme={{
-    components: {
-      Menu: {
-        /* here is your component tokens */
-        // darkItemBg:"252935"
-      },
-    },
-  }}
->
-<Menu
-              defaultSelectedKeys={["1"]}
-              theme="dark"
-              mode="inline"
-              items={items}
-              // onClick={({key})=>{
-              //   navigate(key)
+              theme={{
+                components: {
+                  Menu: {
+                    /* here is your component tokens */
+                    // darkItemBg:"252935"
+                  },
+                },
+              }}
+            >
+              <Menu
+                defaultSelectedKeys={["1"]}
+                theme="dark"
+                mode="inline"
+                items={items}
+                // onClick={({key})=>{
+                //   navigate(key)
 
-              // }}
-            />
-</ConfigProvider>
-         
+                // }}
+              />
+            </ConfigProvider>
           </Sider>
           <Layout>
             <Header
@@ -178,7 +177,7 @@ export default function LayoutMain() {
                 <Avatar
                   size={30}
                   className="mx-3 my-3 "
-                  style={{ fontSize: "12px",color:"black" }}
+                  style={{ fontSize: "12px", color: "black" }}
                 >
                   {USER.name.slice(0, 2).toUpperCase()}
                 </Avatar>
