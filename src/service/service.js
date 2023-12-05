@@ -49,8 +49,8 @@ export let projectService = {
   getTaskDetail: (taskId) => {
     return https.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
   },
-  updateProject: (values) => {
-    return https.put(`/api/Project/updateProject`, values);
+  updateProject: (id,values) => {
+    return https.put(`/api/Project/updateProject?projectId=${id}`, values);
   },
 };
 
