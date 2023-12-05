@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import { rootReducer } from "./redux/reducer/root.js";
 import thunk from "redux-thunk";
+import { StyleProvider } from "@ant-design/cssinjs";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
   rootReducer,
@@ -14,6 +15,8 @@ export const store = createStore(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <App />
+    <StyleProvider hashPriority="high">
+      <App />
+    </StyleProvider>
   </Provider>
 );
