@@ -7,6 +7,7 @@ import {
   Drawer,
   Form,
   Input,
+  Modal,
   Popover,
   Select,
   Space,
@@ -39,7 +40,7 @@ export default function TabProjects() {
   );
   console.log(
     "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
-    project.creator?.name
+    project
   );
 
   useEffect(() => {
@@ -67,10 +68,10 @@ export default function TabProjects() {
       creator: data.id,
       description: values.description,
       // categoryId: values.category,
-      categoryId: project?.projectCategory?.id.toString(),
+      categoryId:  project?.projectCategory?.id.toString()
     };
     projectService
-      .updateProject(project.id, dataUpdate)
+      .updateProject(project.id,values)
       .then((res) => {
         message.success("Edit thành công");
       })
@@ -300,17 +301,41 @@ export default function TabProjects() {
                     });
                 }}
               ></Button>
-              <Button
-                type="text"
-                className="btnRed"
-                icon={<DeleteOutlined />}
-              ></Button>
+               <Button
+            type="text"
+            className="btnRed"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setDeleteProject(record);
+              setIsModalOpen(true);
+            }}
+          ></Button>
             </Space>
           </>
         );
       },
     },
   ];
+
+  // Modal Delete
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteProject, setDeleteProject] = useState();
+
+  const handleOk = () => {
+    projectService
+      .deleteProject(deleteProject.id)
+      .then((res) => {
+        message.success("Xóa dự án thành công");
+        dispatch(deleteProjectAction());
+      })
+      .catch((err) => {
+        message.error("Xóa dự án thất bại");
+      })
+      .finally(setIsModalOpen(false));
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="">
@@ -357,8 +382,9 @@ export default function TabProjects() {
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project.projectCategory?.id,
+              categoryId: project?.projectCategory,
               description: project?.description,
+              // remember: true,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -376,7 +402,7 @@ export default function TabProjects() {
               }}
               rules={[]}
             >
-              <Input defaultValue={project?.id} disabled={true} />
+              <Input values={project?.id} disabled={true} />
             </Form.Item>
 
             <Form.Item
@@ -395,7 +421,7 @@ export default function TabProjects() {
               // }}
             >
               <Input
-                defaultValue={project?.projectName}
+                values={project?.projectName}
                 // onChange={(e) => setProject(e.target.value)}
               />
             </Form.Item>
@@ -407,12 +433,10 @@ export default function TabProjects() {
                   borderStyle: "dashed",
                   height: "50px",
                 }}
-                defaultValue={
-                  {
-                    value: project?.projectCategory?.id,
-                    label: project.projectCategory?.name,
-                  }?.name
-                }
+                values={{
+                  value: project?.projectCategory?.id,
+                  label: project?.projectCategory?.name,
+                }}
               >
                 {category?.map((item, index) => {
                   return (
@@ -432,7 +456,7 @@ export default function TabProjects() {
                   borderStyle: "dashed",
                   height: "350px",
                 }}
-                defaultValue={project?.description}
+                values={project?.description}
               />
             </Form.Item>
 
@@ -479,6 +503,15 @@ export default function TabProjects() {
           y: 280,
         }}
       />
+        <Modal
+        title=""
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Xác nhận xóa thông tin dự án: {deleteProject?.id}</p>
+      </Modal>
     </div>
+    
   );
 }

@@ -72,6 +72,7 @@ export default function ProjectDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+    //form.resetFields();
   };
 
   const handleCancel = () => {
@@ -99,6 +100,7 @@ export default function ProjectDetail() {
 
   const handleCancelTask = () => {
     setIsModalTaskOpen(false);
+  
   };
 
   const [form] = Form.useForm();
@@ -901,8 +903,8 @@ export default function ProjectDetail() {
         </Row>
       </Modal>
       <Modal
-      destroyOnClose={true}
-      
+       destroyOnClose={true}
+      // afterClose={() => form.resetFields()}
         // title="Task update"
         title={
           <Row className="flex justify-between">
@@ -941,6 +943,7 @@ export default function ProjectDetail() {
         footer={[]}
         width={800}
       >
+       
         <Row>
           <Col span={12}>
             <Space.Compact
@@ -1072,6 +1075,8 @@ export default function ProjectDetail() {
             />
           </Col>
         </Row>
+      
+      
       </Modal>
     </div>
   );

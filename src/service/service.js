@@ -52,6 +52,9 @@ export let projectService = {
   updateProject: (id,values) => {
     return https.put(`/api/Project/updateProject?projectId=${id}`, values);
   },
+  deleteProject: (projectId) => {
+    return https.delete(`/api/Project/deleteProject?projectId=${projectId}`);
+  },
 };
 
 export let usersManageService = {
@@ -68,7 +71,7 @@ export let usersManageService = {
     return https.put("/api/Users/editUser", value);
   },
 
-  // deleteUser:(value)=> {
-  //   return https.delete(``)
-  // }
+  deleteUser: (id = "") => {
+    return https.delete(`/api/Users/deleteUser?id=${id}`);
+  },
 };
