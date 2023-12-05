@@ -39,7 +39,7 @@ export default function TabProjects() {
   );
   console.log(
     "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
-    project
+    project.creator?.name
   );
 
   useEffect(() => {
@@ -356,9 +356,8 @@ export default function TabProjects() {
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project?.projectCategory,
+              categoryId: project.projectCategory?.id,
               description: project?.description,
-              // remember: true,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -376,7 +375,7 @@ export default function TabProjects() {
               }}
               rules={[]}
             >
-              <Input values={project?.id} disabled={true} />
+              <Input defaultValue={project?.id} disabled={true} />
             </Form.Item>
 
             <Form.Item
@@ -395,7 +394,7 @@ export default function TabProjects() {
               // }}
             >
               <Input
-                values={project?.projectName}
+                defaultValue={project?.projectName}
                 // onChange={(e) => setProject(e.target.value)}
               />
             </Form.Item>
@@ -407,7 +406,7 @@ export default function TabProjects() {
                   borderStyle: "dashed",
                   height: "50px",
                 }}
-                values={project?.projectCategory}
+                defaultValue={project.projectCategory?.name}
               >
                 {category?.map((item, index) => {
                   return (
@@ -427,7 +426,7 @@ export default function TabProjects() {
                   borderStyle: "dashed",
                   height: "350px",
                 }}
-                values={project?.description}
+                defaultValue={project?.description}
               />
             </Form.Item>
 
