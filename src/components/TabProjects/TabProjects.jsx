@@ -68,16 +68,18 @@ export default function TabProjects() {
       creator: data.id,
       description: values.description,
       // categoryId: values.category,
-      categoryId:  project?.projectCategory?.id.toString()
+      categoryId: project?.projectCategory?.id.toString(),
     };
     projectService
-      .updateProject(project.id,values)
+      .updateProject(project.id, values)
       .then((res) => {
         message.success("Edit thành công");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       })
       .catch((err) => {
         console.log("🚀 ~ file: TabProjects.jsx:77 ~ onFinish ~ err:", err);
-
         message.error("Edit thất bại");
       });
     console.log(
@@ -301,15 +303,15 @@ export default function TabProjects() {
                     });
                 }}
               ></Button>
-               <Button
-            type="text"
-            className="btnRed"
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeleteProject(record);
-              setIsModalOpen(true);
-            }}
-          ></Button>
+              <Button
+                type="text"
+                className="btnRed"
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  setDeleteProject(record);
+                  setIsModalOpen(true);
+                }}
+              ></Button>
             </Space>
           </>
         );
@@ -326,7 +328,9 @@ export default function TabProjects() {
       .deleteProject(deleteProject.id)
       .then((res) => {
         message.success("Xóa dự án thành công");
-        dispatch(deleteProjectAction());
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       })
       .catch((err) => {
         message.error("Xóa dự án thất bại");
@@ -364,7 +368,7 @@ export default function TabProjects() {
         />
 
         <Drawer
-          title="Basic Drawer"
+          title="Edit Project"
           placement="right"
           onClose={() => {
             onClose();
@@ -382,7 +386,7 @@ export default function TabProjects() {
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project?.projectCategory,
+              categoryId: project.projectCategory?.name,
               description: project?.description,
               // remember: true,
             }}
@@ -393,40 +397,43 @@ export default function TabProjects() {
           >
             <Form.Item
               name="id"
-              label="id"
-              style={{
-                borderColor: "black",
-                borderStyle: "dashed",
-                width: "300px",
-                height: "50px",
-              }}
+              label="ID"
+              style={{ marginTop: "20px" }}
               rules={[]}
-            >
-              <Input values={project?.id} disabled={true} />
-            </Form.Item>
-
-            <Form.Item
-              name="projectName"
-              label="project Name"
-              style={{
-                borderColor: "black",
-                borderStyle: "dashed",
-                width: "300px",
-                height: "50px",
-              }}
-              rules={[]}
-              //    defaultValue={{
-              //   id: project?.id,
-              //   projectName: project?.projectName,
-              // }}
             >
               <Input
-                values={project?.projectName}
-                // onChange={(e) => setProject(e.target.value)}
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "50px",
+                }}
+                values={project?.id}
+                disabled={true}
               />
             </Form.Item>
 
-            <Form.Item name="categoryId" label="Project category" rules={[]}>
+            <Form.Item
+              style={{ marginTop: "20px" }}
+              name="projectName"
+              label="Project Name"
+              rules={[]}
+            >
+              <Input
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "50px",
+                }}
+                values={project?.projectName}
+              />
+            </Form.Item>
+
+            <Form.Item
+              style={{ marginTop: "20px" }}
+              name="categoryId"
+              label="Project Category"
+              rules={[]}
+            >
               <Select
                 style={{
                   borderColor: "black",
@@ -493,6 +500,15 @@ export default function TabProjects() {
             </Form.Item>
           </Form>
         </Drawer>
+
+        <Modal
+          title="Xóa Dự án"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <p>Xác nhận xóa thông tin dự án: {deleteProject?.id}</p>
+        </Modal>
       </ConfigProvider>
 
       <Table
@@ -503,15 +519,6 @@ export default function TabProjects() {
           y: 280,
         }}
       />
-        <Modal
-        title=""
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>Xác nhận xóa thông tin dự án: {deleteProject?.id}</p>
-      </Modal>
     </div>
-    
   );
 }
