@@ -49,6 +49,9 @@ export let projectService = {
   getTaskDetail: (taskId) => {
     return https.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
   },
+  updateProject: (values) => {
+    return https.put(`/api/Project/updateProject`, values);
+  },
 };
 
 export let usersManageService = {

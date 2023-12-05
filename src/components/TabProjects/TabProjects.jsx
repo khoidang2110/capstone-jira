@@ -8,10 +8,12 @@ import {
   Form,
   Input,
   Popover,
+  Select,
   Space,
   Switch,
   Table,
   Tag,
+  message,
 } from "antd";
 import { projectService, userService } from "../../service/service";
 import { NavLink } from "react-router-dom";
@@ -29,25 +31,57 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function TabProjects() {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const [project, setProject] = useState("");  
+  const [project, setProject] = useState("");
+  const [category, setCategory] = useState();
+  console.log(
+    "🚀 ~ file: TabProjects.jsx:35 ~ TabProjects ~ category:",
+    category
+  );
   console.log(
     "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
-    project.projectName
+    project
   );
+
+  useEffect(() => {
+    projectService
+      .projectCategory()
+      .then((res) => {
+        console.log("🚀 ~ file: TabProjects.jsx:41 ~ .then ~ res:", res);
+        setCategory(res.data.content);
+      })
+      .catch((err) => {});
+  }, []);
   const showDrawer = () => {
     form.resetFields();
     setOpen(true);
-console.log("mo drawer");
-console.log("data luc mo drawer",project.projectName)
   };
   const onClose = () => {
-    console.log("dong drawer")
+    console.log("dong drawer");
     setOpen(false);
-    //  form.resetFields();
-     
   };
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log("🚀 ~ file: TabProjects.jsx:60 ~ onFinish ~ values:", values);
+    let dataUpdate = {
+      id: values.id,
+      projectName: values.projectName,
+      creator: data.id,
+      description: values.description,
+      categoryId: values.category,
+    };
+    projectService
+      .updateProject(values)
+      .then((res) => {
+        message.success("Edit thành công");
+      })
+      .catch((err) => {
+        console.log("🚀 ~ file: TabProjects.jsx:77 ~ onFinish ~ err:", err);
+
+        message.error("Edit thất bại");
+      });
+    console.log(
+      "🚀 ~ file: TabProjects.jsx:70 ~ onFinish ~ dataUpdate:",
+      dataUpdate
+    );
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -55,13 +89,12 @@ console.log("data luc mo drawer",project.projectName)
 
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
+  let data = JSON.parse(localStorage.getItem("USER"));
 
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   console.log("projectDataRedux", projectDataRedux);
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
   const [toggleData, setToggleData] = useState([]);
-
-  console.log("toggleData", toggleData);
 
   useEffect(() => {
     console.log("chạy ueff");
@@ -258,7 +291,6 @@ console.log("data luc mo drawer",project.projectName)
                   projectService
                     .getProjectDetail(record.id)
                     .then((res) => {
-                      console.log(".jsx:253 ~ .then ~ res:", res.data.content);
                       setProject(res.data.content);
                       showDrawer();
                     })
@@ -310,7 +342,6 @@ console.log("data luc mo drawer",project.projectName)
           placement="right"
           onClose={() => {
             onClose();
-           
           }}
           open={open}
         >
@@ -322,12 +353,32 @@ console.log("data luc mo drawer",project.projectName)
                 // maxWidth: 600,
               }
             }
-           
+            initialValues={{
+              id: project?.id,
+              projectName: project?.projectName,
+              categoryId: project?.projectCategory,
+              description: project?.description,
+              // remember: true,
+            }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
             layout="vertical"
           >
+            <Form.Item
+              name="id"
+              label="id"
+              style={{
+                borderColor: "black",
+                borderStyle: "dashed",
+                width: "300px",
+                height: "50px",
+              }}
+              rules={[]}
+            >
+              <Input values={project?.id} disabled={true} />
+            </Form.Item>
+
             <Form.Item
               name="projectName"
               label="project Name"
@@ -337,40 +388,49 @@ console.log("data luc mo drawer",project.projectName)
                 width: "300px",
                 height: "50px",
               }}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your name!",
-                },
-              ]}
-            //    defaultValue={{
-            //   id: project?.id,
-            //   projectName: project?.projectName,
-            // }}
+              rules={[]}
+              //    defaultValue={{
+              //   id: project?.id,
+              //   projectName: project?.projectName,
+              // }}
             >
               <Input
-                defaultValue={project.projectName}
+                values={project?.projectName}
                 // onChange={(e) => setProject(e.target.value)}
               />
             </Form.Item>
 
-            <Form.Item
-              name="id"
-              label="id"
-              style={{
-                borderColor: "black",
-                borderStyle: "dashed",
-                width: "300px",
-                height: "100px",
-              }}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input value={project?.id} disabled={true} />
+            <Form.Item name="category" label="Project category" rules={[]}>
+              <Select
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "50px",
+                }}
+                values={project?.projectCategory}
+              >
+                {category?.map((item, index) => {
+                  return (
+                    <Option value={item.id} key={index}>
+                      {item.projectCategoryName}
+                    </Option>
+                  );
+                })}
+              </Select>
             </Form.Item>
+
+            <Form.Item label="Description" name="description" rules={[]}>
+              <Input.TextArea
+                rows={4}
+                style={{
+                  borderColor: "black",
+                  borderStyle: "dashed",
+                  height: "350px",
+                }}
+                values={project?.description}
+              />
+            </Form.Item>
+
             <Form.Item>
               <Button
                 className="px-3 mx-2 "

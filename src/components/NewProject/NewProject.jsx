@@ -44,9 +44,9 @@ const NewProject = () => {
       .then((res) => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1000);
 
         form.resetFields();
         setRandomNumber(Math.random());
@@ -128,7 +128,7 @@ const NewProject = () => {
                   borderStyle: "dashed",
                   height: "50px",
                 }}
-                defaultValue="Lựa chọn loại dự án "
+                defaultValue="Lựa chọn loại dự án"
               >
                 {category?.map((item, index) => {
                   return (
