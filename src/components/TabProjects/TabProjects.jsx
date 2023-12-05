@@ -69,7 +69,7 @@ export default function TabProjects() {
       categoryId: values.category,
     };
     projectService
-      .updateProject(values)
+      .updateProject(dataUpdate)
       .then((res) => {
         message.success("Edit thành công");
       })
