@@ -66,10 +66,11 @@ export default function TabProjects() {
       projectName: values.projectName,
       creator: data.id,
       description: values.description,
-      categoryId: values.category,
+      // categoryId: values.category,
+      categoryId:  project?.projectCategory?.id.toString()
     };
     projectService
-      .updateProject(values)
+      .updateProject(project.id,values)
       .then((res) => {
         message.success("Edit thành công");
       })
@@ -400,14 +401,17 @@ export default function TabProjects() {
               />
             </Form.Item>
 
-            <Form.Item name="category" label="Project category" rules={[]}>
+            <Form.Item name="categoryId" label="Project category" rules={[]}>
               <Select
                 style={{
                   borderColor: "black",
                   borderStyle: "dashed",
                   height: "50px",
                 }}
-                values={project?.projectCategory}
+                values={{
+                  value: project?.projectCategory?.id,
+                  label: project?.projectCategory?.name,
+                }}
               >
                 {category?.map((item, index) => {
                   return (

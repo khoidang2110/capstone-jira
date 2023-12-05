@@ -21,6 +21,7 @@ import {
   Col,
   List,
   Space,
+  Collapse,
 } from "antd";
 import { projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -35,9 +36,13 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import Paragraph from "antd/es/skeleton/Paragraph";
 
+const { TextArea } = Input;
+const onChange = (e) => {
+  console.log("Change:", e.target.value);
+};
 const { Option } = Select;
+
 const data = [
   "Racing car ",
   "Japanese princess ",
@@ -48,8 +53,13 @@ const data = [
   "Man charged ",
   "Los Angeles .",
 ];
+const handleChangeAssigners = (value) => {
+  console.log(`selected ${value}`);
+};
 const ContainerHeight = 250;
 export default function ProjectDetail() {
+  const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
+  const [selectedItems, setSelectedItems] = useState([]);
   const onScroll = (e) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -80,8 +90,7 @@ export default function ProjectDetail() {
     projectService
       .getTaskDetail(id)
       .then((result) => {
-        
-        setTaskData(result.data.content)
+        setTaskData(result.data.content);
       })
       .catch((err) => {
         console.log("err task detail", err);
@@ -332,13 +341,10 @@ export default function ProjectDetail() {
   console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput);
 
   const FilteredData = () => {
-    return usersFilter.filter(
-      (user) => user.name.toLowerCase().includes(searchInput.toLowerCase())
-
+    return usersFilter.filter((user) =>
+      user.name.toLowerCase().includes(searchInput.toLowerCase())
     );
   };
-
-  const [editableStr, setEditableStr] = useState("This is an editable text.");
 
   return (
     <div>
@@ -616,14 +622,15 @@ export default function ProjectDetail() {
             <Form.Item
               label="Project"
               name="projectId"
-              
+
               // help="* You can only create tasks of your own projects!"
             >
-              <Select onChange={handleChange}
-              defaultValue={{
-                value:projectDetail.projectName,
-              }}
-              disabled
+              <Select
+                onChange={handleChange}
+                defaultValue={{
+                  value: projectDetail.projectName,
+                }}
+                disabled
               >
                 {/* {projectDataReduxById?.map((project, index) => { */}
 
@@ -641,13 +648,11 @@ export default function ProjectDetail() {
             </Form.Item>
             <Form.Item label="Status" name="statusId">
               <Select
-              
-              defaultValue={{
-               value: taskStatus? taskStatus[0].statusName : "",
-              }}
+                defaultValue={{
+                  value: taskStatus ? taskStatus[0].statusName : "",
+                }}
               >
                 {taskStatus?.map((item, index) => {
-                
                   return (
                     <Option value={item.statusId} key={index}>
                       {item.statusName}
@@ -666,10 +671,9 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-                  defaultValue={{
-                  value:  taskPriority ? taskPriority[0].priority : "",
-                   }}
-              
+                defaultValue={{
+                  value: taskPriority ? taskPriority[0].priority : "",
+                }}
               >
                 {taskPriority?.map((item, index) => {
                   return (
@@ -691,10 +695,9 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-               defaultValue={{
-                value: taskType ? taskType[0].taskType : "",
-                 }}
-              
+                defaultValue={{
+                  value: taskType ? taskType[0].taskType : "",
+                }}
               >
                 {taskType?.map((item, index) => {
                   return (
@@ -806,10 +809,10 @@ export default function ProjectDetail() {
         {/* <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p> */}
-        <Divider/>
+        <Divider />
         <Row>
           <Col span={20} className="pb-3 pl-3">
-            <Space.Compact size="small" >
+            <Space.Compact size="small">
               <Input
                 addonAfter={<SearchOutlined />}
                 placeholder="Search users"
@@ -898,9 +901,81 @@ export default function ProjectDetail() {
         </Row>
       </Modal>
       <Modal
+      destroyOnClose={true}
+      
         // title="Task update"
         title={
           <Row className="flex justify-between">
+            <div>
+              <Select
+                defaultValue={{
+                  value: taskData?.taskTypeDetail?.id,
+                   label: taskData?.taskTypeDetail?.taskType,
+                }}
+                style={{
+                  width: 120,
+                }}
+                onChange={handleChangeTaskEdit}
+                options={[
+                  {
+                    value: 2,
+                    label: "new task",
+                  },
+                  {
+                    value: 1,
+                    label: "bug",
+                  },
+                ]}
+              />
+              {<BugOutlined /> && <RocketOutlined />}
+            </div>
+
+           
+            <Button type="link" danger className="pr-5">
+              <DeleteOutlined />
+            </Button>
+          </Row>
+        }
+        open={isModalTaskOpen}
+        onCancel={handleCancelTask}
+        footer={[]}
+        width={800}
+      >
+        <Row>
+          <Col span={12}>
+            <Space.Compact
+              style={{
+                width: "100%",
+              }}
+            >
+              <Input defaultValue={taskData.taskName} />
+              <Button type="text">Submit</Button>
+            </Space.Compact>
+            <Space.Compact
+              style={{
+                width: "100%",
+              }}
+            >
+              <TextArea
+                showCount
+                maxLength={100}
+                onChange={onChange}
+                placeholder="can resize"
+                defaultValue={taskData.description}
+              />
+              <Button type="text">Submit</Button>
+            </Space.Compact>
+            <p>Comments</p>
+            <TextArea
+              showCount
+              maxLength={100}
+              onChange={onChange}
+              placeholder="can resize"
+            />
+            <Button type="text">Submit</Button>
+            comment list
+          </Col>
+          <Col span={10} offset={2}>
             <Select
               defaultValue={{
                 value: taskData.Id,
@@ -921,30 +996,80 @@ export default function ProjectDetail() {
                 },
               ]}
             />
-            <div>task name: </div>
-            <Button type="link" danger className="pr-5">
-              <DeleteOutlined />
-            </Button>
-          </Row>
-        }
-        open={isModalTaskOpen}
-        onCancel={handleCancelTask}
-        footer={[]}
-        width={800}
-      >
-        <Row>
-          <Col span={16}>
-            <Paragraph
-              editable={{
-                onChange: setEditableStr,
-              }}
-            >
-              {editableStr}
-            </Paragraph>
-            <div>adfa</div>
-          </Col>
-          <Col span={8} offset={2}>
-            <h5>Already in project</h5>
+            <Collapse
+              size="small"
+              items={[
+                {
+                  key: "1",
+                  label: "Details",
+                  children: (
+                    <div>
+                      <Row className="justify-between">
+                        {" "}
+                        <p> Assignees</p>{" "}
+                        <Select
+                          style={{
+                            width: 80,
+                          }}
+                          mode="multiple"
+                          placeholder="Please select Assigners"
+                          onChange={handleChangeAssigners}
+                        >
+                          {projectDetail?.members?.map((member, index) => {
+                            return (
+                              <Option value={member.userId} key={index}>
+                                {member.name}
+                              </Option>
+                            );
+                          })}
+                        </Select>{" "}
+                      </Row>
+                      <br />
+
+                      <Row className="justify-between">
+                        {" "}
+                        <p>Priority</p>{" "}
+                        <Select
+                          defaultValue="lucy"
+                          style={{
+                            width: 120,
+                          }}
+                          onChange={handleChange}
+                          options={[
+                            {
+                              value: "jack",
+                              label: "Jack",
+                            },
+                            {
+                              value: "lucy",
+                              label: "Lucy",
+                            },
+                            {
+                              value: "Yiminghe",
+                              label: "yiminghe",
+                            },
+                            {
+                              value: "disabled",
+                              label: "Disabled",
+                              disabled: true,
+                            },
+                          ]}
+                        />
+                      </Row>
+
+                      <br />
+                      <Row className="justify-between">
+                        <p>Estimate </p>
+                        <p>0m</p>
+                      </Row>
+                      <br />
+
+                      <p>Time tracking</p>
+                    </div>
+                  ),
+                },
+              ]}
+            />
           </Col>
         </Row>
       </Modal>
