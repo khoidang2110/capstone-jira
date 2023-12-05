@@ -57,7 +57,7 @@ export default function TabProjects() {
     setOpen(true);
   };
   const onClose = () => {
-    console.log("dong drawer");
+    window.location.href = "/";
     setOpen(false);
   };
   const onFinish = (values) => {
