@@ -378,11 +378,7 @@ export default function TabProjects() {
           <Form
             form={form}
             name="basic"
-            style={
-              {
-                // maxWidth: 600,
-              }
-            }
+            style={{ width: "700" }}
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
@@ -475,7 +471,7 @@ export default function TabProjects() {
                 style={{
                   backgroundColor: "#1890ff",
                   borderRadius: "30px",
-                  minWidth: "100px",
+                  minWidth: "120px",
                   height: "50px",
                 }}
               >
@@ -491,7 +487,7 @@ export default function TabProjects() {
                   backgroundColor: "#808080",
                   borderRadius: "30px",
                   color: "white",
-                  minWidth: "100px",
+                  minWidth: "120px",
                   height: "50px",
                 }}
               >
