@@ -57,8 +57,10 @@ export default function TabProjects() {
     setOpen(true);
   };
   const onClose = () => {
-    window.location.href = "/";
+    // window.location.href = "/";
     setOpen(false);
+    form.resetFields();
+    
   };
   const onFinish = (values) => {
     console.log("🚀 ~ file: TabProjects.jsx:60 ~ onFinish ~ values:", values);
@@ -296,7 +298,10 @@ export default function TabProjects() {
                     .getProjectDetail(record.id)
                     .then((res) => {
                       setProject(res.data.content);
-                      showDrawer();
+                      setTimeout(function(){
+                        showDrawer();
+                    },100);
+                     
                     })
                     .catch((err) => {
                       console.log("jsx:257 ~ TabProjects ~ err:", err);
@@ -339,6 +344,7 @@ export default function TabProjects() {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+   
   };
 
   return (
