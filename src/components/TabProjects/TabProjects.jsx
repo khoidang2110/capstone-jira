@@ -57,7 +57,7 @@ export default function TabProjects() {
     setOpen(true);
   };
   const onClose = () => {
-    window.location.href = "/";
+    // window.location.href = "/";
     setOpen(false);
   };
   const onFinish = (values) => {
@@ -296,7 +296,9 @@ export default function TabProjects() {
                     .getProjectDetail(record.id)
                     .then((res) => {
                       setProject(res.data.content);
-                      showDrawer();
+                      setTimeout(() => {
+                        showDrawer();
+                      }, 100);
                     })
                     .catch((err) => {
                       console.log("jsx:257 ~ TabProjects ~ err:", err);
