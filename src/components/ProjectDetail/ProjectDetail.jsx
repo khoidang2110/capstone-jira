@@ -86,7 +86,7 @@ export default function ProjectDetail() {
   const [taskData, setTaskData] = useState({});
   console.log("task data", taskData);
   const showModalTask = (id) => {
-    setIsModalTaskOpen(true);
+   
     console.log("task id click", id);
     projectService
       .getTaskDetail(id)
@@ -96,11 +96,16 @@ export default function ProjectDetail() {
       .catch((err) => {
         console.log("err task detail", err);
       });
+      setTimeout(() => {
+        console.log("Delayed for 0.5 second.");
+        setIsModalTaskOpen(true);
+      }, "400");
+     
   };
 
   const handleCancelTask = () => {
     setIsModalTaskOpen(false);
-  
+    setTaskData({})
   };
 
   const [form] = Form.useForm();
@@ -112,7 +117,7 @@ export default function ProjectDetail() {
     projectDataRedux = [];
   }
   let usersRedux = useSelector((state) => state.usersManageReducer.usersRedux);
-  console.log("users redux", usersRedux);
+  // console.log("users redux", usersRedux);
   const projectDataReduxById = projectDataRedux.filter(
     (item) => item.creator.id == USER.id
   );
@@ -147,7 +152,7 @@ export default function ProjectDetail() {
   const onChangeSpentTime = (newValue) => {
     setSpentTime(newValue);
   };
-
+//task priority
   useEffect(() => {
     projectService
       .getTaskPriority()
@@ -157,6 +162,7 @@ export default function ProjectDetail() {
       })
       .catch((err) => {});
   }, []);
+  //task status
   useEffect(() => {
     projectService
       .getTaskStatus()
@@ -165,6 +171,7 @@ export default function ProjectDetail() {
       })
       .catch((err) => {});
   }, []);
+  //task type
   useEffect(() => {
     projectService
       .getTaskType()
@@ -252,7 +259,7 @@ export default function ProjectDetail() {
           lstTaskDeTail: copiedItems,
         },
       });
-      console.log("drop end same column");
+      // console.log("drop end same column");
       setRandomNumber(Math.random());
     }
   };
@@ -270,10 +277,10 @@ export default function ProjectDetail() {
     SetSearchInput("");
   };
   const onDeleteUserOfProject = (UserId) => {
-    console.log("delete id", UserId);
-    console.log("project id", projectDetail.id);
+    // console.log("delete id", UserId);
+    // console.log("project id", projectDetail.id);
     const item = { projectId: projectDetail.id, userId: UserId };
-    console.log("item", item);
+    // console.log("item", item);
     projectService
       .removeUserFromProject(item)
       .then((result) => {
@@ -298,7 +305,7 @@ export default function ProjectDetail() {
   // console.log("columns",columns)
 
   const [columns, setColumns] = useState(false);
-  console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
+  // console.log("🚀 ~ file: ProjectDetail.jsx:87 ~ columns:", columns);
 
   const [randomNumber, setRandomNumber] = useState("11");
   const [projectDetail, setProjectDetail] = useState(false);
@@ -308,7 +315,7 @@ export default function ProjectDetail() {
   );
   // lấy data project detail
   useEffect(() => {
-    console.log("lay projectdetail lan dau");
+    // console.log("lay projectdetail lan dau");
     projectService
       .getProjectDetail(id)
       .then((result) => {
@@ -327,20 +334,21 @@ export default function ProjectDetail() {
         // console.log("project detail", result.data.content);
         setProjectDetail(result.data.content);
         setColumns(result.data.content.lstTask);
-        console.log("lay data luc update status");
+        // console.log("lay data luc update status");
       })
       .catch((err) => {});
   }, [randomNumber]);
+
   let usersFilter = [];
   if (usersRedux && projectDetail) {
     usersFilter = usersRedux?.filter(
       (item1) =>
         !projectDetail.members.some((item2) => item2.userId === item1.userId)
     );
-    console.log("users Filter", usersFilter);
+    // console.log("users Filter", usersFilter);
   }
   const [searchInput, SetSearchInput] = useState("");
-  console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput);
+  // console.log("🚀 ~ file: ProjectDetail.jsx:299 ~ searchInput:", searchInput);
 
   const FilteredData = () => {
     return usersFilter.filter((user) =>
@@ -615,6 +623,11 @@ export default function ProjectDetail() {
             }}
             initialValues={{
               remember: true,
+              projectId:projectDetail.id,
+              priorityId:1,
+              statusId:"1",
+              typeId:1,
+
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -629,15 +642,15 @@ export default function ProjectDetail() {
             >
               <Select
                 onChange={handleChange}
-                defaultValue={{
-                  value: projectDetail.projectName,
-                }}
+                // defaultValue={{
+                //   value: projectDetail.projectName,
+                // }}
                 disabled
               >
                 {/* {projectDataReduxById?.map((project, index) => { */}
 
                 <Option
-                  value={projectDetail.projectName}
+                  value={projectDetail.id}s
                   key={projectDetail.id}
                 >
                   {projectDetail.projectName}
@@ -650,9 +663,9 @@ export default function ProjectDetail() {
             </Form.Item>
             <Form.Item label="Status" name="statusId">
               <Select
-                defaultValue={{
-                  value: taskStatus ? taskStatus[0].statusName : "",
-                }}
+                // defaultValue={{
+                //   value: taskStatus ? taskStatus[0].statusName : "",
+                // }}
               >
                 {taskStatus?.map((item, index) => {
                   return (
@@ -673,9 +686,9 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-                defaultValue={{
-                  value: taskPriority ? taskPriority[0].priority : "",
-                }}
+                // defaultValue={{
+                //   value: taskPriority ? taskPriority[0].priority : "",
+                // }}
               >
                 {taskPriority?.map((item, index) => {
                   return (
@@ -903,19 +916,22 @@ export default function ProjectDetail() {
         </Row>
       </Modal>
       <Modal
-       destroyOnClose={true}
+        destroyOnClose={true}
       // afterClose={() => form.resetFields()}
         // title="Task update"
         title={
           <Row className="flex justify-between">
-            <div>
+            <div className="row">
+            <p>Task Type</p>
               <Select
                 defaultValue={{
                   value: taskData?.taskTypeDetail?.id,
                    label: taskData?.taskTypeDetail?.taskType,
                 }}
                 style={{
-                  width: 120,
+                  width: 100,
+                  marginLeft:"15px"
+
                 }}
                 onChange={handleChangeTaskEdit}
                 options={[
@@ -929,7 +945,9 @@ export default function ProjectDetail() {
                   },
                 ]}
               />
-              {<BugOutlined /> && <RocketOutlined />}
+              {/* <div className="pl-1 pt-1"> {
+               taskData?.taskTypeDetail?.taskType == "bug" ? <BugOutlined /> : <RocketOutlined />}</div> */}
+             
             </div>
 
            
@@ -946,19 +964,18 @@ export default function ProjectDetail() {
        
         <Row>
           <Col span={12}>
+          <Divider orientation="left">Name</Divider>
             <Space.Compact
               style={{
                 width: "100%",
               }}
             >
+             
               <Input defaultValue={taskData.taskName} />
-              <Button type="text">Submit</Button>
+              <Button type="text">Save</Button>
             </Space.Compact>
-            <Space.Compact
-              style={{
-                width: "100%",
-              }}
-            >
+            <Divider orientation="left">Description</Divider>
+              
               <TextArea
                 showCount
                 maxLength={100}
@@ -966,9 +983,9 @@ export default function ProjectDetail() {
                 placeholder="can resize"
                 defaultValue={taskData.description}
               />
-              <Button type="text">Submit</Button>
-            </Space.Compact>
-            <p>Comments</p>
+              <Button type="text">Save</Button>
+              <Divider orientation="left">Comments</Divider>
+          
             <TextArea
               showCount
               maxLength={100}
@@ -976,9 +993,11 @@ export default function ProjectDetail() {
               placeholder="can resize"
             />
             <Button type="text">Submit</Button>
-            comment list
+            <Divider orientation="left"> Comment list</Divider>
+        
           </Col>
           <Col span={10} offset={2}>
+            
             <Select
               defaultValue={{
                 value: taskData.Id,
