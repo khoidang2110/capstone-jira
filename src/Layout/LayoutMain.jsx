@@ -99,7 +99,7 @@ export default function LayoutMain() {
     projectService
       .getProjectList()
       .then((result) => {
-        console.log("project list layout", result.data.content);
+        // console.log("project list layout", result.data.content);
         dispatch(setProjectData(result.data.content));
       })
       .catch((err) => {
@@ -110,7 +110,7 @@ export default function LayoutMain() {
     usersManageService
       .getUsersList()
       .then((result) => {
-        console.log("users list layout", result.data.content);
+        // console.log("users list layout", result.data.content);
         dispatch(setUsersData(result.data.content));
       })
       .catch((err) => {
