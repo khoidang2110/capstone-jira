@@ -28,10 +28,6 @@ const NewProject = () => {
     projectService
       .projectCategory()
       .then((res) => {
-        // console.log(
-        //   "🚀 ~ file: NewProject.jsx:12 ~ .then ~ res:",
-        //   res.data.content
-        // );
         setCategory(res.data.content);
       })
       .catch((err) => {
@@ -44,9 +40,9 @@ const NewProject = () => {
       .then((res) => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 1000);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
 
         form.resetFields();
         setRandomNumber(Math.random());
