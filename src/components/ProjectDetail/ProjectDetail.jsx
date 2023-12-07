@@ -23,7 +23,7 @@ import {
   Space,
   Collapse,
 } from "antd";
-import { projectService } from "../../service/service";
+import { commentService, projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -31,6 +31,7 @@ import {
   AntDesignOutlined,
   BugOutlined,
   DeleteOutlined,
+  HistoryOutlined,
   PlusOutlined,
   RocketOutlined,
   SearchOutlined,
@@ -38,9 +39,9 @@ import {
 } from "@ant-design/icons";
 
 const { TextArea } = Input;
-const onChange = (e) => {
-  console.log("Change:", e.target.value);
-};
+// const onChange = (e) => {
+//   console.log("Change:", e.target.value);
+// };
 const { Option } = Select;
 
 const data = [
@@ -53,13 +54,40 @@ const data = [
   "Man charged ",
   "Los Angeles .",
 ];
-const handleChangeAssigners = (value) => {
-  console.log(`selected ${value}`);
-};
+
 const ContainerHeight = 250;
 export default function ProjectDetail() {
   const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState([]);
+
+  const [taskData, setTaskData] = useState({});
+  console.log("task data", taskData);
+
+  const [taskId, setTaskId] = useState(0);
+  const [commentTemp, setCommentTemp] = useState("");
+  const [descriptionTemp, setDescriptionTemp] = useState("");
+  const [statusIdTemp, setStatusIdTemp] = useState("");
+  const [estimateTemp, setEstimateTemp] = useState();
+  const [timeTrackingTemp, setTimeTrackingTemp] = useState({
+    timeTrackingSpent: 0,
+    timeTrackingRemaining: 0,
+  });
+  // console.log("time tracking",timeTrackingTemp)
+  //assignee for ant select multi
+  const [assigneeTemp, setAssigneeTemp] = useState(
+    taskData?.assigness?.map((member) => {
+      return {
+        key: member.id,
+        label: member.name,
+        value: member.id,
+      };
+    }) || []
+  );
+  console.log("assignee temp",assigneeTemp)
+  const [nameTemp, setNameTemp] = useState("");
+  const [taskTypeIdTemp, setTaskTypeIdTemp] = useState(0);
+  const [assigneePutTemp, setAssigneePutTemp] = useState([]);
+const [taskPriorityTemp, setTaskPriorityTemp] = useState();
   const onScroll = (e) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -78,40 +106,68 @@ export default function ProjectDetail() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleChangeTaskEdit = (value) => {
-    console.log(`selected ${value}`);
-  };
+  // const handleChangeTaskEdit = (value) => {
+  //   console.log(`selected ${value}`);
+  // };
   //modal task update
   const [isModalTaskOpen, setIsModalTaskOpen] = useState(false);
-  const [taskData, setTaskData] = useState({});
-  console.log("task data", taskData);
+
   const showModalTask = (id) => {
-   
     console.log("task id click", id);
     projectService
       .getTaskDetail(id)
       .then((result) => {
+     
         setTaskData(result.data.content);
+        const assigneeList  = result.data.content.assigness.map(item=>{
+          return item.id
+        })
+        // console.log("assignee list",assigneeList)
+        setAssigneePutTemp(assigneeList);
+        setTaskId(result.data.content.taskId);
+        setNameTemp(result.data.content.taskName);
+        
+        setDescriptionTemp(result.data.content.description);
+        setStatusIdTemp(result.data.content.statusId) ;
+setEstimateTemp(result.data.content.originalEstimate);
+const newTimeTracking = {
+  timeTrackingSpent: result.data.content.timeTrackingSpent,
+  timeTrackingRemaining: result.data.content.timeTrackingRemaining,
+}
+ setTimeTrackingTemp(newTimeTracking)
+        //project id
+        setTaskTypeIdTemp(result.data.content.typeId);
+      setTaskPriorityTemp(result.data.content.priorityId)
+
+
+        const map1 = result.data.content.assigness.map((member) => {
+          return {
+            key: member.id,
+            label: member.name,
+            value: member.id,
+          };
+        });
+        setAssigneeTemp(map1);
       })
       .catch((err) => {
         console.log("err task detail", err);
       });
-      setTimeout(() => {
-        console.log("Delayed for 0.5 second.");
-        setIsModalTaskOpen(true);
-      }, "400");
-     
+
+    setTimeout(() => {
+      console.log("Delayed for 0.5 second.");
+      setIsModalTaskOpen(true);
+    }, "400");
   };
 
   const handleCancelTask = () => {
     setIsModalTaskOpen(false);
-    setTaskData({})
+    setTaskData({});
   };
 
   const [form] = Form.useForm();
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
-
+  console.log("USER", USER);
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   if (projectDataRedux == false) {
     projectDataRedux = [];
@@ -152,7 +208,7 @@ export default function ProjectDetail() {
   const onChangeSpentTime = (newValue) => {
     setSpentTime(newValue);
   };
-//task priority
+  //task priority
   useEffect(() => {
     projectService
       .getTaskPriority()
@@ -183,6 +239,7 @@ export default function ProjectDetail() {
   const onFinish = (values) => {
     const data = { ...values, timeTrackingRemaining: totalTime - spentTime };
     console.log("Success:", data);
+
     projectService
       .createTask(data)
       .then((result) => {
@@ -355,6 +412,187 @@ export default function ProjectDetail() {
       user.name.toLowerCase().includes(searchInput.toLowerCase())
     );
   };
+
+  //edit task
+
+  const onChangeStatus = (value) => {
+    // console.log("status",value)
+    setStatusIdTemp(String(value));
+    const data = {
+      taskId: taskData.taskId,
+      statusId: String(value),
+    };
+    // console.log("data status",data)
+    projectService
+      .updateStatus(data)
+      .then((result) => {
+        message.success("success");
+      })
+      .catch((err) => {
+        message.error("err");
+      });
+  };
+
+  const onChangeComment = (e) => {
+    console.log("Change:", e.target.value);
+    setCommentTemp(e.target.value);
+  };
+  const onSubmitComment = () => {
+    console.log("comment click");
+    const data = {
+      taskId: taskData.taskId,
+      contentComment: commentTemp,
+    };
+    setTaskId(taskData.taskId);
+    console.log("data", data);
+    commentService
+      .insertComment(data)
+      .then((result) => {
+        message.success("success");
+        setCommentTemp("");
+      })
+      .catch((err) => {
+        message.error("err");
+      });
+    setRandomNumber(Math.random());
+  };
+
+  const onChangeDescription = (e) => {
+    console.log("Change:", e.target.value);
+    setDescriptionTemp(e.target.value);
+  };
+  const onSubmitDescription = () => {
+    const data = {
+      taskId: taskData.taskId,
+      description: descriptionTemp,
+    };
+    console.log("data", data);
+    projectService
+      .updateDescription(data)
+      .then((result) => {
+        message.success("success");
+      })
+      .catch((err) => {
+        message.error("Are you an assignee of this task?");
+      });
+    setRandomNumber(Math.random());
+  };
+
+  //change and submit
+  const onChangePriority = (value) => {
+    // console.log("status",value)
+    const data = {
+      taskId: taskData.taskId,
+      priorityId: value,
+    };
+    console.log("data priority", data);
+    projectService
+      .updatePriority(data)
+      .then((result) => {
+        message.success("success");
+      })
+      .catch((err) => {
+        message.error("Are you an assignee of this task?");
+      });
+  };
+
+  const onChangeEstimate = (value) => {
+    console.log("Change:", value);
+    setEstimateTemp(value);
+  };
+  const onSubmitEstimate = () => {
+    console.log("comment click");
+    const data = {
+      taskId: taskData.taskId,
+      originalEstimate: estimateTemp,
+    };
+    console.log("data", data);
+    projectService
+      .updateEstimate(data)
+      .then((result) => {
+        message.success("success");
+      })
+      .catch((err) => {
+        message.error("err");
+      });
+     
+    setRandomNumber(Math.random());
+  };
+
+  const onChangeSpent = (value) => {
+    console.log("Change:", value);
+    setTimeTrackingTemp({ ...timeTrackingTemp, timeTrackingSpent: value });
+  };
+  const onChangeRemaining = (value) => {
+    console.log("Change:", value);
+    setTimeTrackingTemp({ ...timeTrackingTemp, timeTrackingRemaining: value });
+  };
+  const onSubmitTracking = () => {
+    console.log("comment click");
+    const data = { ...timeTrackingTemp, taskId: taskData.taskId };
+    console.log("data", data);
+    projectService
+      .updateTimeTracking(data)
+      .then((result) => {
+        message.success("success");
+      })
+      .catch((err) => {
+        message.error("err");
+      });
+    setRandomNumber(Math.random());
+  };
+
+  //update task
+  const onChangeTaskName = (e) => {
+    console.log("Change:", e.target.value);
+    setNameTemp(e.target.value);
+  };
+  const onChangeTaskTypeId = (value) => {
+    console.log("typeId", value);
+    setTaskTypeIdTemp(value);
+  };
+  const onChangeAssignees = (value) => {
+    console.log("assignee", value);
+    // const newData = projectDetail.members.filter((item) =>
+    //   value.includes(item.userId)
+    // );
+    setAssigneePutTemp(value);
+  };
+  const onUpdateTask = () => {
+    const data = {
+      listUserAsign: assigneePutTemp,
+      taskId: taskId,
+      taskName: nameTemp,
+      description: descriptionTemp,
+      statusId: statusIdTemp,
+      originalEstimate: estimateTemp,
+      timeTrackingSpent: timeTrackingTemp.timeTrackingSpent,
+      timeTrackingRemaining: timeTrackingTemp.timeTrackingRemaining,
+      projectId: projectDetail.id,
+      typeId: taskTypeIdTemp,
+      priorityId: taskPriorityTemp,
+    };
+    console.log("data update",data)
+    projectService
+    .updateTask(data)
+    .then((result) => {
+      message.success("update thành công")
+      setRandomNumber(Math.random());
+    }).catch((err) => {
+      message.error("err")
+    });
+  };
+  useEffect(() => {
+    projectService
+      .getTaskDetail(taskId)
+      .then((result) => {
+        setTaskData(result.data.content);
+        console.log("lay task detail khi cap nhat");
+      })
+      .catch((err) => {
+        console.log("err task detail", err);
+      });
+  }, [randomNumber]);
 
   return (
     <div>
@@ -623,11 +861,10 @@ export default function ProjectDetail() {
             }}
             initialValues={{
               remember: true,
-              projectId:projectDetail.id,
-              priorityId:1,
-              statusId:"1",
-              typeId:1,
-
+              projectId: projectDetail.id,
+              priorityId: 1,
+              statusId: "1",
+              typeId: 1,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -649,10 +886,7 @@ export default function ProjectDetail() {
               >
                 {/* {projectDataReduxById?.map((project, index) => { */}
 
-                <Option
-                  value={projectDetail.id}s
-                  key={projectDetail.id}
-                >
+                <Option value={projectDetail.id} s key={projectDetail.id}>
                   {projectDetail.projectName}
                 </Option>
               </Select>
@@ -663,9 +897,9 @@ export default function ProjectDetail() {
             </Form.Item>
             <Form.Item label="Status" name="statusId">
               <Select
-                // defaultValue={{
-                //   value: taskStatus ? taskStatus[0].statusName : "",
-                // }}
+              // defaultValue={{
+              //   value: taskStatus ? taskStatus[0].statusName : "",
+              // }}
               >
                 {taskStatus?.map((item, index) => {
                   return (
@@ -686,9 +920,9 @@ export default function ProjectDetail() {
               }}
             >
               <Select
-                // defaultValue={{
-                //   value: taskPriority ? taskPriority[0].priority : "",
-                // }}
+              // defaultValue={{
+              //   value: taskPriority ? taskPriority[0].priority : "",
+              // }}
               >
                 {taskPriority?.map((item, index) => {
                   return (
@@ -917,108 +1151,216 @@ export default function ProjectDetail() {
       </Modal>
       <Modal
         destroyOnClose={true}
-      // afterClose={() => form.resetFields()}
+        // afterClose={() => form.resetFields()}
         // title="Task update"
-        title={
-          <Row className="flex justify-between">
-            <div className="row">
-            <p>Task Type</p>
-              <Select
-                defaultValue={{
-                  value: taskData?.taskTypeDetail?.id,
-                   label: taskData?.taskTypeDetail?.taskType,
-                }}
-                style={{
-                  width: 100,
-                  marginLeft:"15px"
+        // title={
 
-                }}
-                onChange={handleChangeTaskEdit}
-                options={[
-                  {
-                    value: 2,
-                    label: "new task",
-                  },
-                  {
-                    value: 1,
-                    label: "bug",
-                  },
-                ]}
-              />
-              {/* <div className="pl-1 pt-1"> {
-               taskData?.taskTypeDetail?.taskType == "bug" ? <BugOutlined /> : <RocketOutlined />}</div> */}
-             
-            </div>
-
-           
-            <Button type="link" danger className="pr-5">
-              <DeleteOutlined />
-            </Button>
-          </Row>
-        }
+        // }
         open={isModalTaskOpen}
         onCancel={handleCancelTask}
         footer={[]}
         width={800}
       >
-       
         <Row>
           <Col span={12}>
-          <Divider orientation="left">Name</Divider>
-            <Space.Compact
+            <Divider orientation="left">Description</Divider>
+
+            <TextArea
+              // showCount
+              maxLength={100}
+              onChange={onChangeDescription}
+              placeholder="input..."
+              defaultValue={taskData.description}
+            />
+            <Button
+              size="small"
+              style={{ marginTop: "5px" }}
+              onClick={onSubmitDescription}
+            >
+              Save
+            </Button>
+
+            <Divider orientation="left">Comment</Divider>
+            <Row>
+              <Col>
+                <Avatar
+                  src={
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${USER.name}`}
+                      alt="avatar"
+                    />
+                  }
+                  style={{ marginRight: "12px" }}
+                ></Avatar>
+              </Col>
+              <Col span={21}>
+                <TextArea
+                  showCount
+                  maxLength={100}
+                  onChange={onChangeComment}
+                  placeholder="Please leave a comment here"
+                  value={commentTemp}
+                />
+              </Col>
+            </Row>
+
+            <Button
+              size="small"
+              style={{ marginTop: "5px" }}
+              onClick={onSubmitComment}
+            >
+              Submit
+            </Button>
+            {/* <Divider orientation="left"> Comment Lists</Divider> */}
+            <div
+              className="comment-lists"
               style={{
-                width: "100%",
+                overflow: "scroll",
+                height: "180px",
+                overflowX: "hidden",
               }}
             >
-             
-              <Input defaultValue={taskData.taskName} />
-              <Button type="text">Save</Button>
-            </Space.Compact>
-            <Divider orientation="left">Description</Divider>
-              
-              <TextArea
-                showCount
-                maxLength={100}
-                onChange={onChange}
-                placeholder="can resize"
-                defaultValue={taskData.description}
-              />
-              <Button type="text">Save</Button>
-              <Divider orientation="left">Comments</Divider>
-          
-            <TextArea
-              showCount
-              maxLength={100}
-              onChange={onChange}
-              placeholder="can resize"
-            />
-            <Button type="text">Submit</Button>
-            <Divider orientation="left"> Comment list</Divider>
-        
+              {taskData?.lstComment?.map((item) => {
+                return (
+                  <div className="comment" key={item.id}>
+                    <div className="comment-inner">
+                      <Avatar
+                        src={
+                          <img
+                            src={`https://ui-avatars.com/api/?name=${item.name}`}
+                            alt="avatar"
+                          />
+                        }
+                        style={{ marginRight: "12px" }}
+                      ></Avatar>
+
+                      <div className="comment-content">
+                        <div className="ant-comment-content-author">
+                          <span className="ant-comment-content-author-name">
+                            <span>{item.name}</span>
+                          </span>
+                        </div>
+                        <div className="ant-comment-content-detail">
+                          <div>
+                            <div>{item.commentContent}</div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                alignItems: "center",
+                                gap: 10,
+                              }}
+                            >
+                              <Button size="small" className="button-resize">
+                                Edit
+                              </Button>
+                              <Button size="small" className="button-resize">
+                                Delete
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </Col>
           <Col span={10} offset={2}>
-            
+            <Button style={{ marginLeft: "170px", marginBottom: "10px" }}>
+              Remove Task
+            </Button>
             <Select
+              onChange={onChangeStatus}
+              style={{ width: "250px" }}
               defaultValue={{
-                value: taskData.Id,
-                // label: 'Lucy (101)',
+                value: taskData.statusId,
               }}
-              style={{
-                width: 120,
-              }}
-              onChange={handleChangeTaskEdit}
-              options={[
+            >
+              {taskStatus?.map((item, index) => {
+                return (
+                  <Option value={item.statusId} key={index}>
+                    {item.statusName}
+                  </Option>
+                );
+              })}
+            </Select>
+            <Collapse
+              className="mt-2"
+              size="small"
+              items={[
                 {
-                  value: 2,
-                  label: "new task",
-                },
-                {
-                  value: 1,
-                  label: "bug",
+                  key: "1",
+                  label: "Task Info",
+                  children: (
+                    <div>
+                      <Divider orientation="left">Task Name</Divider>
+                      <Input
+                        // addonBefore="Name"
+                        onChange={onChangeTaskName}
+                        defaultValue={taskData.taskName}
+                      />
+
+                      <Row className="justify-between pt-2 ">
+                        <p className="ml-2">Type</p>{" "}
+                        <Select
+                          defaultValue={{
+                            value: taskData?.taskTypeDetail?.id,
+                            label: taskData?.taskTypeDetail?.taskType,
+                          }}
+                          style={{
+                            width: 100,
+                            marginLeft: "15px",
+                          }}
+                          onChange={onChangeTaskTypeId}
+                          options={[
+                            {
+                              value: 2,
+                              label: "new task",
+                            },
+                            {
+                              value: 1,
+                              label: "bug",
+                            },
+                          ]}
+                        />
+                      </Row>
+                      <Row className="justify-between pt-2">
+                        {" "}
+                        <p className="ml-2"> Assignees</p>{" "}
+                        <Select
+                          defaultValue={assigneeTemp}
+                          style={{
+                            width: 200,
+                          }}
+                          mode="multiple"
+                          placeholder="Please select Assigners"
+                          onChange={onChangeAssignees}
+                        >
+                          {projectDetail?.members?.map((member, index) => {
+                            return (
+                              <Option value={member.userId} key={index}>
+                                {member.name}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                      </Row>
+                      <Button
+                        className="mt-2"
+                        size="small"
+                        onClick={onUpdateTask}
+                      >
+                        Update
+                      </Button>
+                    </div>
+                  ),
                 },
               ]}
             />
             <Collapse
+              className="mt-2"
               size="small"
               items={[
                 {
@@ -1028,65 +1370,81 @@ export default function ProjectDetail() {
                     <div>
                       <Row className="justify-between">
                         {" "}
-                        <p> Assignees</p>{" "}
+                        <p className="pt-1">Priority</p>{" "}
                         <Select
-                          style={{
-                            width: 80,
+                          style={{ width: "100px" }}
+                          defaultValue={{
+                            value: taskData.priorityId,
                           }}
-                          mode="multiple"
-                          placeholder="Please select Assigners"
-                          onChange={handleChangeAssigners}
+                          onChange={onChangePriority}
                         >
-                          {projectDetail?.members?.map((member, index) => {
+                          {taskPriority?.map((item, index) => {
                             return (
-                              <Option value={member.userId} key={index}>
-                                {member.name}
+                              <Option value={item.priorityId} key={index}>
+                                {item.priority}
                               </Option>
                             );
                           })}
-                        </Select>{" "}
+                        </Select>
+                      </Row>
+
+                      <br />
+                      <Row className="justify-between">
+                        <p className="pt-1">Estimate Time</p>
+                        <div>
+                          <InputNumber
+                            addonBefore={<HistoryOutlined />}
+                            prefix="min"
+                            defaultValue={taskData.originalEstimate}
+                            style={{ width: "120px" }}
+                            onChange={onChangeEstimate}
+                          />
+                          <Button
+                            className="ml-1"
+                            size="small"
+                            onClick={onSubmitEstimate}
+                          >
+                            Save
+                          </Button>
+                        </div>
                       </Row>
                       <br />
 
+                      {/* <p>Time tracking</p> */}
+                      <Divider orientation="left"> Time Tracking</Divider>
+
                       <Row className="justify-between">
-                        {" "}
-                        <p>Priority</p>{" "}
-                        <Select
-                          defaultValue="lucy"
+                        <p>Time Spent</p>
+                        <p>Time Remaining</p>
+                      </Row>
+                      <Row className="justify-between">
+                        <InputNumber
                           style={{
-                            width: 120,
+                            width: "115px",
                           }}
-                          onChange={handleChange}
-                          options={[
-                            {
-                              value: "jack",
-                              label: "Jack",
-                            },
-                            {
-                              value: "lucy",
-                              label: "Lucy",
-                            },
-                            {
-                              value: "Yiminghe",
-                              label: "yiminghe",
-                            },
-                            {
-                              value: "disabled",
-                              label: "Disabled",
-                              disabled: true,
-                            },
-                          ]}
+                          addonBefore={<HistoryOutlined />}
+                          prefix="min"
+                          defaultValue={taskData.timeTrackingSpent}
+                          onChange={onChangeSpent}
+                        />
+
+                        <InputNumber
+                          style={{
+                            width: "115px",
+                          }}
+                          addonBefore={<HistoryOutlined />}
+                          prefix="min"
+                          defaultValue={taskData.timeTrackingRemaining}
+                          onChange={onChangeRemaining}
                         />
                       </Row>
-
-                      <br />
-                      <Row className="justify-between">
-                        <p>Estimate </p>
-                        <p>0m</p>
-                      </Row>
-                      <br />
-
-                      <p>Time tracking</p>
+                      <Button
+                        className="mt-2"
+                        size="small"
+                        onClick={onSubmitTracking}
+                      >
+                        Save
+                      </Button>
                     </div>
                   ),
                 },
@@ -1094,8 +1452,6 @@ export default function ProjectDetail() {
             />
           </Col>
         </Row>
-      
-      
       </Modal>
     </div>
   );

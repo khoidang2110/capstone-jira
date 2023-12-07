@@ -55,6 +55,24 @@ export let projectService = {
   deleteProject: (projectId) => {
     return https.delete(`/api/Project/deleteProject?projectId=${projectId}`);
   },
+  updateDescription: (value)=>{
+    return https.put(`/api/Project/updateDescription`,value)
+  },
+  updateStatus:(value)=>{
+    return https.put(`/api/Project/updateStatus`,value)
+  },
+  updatePriority: (value)=>{
+    return https.put(`/api/Project/updatePriority`,value)
+  },
+  updateEstimate: (value)=>{
+    return https.put(`/api/Project/updateEstimate`,value)
+  },
+  updateTimeTracking:(value)=>{
+    return https.put(`/api/Project/updateTimeTracking`,value)
+  },
+  updateTask: (value)=>{
+    return https.post(`/api/Project/updateTask`,value)
+  }
 };
 
 export let usersManageService = {
@@ -75,3 +93,9 @@ export let usersManageService = {
     return https.delete(`/api/Users/deleteUser?id=${id}`);
   },
 };
+
+export let commentService = {
+  insertComment:(value)=>{
+    return https.post(`/api/Comment/insertComment`,value)
+  }
+}
