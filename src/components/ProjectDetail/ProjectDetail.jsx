@@ -22,6 +22,7 @@ import {
   List,
   Space,
   Collapse,
+  Popconfirm,
 } from "antd";
 import { commentService, projectService } from "../../service/service";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -519,7 +520,7 @@ export default function ProjectDetail() {
         message.success("success");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Are you an assignee of this task?");
       });
 
     setRandomNumber(Math.random());
@@ -543,7 +544,7 @@ export default function ProjectDetail() {
         message.success("success");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Are you an assignee of this task?");
       });
     setRandomNumber(Math.random());
   };
@@ -615,8 +616,6 @@ export default function ProjectDetail() {
       })
       .catch((err) => {});
   };
- 
- 
 
   const onEditComment = (data) => {
     console.log("comment data", data);
@@ -642,8 +641,13 @@ export default function ProjectDetail() {
   const contentComment = (
     <div>
       <Input defaultValue={commentEdit} onChange={handleEditComment}></Input>
-      <Button size="small" className="mt-1 " type="text" onClick={onUpdateComment}>
-      <SendOutlined/>
+      <Button
+        size="small"
+        className="mt-1 "
+        type="text"
+        onClick={onUpdateComment}
+      >
+        <SendOutlined />
       </Button>
     </div>
   );
@@ -675,7 +679,7 @@ export default function ProjectDetail() {
       />
       <div>
         <div className="flex ">
-          <Button
+         {USER.id == projectDetail?.creator?.id &&<Button
             type="text"
             className="mr-10  btnAddTask ml-3"
             style={{ backgroundColor: "#001529", color: "white" }}
@@ -684,7 +688,7 @@ export default function ProjectDetail() {
             }}
           >
             Create Task
-          </Button>
+          </Button>} 
           <div className="">
             <p className="font-semibold pt-1 pr-2">Members:</p>{" "}
           </div>
@@ -715,15 +719,17 @@ export default function ProjectDetail() {
               );
             })}
           </Avatar.Group>
-          <Tooltip title="Add member" placement="top">
-            <Button
-              type="text"
-              className="btnBlue"
-              shape="circle"
-              onClick={showModal}
-              icon={<PlusOutlined />}
-            ></Button>
-          </Tooltip>
+          {USER.id == projectDetail?.creator?.id && (
+            <Tooltip title="Add member" placement="top">
+              <Button
+                type="text"
+                className="btnBlue"
+                shape="circle"
+                onClick={showModal}
+                icon={<PlusOutlined />}
+              ></Button>
+            </Tooltip>
+          )}
         </div>
 
         <div
@@ -1135,6 +1141,7 @@ export default function ProjectDetail() {
             >
               <Button
                 type="primary"
+
                 htmlType="submit"
                 style={{ backgroundColor: "#1890ff" }}
                 className=" btnBlue"
@@ -1269,45 +1276,53 @@ export default function ProjectDetail() {
               placeholder="input..."
               defaultValue={taskData.description}
             />
-            <Button
-              size="small"
-              style={{ marginTop: "5px" }}
-              onClick={onSubmitDescription}
-            >
-              Save
-            </Button>
+            {USER.id == projectDetail?.creator?.id && (
+              <Button
+              type="text"
+                size="small"
+                style={{ marginTop: "5px" }}
+                onClick={onSubmitDescription}
+                className="btnBlue"
+              >
+                Save
+              </Button>
+            )}
+            <div>
+              <Divider orientation="left">Comment</Divider>
+              <Row>
+                <Col>
+                  <Avatar
+                    src={
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${USER.name}`}
+                        alt="avatar"
+                      />
+                    }
+                    style={{ marginRight: "12px" }}
+                  ></Avatar>
+                </Col>
+                <Col span={21}>
+                  <TextArea
+                    showCount
+                    maxLength={100}
+                    onChange={onChangeComment}
+                    placeholder="Please leave a comment here"
+                    value={commentTemp}
+                  />
+                </Col>
+              </Row>
 
-            <Divider orientation="left">Comment</Divider>
-            <Row>
-              <Col>
-                <Avatar
-                  src={
-                    <img
-                      src={`https://ui-avatars.com/api/?name=${USER.name}`}
-                      alt="avatar"
-                    />
-                  }
-                  style={{ marginRight: "12px" }}
-                ></Avatar>
-              </Col>
-              <Col span={21}>
-                <TextArea
-                  showCount
-                  maxLength={100}
-                  onChange={onChangeComment}
-                  placeholder="Please leave a comment here"
-                  value={commentTemp}
-                />
-              </Col>
-            </Row>
+              <Button
+                 type="text"
+                size="small"
+                style={{ marginTop: "5px" }}
+                onClick={onSubmitComment}
+                className="btnBlue"
+              >
+               Add Comment
+              </Button>
+            </div>
 
-            <Button
-              size="small"
-              style={{ marginTop: "5px" }}
-              onClick={onSubmitComment}
-            >
-              Submit
-            </Button>
             {/* <Divider orientation="left"> Comment Lists</Divider> */}
             <div
               className="comment-lists"
@@ -1334,12 +1349,12 @@ export default function ProjectDetail() {
                       <div className="comment-content">
                         <div className="ant-comment-content-author">
                           <span className="ant-comment-content-author-name">
-                            <span>{item.name}</span>
+                            <span className="iconBrown text-xs">{item.name}</span>
                           </span>
                         </div>
                         <div className="ant-comment-content-detail">
                           <div>
-                            <div>{item.commentContent}</div>
+                            <div className="text-sm pb-1">{item.commentContent}</div>
                             <div
                               style={{
                                 display: "flex",
@@ -1353,24 +1368,27 @@ export default function ProjectDetail() {
                                 content={contentComment}
                                 title="Edit Comment"
                                 trigger="click"
-                            
                               >
                                 <Button
+                                type="text"
                                   size="small"
-                                  className="button-resize"
+                                  className="button-resize btnEdit"
                                   onClick={() => onEditComment(item)}
                                 >
                                   Edit
                                 </Button>
                               </Popover>
-
-                              <Button
-                                size="small"
-                                className="button-resize"
-                                onClick={() => onDeleteComment(item.id)}
+                              <Popconfirm
+                                title="Delete the comment"
+                                description="Are you sure to delete this comment?"
+                                okText="Yes"
+                                cancelText="No"
+                                onConfirm={() => onDeleteComment(item.id)}
                               >
-                                Delete
-                              </Button>
+                                <Button size="small" className="button-resize btnRemove" type="text">
+                                  Delete
+                                </Button>
+                              </Popconfirm>
                             </div>
                           </div>
                         </div>
@@ -1383,12 +1401,23 @@ export default function ProjectDetail() {
           </Col>
           <Col span={10} offset={2}>
             {USER.id == projectDetail?.creator?.id && (
-              <Button
-                onClick={onRemoveTask}
-                style={{ marginLeft: "170px", marginBottom: "10px" }}
+              <Popconfirm
+                placement="bottomRight"
+                title="Delete the task"
+                description="Are you sure to remove this task?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={onRemoveTask}
               >
-                Remove Task
-              </Button>
+                <Button
+                type="text"
+                className="btnRemove"
+                  // onClick={onRemoveTask}
+                  style={{ marginLeft: "170px", marginBottom: "10px" }}
+                >
+                  Remove Task
+                </Button>
+              </Popconfirm>
             )}
             <Select
               onChange={onChangeStatus}
@@ -1468,9 +1497,11 @@ export default function ProjectDetail() {
                       </Row>
                       {USER.id == projectDetail?.creator?.id && (
                         <Button
-                          className="mt-2"
+                        type="text"
+                          className="mt-2 btnBlue"
                           size="small"
                           onClick={onUpdateTask}
+                          
                         >
                           Update
                         </Button>
@@ -1521,9 +1552,11 @@ export default function ProjectDetail() {
                             onChange={onChangeEstimate}
                           />
                           <Button
-                            className="ml-1"
+                             type="text"
+                            className="ml-1 btnBlue"
                             size="small"
                             onClick={onSubmitEstimate}
+                            
                           >
                             Save
                           </Button>
@@ -1560,7 +1593,8 @@ export default function ProjectDetail() {
                         />
                       </Row>
                       <Button
-                        className="mt-2"
+                         type="text"
+                        className="mt-2 btnBlue"
                         size="small"
                         onClick={onSubmitTracking}
                       >
