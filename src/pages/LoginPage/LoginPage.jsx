@@ -29,12 +29,13 @@ export default function LoginPage() {
         <div className="flex flex-col justify-center items-center min-h-screen ">
           <h3 className="text-center" style={{ fontWeight: 300, fontSize: 35 }}>
             {" "}
-            Login
+            LOGIN
           </h3>
           <Form
+          className=" flex flex-col align-center justify-center login-form"
             style={{ paddingTop: "10px" }}
             name="normal_login"
-            className="login-form"
+            // className=""
             initialValues={{
               remember: true,
             }}
@@ -52,9 +53,9 @@ export default function LoginPage() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  width: "300px",
                   height: "50px",
                 }}
                 prefix={<MailOutlined className="site-form-item-icon" />}
@@ -72,9 +73,9 @@ export default function LoginPage() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  width: "300px",
                   height: "50px",
                 }}
                 prefix={<LockOutlined className="site-form-item-icon" />}
@@ -90,7 +91,7 @@ export default function LoginPage() {
                 className="btnBlue"
                 style={{
                   backgroundColor: "rgb(102, 117, 223)",
-                  minWidth: "400px",
+                  minWidth: "300px",
                 }}
               >
                 Log in
@@ -99,8 +100,8 @@ export default function LoginPage() {
             <Form.Item>
               Or{" "}
               <NavLink to={"/register"}>
-                <a href="" style={{ color: "#0082f8" }}>
-                  register now!
+                <a href="" style={{ color: "#FA264B" }}>
+                  Register Now!
                 </a>
               </NavLink>
             </Form.Item>

@@ -65,7 +65,7 @@ export default function TabUserSetting() {
             //     },
             components: {
               Form: {
-                itemMarginBottom: 20,
+                itemMarginBottom: 10,
                 verticalLabelPadding: 1,
               },
             },
@@ -79,6 +79,7 @@ export default function TabUserSetting() {
               {
                 // maxWidth: 1000,
                 // maxHeight: 1000,
+                width:300
               }
             }
             initialValues={{
@@ -91,16 +92,13 @@ export default function TabUserSetting() {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            layout="vertical"
+            // layout="vertical"
           >
-            <h3
-              className="text-center"
-              style={{ fontWeight: 500, fontSize: 50 }}
-            >
-              Edit User
-            </h3>
+         
+            <div className="mb-2 font-medium text-center ">EDIT USER</div>
             <Form.Item
-              label="Id"
+         
+              label=""
               name="id"
               rules={[
                 {
@@ -110,11 +108,12 @@ export default function TabUserSetting() {
               ]}
             >
               <Input
+               addonBefore="ID:"
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // width: "400px",
+                  // height: "50px",
                 }}
                 disabled={true}
               />
@@ -132,10 +131,10 @@ export default function TabUserSetting() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // width: "400px",
+                  // height: "50px",
                 }}
                 value={data.name}
               />
@@ -148,10 +147,10 @@ export default function TabUserSetting() {
             >
               <Input.Password
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // width: "400px",
+                  // height: "50px",
                 }}
               />
             </Form.Item>
@@ -169,10 +168,10 @@ export default function TabUserSetting() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // width: "400px",
+                  // height: "50px",
                 }}
                 value={data.email}
               />
@@ -190,10 +189,10 @@ export default function TabUserSetting() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  width: "400px",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // width: "400px",
+                  // height: "50px",
                 }}
                 // addonBefore={prefixSelector}
                 value={data.phoneNumber}
@@ -208,7 +207,7 @@ export default function TabUserSetting() {
                   htmlType="submit"
                   style={{
                     backgroundColor: "#1890ff",
-                    minWidth: "200px",
+                    minWidth: "100px",
                     borderRadius: "30px",
                   }}
                   className="btnBlue"
@@ -225,7 +224,7 @@ export default function TabUserSetting() {
                     backgroundColor: "#808080",
                     color: "white",
                     borderRadius: "30px",
-                    minWidth: "200px",
+                    minWidth: "100px",
                   }}
                 >
                   Cancel

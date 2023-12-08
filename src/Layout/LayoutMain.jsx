@@ -193,7 +193,7 @@ export default function LayoutMain() {
                style={{
                 padding: 24,
                 margin: '24px 16px ',
-                minHeight: '600px',
+                minHeight: '300px',
                 overflow: 'initial',
                 backgroundColor: "#fff",
                 // padding: "30px 15px",

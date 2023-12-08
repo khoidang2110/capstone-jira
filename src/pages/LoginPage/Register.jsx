@@ -11,8 +11,10 @@ import React from "react";
 import { userService } from "../../service/service";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../redux/action/user";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate()
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { Option } = Select;
@@ -70,19 +72,20 @@ function Register() {
               //     },
               components: {
                 Form: {
-                  itemMarginBottom: 20,
+                  itemMarginBottom: 10,
                   verticalLabelPadding: 1,
                 },
               },
             }}
           >
             <Form
-              className=""
+             className=" flex flex-col align-center justify-center"
               form={form}
               name="register"
               style={{
-                maxWidth: 800,
-                maxHeight: 800,
+                // maxWidth: 800,
+                // maxHeight: 800,
+                // width:300
               }}
               initialValues={{
                 name: "",
@@ -93,9 +96,10 @@ function Register() {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
-              layout="vertical"
+              
             >
-              <h3 className="m-4 text-center">FORM REGISTER</h3>
+              
+              <div className="mb-2 font-medium m-4 text-center">FORM REGISTER</div>
               <Form.Item
                 label="Name"
                 name="name"
@@ -108,15 +112,15 @@ function Register() {
               >
                 <Input
                   style={{
-                    borderColor: "black",
-                    borderStyle: "dashed",
-                    width: "400px",
-                    height: "50px",
+                    // borderColor: "black",
+                    // borderStyle: "dashed",
+                    // width: "300px",
+                    // height: "50px",
                   }}
                 />
               </Form.Item>
 
-              <Alert message="Create Password" type="info" showIcon />
+              
 
               <Form.Item
                 label="Password"
@@ -125,10 +129,9 @@ function Register() {
               >
                 <Input
                   style={{
-                    borderColor: "black",
-                    borderStyle: "dashed",
-                    width: "400px",
-                    height: "50px",
+                
+                    // width: "300px",
+                   
                   }}
                   type="password"
                 />
@@ -158,10 +161,9 @@ function Register() {
               >
                 <Input
                   style={{
-                    borderColor: "black",
-                    borderStyle: "dashed",
-                    width: "400px",
-                    height: "50px",
+                  
+                    // width: "200px",
+                  
                   }}
                   type="password"
                 />
@@ -180,10 +182,9 @@ function Register() {
               >
                 <Input
                   style={{
-                    borderColor: "black",
-                    borderStyle: "dashed",
-                    width: "400px",
-                    height: "50px",
+                   
+                    // width: "200px",
+                 
                   }}
                 />
               </Form.Item>
@@ -201,7 +202,7 @@ function Register() {
                 <Input
                   addonBefore={prefixSelector}
                   style={{
-                    width: "100%",
+                    // width: "100%",
                   }}
                 />
               </Form.Item>
@@ -217,13 +218,14 @@ function Register() {
                     Register
                   </Button>
                   <Button htmlType="reset" danger className="px-3 mx-2 lg:px-7">
-                    Delete
+                    Clear
                   </Button>
                   <Button
                     className="px-3 mx-2 lg:px-7"
                     type="text"
                     onClick={() => {
-                      window.location.href = "/login";
+                      // window.location.href = "/login";
+                      navigate("/login");
                     }}
                     style={{ backgroundColor: "#808080", color: "white" }}
                   >

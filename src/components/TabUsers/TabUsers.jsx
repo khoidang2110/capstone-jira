@@ -160,7 +160,7 @@ export default function TabUsers() {
 
       // }}
     >
-      <div>USER MANAGEMENT</div>
+      <div className="mb-2 font-medium">USER MANAGEMENT</div>
       <Table
         columns={columns}
         dataSource={usersRedux}
@@ -170,8 +170,8 @@ export default function TabUsers() {
         }}
       />
       <Drawer
-        title="Chỉnh sửa thông tin user"
-        width={500}
+        title="Edit User"
+        width={300}
         onClose={onClose}
         open={open}
         styles={{
@@ -192,10 +192,10 @@ export default function TabUsers() {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical"
+          // layout="vertical"
         >
-          <Form.Item name="userId" label="User Id">
-            <Input values={user?.userId} disabled={true} />
+          <Form.Item name="userId" label="">
+            <Input values={user?.userId} disabled={true} addonBefore="User Id:"/>
           </Form.Item>
           <Form.Item
             name="name"
@@ -237,11 +237,11 @@ export default function TabUsers() {
           >
             <Input values={user?.phoneNumber} />
           </Form.Item>
-          <Space>
-            <Button onClick={onClose} type="primary" htmlType="submit">
+          <Space style={{width:"100%", justifyContent:"center"}}>
+            <Button onClick={onClose} type="primary btnBlue" htmlType="submit">
               Submit
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose} className="btnCancel" type="text">Cancel</Button>
           </Space>
         </Form>
       </Drawer>
@@ -250,8 +250,9 @@ export default function TabUsers() {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={400}
       >
-        <p>Xác nhận xóa thông tin user: {deleteUser?.userId}</p>
+        <p>Are you sure to delete this user: {deleteUser?.name}</p>
       </Modal>
     </div>
   );
