@@ -20,6 +20,25 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function TabUsers() {
   const dispatch = useDispatch();
   let { usersRedux } = useSelector((state) => state.usersManageReducer);
+  const [userData, setUserData] = useState();
+  const [randomNumber, setRandomNumber] = useState(11);
+  console.log("user data",userData)
+  useEffect(() => {
+    setUserData(usersRedux)
+  },[]);
+
+  useEffect(() => {
+    usersManageService
+    .getUsersList()
+    .then((result) => {
+      // console.log("users list layout", result.data.content);
+      // dispatch(setUsersData(result.data.content));
+      setUserData(result.data.content);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+  }, [randomNumber]);
   // console.log("usersDataRedux", usersRedux);
 
   // Drawer Edit
@@ -48,9 +67,10 @@ export default function TabUsers() {
       .editUser(dataEdit)
       .then((res) => {
         message.success("Edit thành công");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
+        setRandomNumber(Math.random());
       })
       .catch((err) => {
         console.log("err", err);
@@ -68,7 +88,7 @@ export default function TabUsers() {
     {
       title: "User ID",
       dataIndex: "userId",
-      // width: 80,
+       width: 80,
     },
     {
       title: "Name",
@@ -77,7 +97,7 @@ export default function TabUsers() {
         compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
       },
-      // width: 150,
+       width: 150,
     },
     {
       title: "Email",
@@ -86,12 +106,12 @@ export default function TabUsers() {
         compare: (a, b) => a.english - b.english,
         multiple: 1,
       },
-      // width: 200,
+       width: 200,
     },
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
-      // width: 150,
+       width: 150,
     },
     {
       title: "Action",
@@ -137,9 +157,10 @@ export default function TabUsers() {
       .deleteUser(deleteUser.userId)
       .then((res) => {
         message.success("Xóa thành công!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
+        setRandomNumber(Math.random());
       })
       .catch((err) => {
         console.log(err);
@@ -163,7 +184,7 @@ export default function TabUsers() {
       <div className="mb-2 font-medium">USER MANAGEMENT</div>
       <Table
         columns={columns}
-        dataSource={usersRedux}
+        dataSource={userData}
         onChange={onChange}
         scroll={{
           y: 280,
