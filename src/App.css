@@ -287,3 +287,17 @@ background-color:white !important
 .css-dev-only-do-not-override-1adbn6x.ant-input-affix-wrapper:hover {
   border-color: black!important;
 }
+.css-1adbn6x.ant-btn  {
+  color: #fff;
+  background-color: #252935 !important;
+  box-shadow: none !important
+}
+.css-1adbn6x.ant-btn-primary {
+  color: #fff;
+  background-color: #252935 !important;
+  box-shadow: none !important
+}
+.css-dev-only-do-not-override-1adbn6x.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+  color: black !important;
+  border-color: #d9d9d9 !important;
+}
