@@ -679,16 +679,18 @@ export default function ProjectDetail() {
       />
       <div>
         <div className="flex ">
-         {USER.id == projectDetail?.creator?.id &&<Button
-            type="text"
-            className="mr-10  btnAddTask ml-3"
-            style={{ backgroundColor: "#001529", color: "white" }}
-            onClick={() => {
-              showDrawer();
-            }}
-          >
-            Create Task
-          </Button>} 
+          {USER.id == projectDetail?.creator?.id && (
+            <Button
+              type="text"
+              className="mr-10  btnAddTask ml-3"
+              style={{ backgroundColor: "#001529", color: "white" }}
+              onClick={() => {
+                showDrawer();
+              }}
+            >
+              Create Task
+            </Button>
+          )}
           <div className="">
             <p className="font-semibold pt-1 pr-2">Members:</p>{" "}
           </div>
@@ -1142,7 +1144,6 @@ export default function ProjectDetail() {
             >
               <Button
                 type="primary"
-
                 htmlType="submit"
                 style={{ backgroundColor: "#1890ff" }}
                 className=" btnBlue"
@@ -1279,7 +1280,7 @@ export default function ProjectDetail() {
             />
             {USER.id == projectDetail?.creator?.id && (
               <Button
-              type="text"
+                type="text"
                 size="small"
                 style={{ marginTop: "5px" }}
                 onClick={onSubmitDescription}
@@ -1314,13 +1315,13 @@ export default function ProjectDetail() {
               </Row>
 
               <Button
-                 type="text"
+                type="text"
                 size="small"
                 style={{ marginTop: "5px" }}
                 onClick={onSubmitComment}
                 className="btnBlue"
               >
-               Add Comment
+                Add Comment
               </Button>
             </div>
 
@@ -1350,12 +1351,16 @@ export default function ProjectDetail() {
                       <div className="comment-content">
                         <div className="ant-comment-content-author">
                           <span className="ant-comment-content-author-name">
-                            <span className="iconBrown text-xs">{item.name}</span>
+                            <span className="iconBrown text-xs">
+                              {item.name}
+                            </span>
                           </span>
                         </div>
                         <div className="ant-comment-content-detail">
                           <div>
-                            <div className="text-sm pb-1">{item.commentContent}</div>
+                            <div className="text-sm pb-1">
+                              {item.commentContent}
+                            </div>
                             <div
                               style={{
                                 display: "flex",
@@ -1371,7 +1376,7 @@ export default function ProjectDetail() {
                                 trigger="click"
                               >
                                 <Button
-                                type="text"
+                                  type="text"
                                   size="small"
                                   className="button-resize btnEdit"
                                   onClick={() => onEditComment(item)}
@@ -1386,7 +1391,11 @@ export default function ProjectDetail() {
                                 cancelText="No"
                                 onConfirm={() => onDeleteComment(item.id)}
                               >
-                                <Button size="small" className="button-resize btnRemove" type="text">
+                                <Button
+                                  size="small"
+                                  className="button-resize btnRemove"
+                                  type="text"
+                                >
                                   Delete
                                 </Button>
                               </Popconfirm>
@@ -1411,8 +1420,8 @@ export default function ProjectDetail() {
                 onConfirm={onRemoveTask}
               >
                 <Button
-                type="text"
-                className="btnRemove"
+                  type="text"
+                  className="btnRemove"
                   // onClick={onRemoveTask}
                   style={{ marginLeft: "170px", marginBottom: "10px" }}
                 >
@@ -1498,11 +1507,10 @@ export default function ProjectDetail() {
                       </Row>
                       {USER.id == projectDetail?.creator?.id && (
                         <Button
-                        type="text"
+                          type="text"
                           className="mt-2 btnBlue"
                           size="small"
                           onClick={onUpdateTask}
-                          
                         >
                           Update
                         </Button>
@@ -1553,11 +1561,10 @@ export default function ProjectDetail() {
                             onChange={onChangeEstimate}
                           />
                           <Button
-                             type="text"
+                            type="text"
                             className="ml-1 btnBlue"
                             size="small"
                             onClick={onSubmitEstimate}
-                            
                           >
                             Save
                           </Button>
@@ -1594,7 +1601,7 @@ export default function ProjectDetail() {
                         />
                       </Row>
                       <Button
-                         type="text"
+                        type="text"
                         className="mt-2 btnBlue"
                         size="small"
                         onClick={onSubmitTracking}
