@@ -57,16 +57,9 @@ const NewProject = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       {/* <HeaderBar /> */}
-      <div className="">
-        <h3
-          className="m-4 text-center"
-          style={{ fontWeight: 500, fontSize: 50 }}
-        >
-          New Project
-        </h3>
-        <Breadcrumb
+      <Breadcrumb
           items={[
             {
               title: <NavLink to="/">Projects</NavLink>,
@@ -76,6 +69,9 @@ const NewProject = () => {
             },
           ]}
         />
+        <h3 className="text-center  mb-3 font-medium ">NEW PROJECT</h3>
+      <div className="flex flex-col justify-center items-center">
+      
         <ConfigProvider
           theme={{
             //     token:{
@@ -83,21 +79,23 @@ const NewProject = () => {
             //     },
             components: {
               Form: {
-                itemMarginBottom: 20,
+                itemMarginBottom: 10,
                 verticalLabelPadding: 1,
               },
             },
           }}
         >
           <Form
+          className=" flex flex-col align-center justify-center"
             form={form}
             name="basic"
             // labelCol={{
             //   span: 8,
             // }}
             style={{
-              maxWidth: 1300,
-              maxHeight: 700,
+              maxWidth: 400,
+              maxHeight: 300,
+
             }}
             initialValues={{
               remember: true,
@@ -105,24 +103,24 @@ const NewProject = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            layout="vertical"
+            // layout="vertical"
           >
             <Form.Item label="Project Name" name="projectname" rules={[]}>
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // height: "50px",
                 }}
               />
             </Form.Item>
 
-            <Form.Item label="Project category" name="category" rules={[]}>
+            <Form.Item label="Project Category" name="category" rules={[]}>
               <Select
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // height: "50px",
                 }}
                 defaultValue="Lựa chọn loại dự án"
               >
@@ -137,63 +135,26 @@ const NewProject = () => {
             </Form.Item>
 
             <Form.Item label="Description" name="description" rules={[]}>
-              {/* <Editor
-                name="description"
-                // onInit={(evt, editor) => (editorRef.current = editor)}
-                // initialValue="<p>This is the initial content of the editor.</p>"
-                init={{
-                  height: 350,
-                  menubar: false,
-                  plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | " +
-                    "bold italic backcolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
-                  content_style:
-                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                }}
-              /> */}
+      
               <Input.TextArea
-                rows={4}
+                rows={2}
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "350px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // height: "350px",
                 }}
               />
             </Form.Item>
 
-            <Form.Item>
-              <Button
-                className="px-3 mx-2 "
-                type="primary"
-                htmlType="submit"
-                style={{
-                  backgroundColor: "#1890ff",
-                  borderRadius: "30px",
-                  minWidth: "500px",
-                  height: "50px",
-                }}
-              >
+            <Form.Item className="w-full flex justify-center items-center">
+              <Button className="px-3 mx-2 btnBlue" type="primary" htmlType="submit">
                 Submit
               </Button>
               <Button
-                className="px-3 mx-2 "
+                className="px-3 mx-2 btnCancel"
                 type="text"
                 onClick={() => {
                   window.location.href = "/";
-                }}
-                style={{
-                  backgroundColor: "#808080",
-                  borderRadius: "30px",
-                  color: "white",
-                  minWidth: "500px",
-                  height: "50px",
                 }}
               >
                 Cancel

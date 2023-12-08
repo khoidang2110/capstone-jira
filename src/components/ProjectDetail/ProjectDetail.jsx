@@ -769,6 +769,7 @@ export default function ProjectDetail() {
                               width: 200,
                               minHeight: 100,
                               borderRadius: "6px",
+                              marginBottom:"10px"
                             }}
                             className="shadow-md hover:shadow-2xl"
                           >

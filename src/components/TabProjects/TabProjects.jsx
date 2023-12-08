@@ -331,7 +331,7 @@ export default function TabProjects() {
   // Modal Delete
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteProject, setDeleteProject] = useState();
-
+console.log("deleteProject",deleteProject)
   const handleOk = () => {
     projectService
       .deleteProject(deleteProject.id)
@@ -399,19 +399,19 @@ export default function TabProjects() {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            layout="vertical"
+            // layout="vertical"
           >
             <Form.Item
               name="id"
               label="ID"
-              style={{ marginTop: "20px" }}
+              // style={{ marginTop: "20px" }}
               rules={[]}
             >
               <Input
                 style={{
                   borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "50px",
+                  // borderStyle: "dashed",
+                  // height: "50px",
                 }}
                 values={project?.id}
                 disabled={true}
@@ -426,9 +426,9 @@ export default function TabProjects() {
             >
               <Input
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // height: "50px",
                 }}
                 values={project?.projectName}
               />
@@ -442,9 +442,9 @@ export default function TabProjects() {
             >
               <Select
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "50px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  // height: "50px",
                 }}
                 values={{
                   value: project?.projectCategory?.id,
@@ -465,9 +465,9 @@ export default function TabProjects() {
               <Input.TextArea
                 rows={4}
                 style={{
-                  borderColor: "black",
-                  borderStyle: "dashed",
-                  height: "350px",
+                  // borderColor: "black",
+                  // borderStyle: "dashed",
+                  height: "50px",
                 }}
                 values={project?.description}
               />
@@ -481,8 +481,8 @@ export default function TabProjects() {
                 style={{
                   backgroundColor: "#1890ff",
                   borderRadius: "30px",
-                  minWidth: "120px",
-                  height: "50px",
+                  // minWidth: "120px",
+                  // height: "50px",
                 }}
               >
                 Submit
@@ -497,8 +497,8 @@ export default function TabProjects() {
                   backgroundColor: "#808080",
                   borderRadius: "30px",
                   color: "white",
-                  minWidth: "120px",
-                  height: "50px",
+                  // minWidth: "120px",
+                  // height: "50px",
                 }}
               >
                 Cancel
@@ -508,12 +508,13 @@ export default function TabProjects() {
         </Drawer>
 
         <Modal
-          title="Xóa Dự án"
+          title="Delete Project"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <p>Xác nhận xóa thông tin dự án: {deleteProject?.id}</p>
+          <p>Are you sure to delete this Project: {deleteProject?.projectName
+}</p>
         </Modal>
       </ConfigProvider>
 
