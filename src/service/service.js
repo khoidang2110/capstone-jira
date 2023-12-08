@@ -49,30 +49,36 @@ export let projectService = {
   getTaskDetail: (taskId) => {
     return https.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
   },
-  updateProject: (id,values) => {
+  updateProject: (id, values) => {
     return https.put(`/api/Project/updateProject?projectId=${id}`, values);
   },
   deleteProject: (projectId) => {
     return https.delete(`/api/Project/deleteProject?projectId=${projectId}`);
   },
-  updateDescription: (value)=>{
-    return https.put(`/api/Project/updateDescription`,value)
+  updateDescription: (value) => {
+    return https.put(`/api/Project/updateDescription`, value);
   },
-  updateStatus:(value)=>{
-    return https.put(`/api/Project/updateStatus`,value)
+  updateStatus: (value) => {
+    return https.put(`/api/Project/updateStatus`, value);
   },
-  updatePriority: (value)=>{
-    return https.put(`/api/Project/updatePriority`,value)
+  updatePriority: (value) => {
+    return https.put(`/api/Project/updatePriority`, value);
   },
-  updateEstimate: (value)=>{
-    return https.put(`/api/Project/updateEstimate`,value)
+  updateEstimate: (value) => {
+    return https.put(`/api/Project/updateEstimate`, value);
   },
-  updateTimeTracking:(value)=>{
-    return https.put(`/api/Project/updateTimeTracking`,value)
+  updateTimeTracking: (value) => {
+    return https.put(`/api/Project/updateTimeTracking`, value);
   },
-  updateTask: (value)=>{
-    return https.post(`/api/Project/updateTask`,value)
-  }
+  updateTask: (value) => {
+    return https.post(`/api/Project/updateTask`, value);
+  },
+  // deleteProject :(value)=>{
+  //   return https.delete(`/api/Project/deleteProject`,value)
+  // },
+  removeTask: (taskId) => {
+    return https.delete(`/api/Project/removeTask?taskId=${taskId}`);
+  },
 };
 
 export let usersManageService = {
@@ -95,7 +101,13 @@ export let usersManageService = {
 };
 
 export let commentService = {
-  insertComment:(value)=>{
-    return https.post(`/api/Comment/insertComment`,value)
+  insertComment: (value) => {
+    return https.post(`/api/Comment/insertComment`, value);
+  },
+  deleteComment: (idComment)=> {
+    return https.delete(`/api/Comment/deleteComment?idComment=${idComment}`)
+  },
+  updateComment:(id,data)=>{
+    return https.put(`/api/Comment/updateComment?id=${id}&contentComment=${data}`)
   }
-}
+};

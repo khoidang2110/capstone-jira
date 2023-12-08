@@ -99,7 +99,9 @@ button:focus {
 .css-dev-only-do-not-override-j2rubj.ant-switch.ant-switch-checked {
   background: #252935  !important;
 }
-
+.css-j2rubj.ant-switch.ant-switch-checked {
+  background: #252935!important;
+}
 .High{
   color: #FA264B;
     background: #fff2f0;

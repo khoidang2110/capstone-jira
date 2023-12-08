@@ -35,6 +35,7 @@ import {
   PlusOutlined,
   RocketOutlined,
   SearchOutlined,
+  SendOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
@@ -83,11 +84,16 @@ export default function ProjectDetail() {
       };
     }) || []
   );
-  console.log("assignee temp",assigneeTemp)
+  console.log("assignee temp", assigneeTemp);
   const [nameTemp, setNameTemp] = useState("");
   const [taskTypeIdTemp, setTaskTypeIdTemp] = useState(0);
   const [assigneePutTemp, setAssigneePutTemp] = useState([]);
-const [taskPriorityTemp, setTaskPriorityTemp] = useState();
+  const [taskPriorityTemp, setTaskPriorityTemp] = useState();
+  const [commentEdit, setCommentEdit] = useState("");
+  const [commentId, setCommentId] = useState(0);
+  console.log("coment id", commentId);
+  console.log("commentEdit:", commentEdit);
+
   const onScroll = (e) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -117,29 +123,29 @@ const [taskPriorityTemp, setTaskPriorityTemp] = useState();
     projectService
       .getTaskDetail(id)
       .then((result) => {
-     
         setTaskData(result.data.content);
-        const assigneeList  = result.data.content.assigness.map(item=>{
-          return item.id
-        })
+
+        //Task info
+        setNameTemp(result.data.content.taskName);
+        setTaskTypeIdTemp(result.data.content.typeId);
+        const assigneeList = result.data.content.assigness.map((item) => {
+          return item.id;
+        });
         // console.log("assignee list",assigneeList)
         setAssigneePutTemp(assigneeList);
         setTaskId(result.data.content.taskId);
-        setNameTemp(result.data.content.taskName);
-        
-        setDescriptionTemp(result.data.content.description);
-        setStatusIdTemp(result.data.content.statusId) ;
-setEstimateTemp(result.data.content.originalEstimate);
-const newTimeTracking = {
-  timeTrackingSpent: result.data.content.timeTrackingSpent,
-  timeTrackingRemaining: result.data.content.timeTrackingRemaining,
-}
- setTimeTrackingTemp(newTimeTracking)
-        //project id
-        setTaskTypeIdTemp(result.data.content.typeId);
-      setTaskPriorityTemp(result.data.content.priorityId)
 
+        // setDescriptionTemp(result.data.content.description);
+        // setStatusIdTemp(result.data.content.statusId);
+        // setEstimateTemp(result.data.content.originalEstimate);
+        // const newTimeTracking = {
+        //   timeTrackingSpent: result.data.content.timeTrackingSpent,
+        //   timeTrackingRemaining: result.data.content.timeTrackingRemaining,
+        // };
+        // setTimeTrackingTemp(newTimeTracking);
+        // setTaskPriorityTemp(result.data.content.priorityId);
 
+        //assignee form for ant render
         const map1 = result.data.content.assigness.map((member) => {
           return {
             key: member.id,
@@ -156,7 +162,7 @@ const newTimeTracking = {
     setTimeout(() => {
       console.log("Delayed for 0.5 second.");
       setIsModalTaskOpen(true);
-    }, "400");
+    }, "200");
   };
 
   const handleCancelTask = () => {
@@ -515,7 +521,7 @@ const newTimeTracking = {
       .catch((err) => {
         message.error("err");
       });
-     
+
     setRandomNumber(Math.random());
   };
 
@@ -559,29 +565,89 @@ const newTimeTracking = {
     setAssigneePutTemp(value);
   };
   const onUpdateTask = () => {
-    const data = {
-      listUserAsign: assigneePutTemp,
-      taskId: taskId,
-      taskName: nameTemp,
-      description: descriptionTemp,
-      statusId: statusIdTemp,
-      originalEstimate: estimateTemp,
-      timeTrackingSpent: timeTrackingTemp.timeTrackingSpent,
-      timeTrackingRemaining: timeTrackingTemp.timeTrackingRemaining,
-      projectId: projectDetail.id,
-      typeId: taskTypeIdTemp,
-      priorityId: taskPriorityTemp,
-    };
-    console.log("data update",data)
+    // const data = {
+    //   listUserAsign: assigneePutTemp,
+    //   taskId: taskId,
+    //   taskName: nameTemp,
+
+    //   description: descriptionTemp,
+    //   statusId: statusIdTemp,
+    //   originalEstimate: estimateTemp,
+    //   timeTrackingSpent: timeTrackingTemp.timeTrackingSpent,
+    //   timeTrackingRemaining: timeTrackingTemp.timeTrackingRemaining,
+    //   projectId: projectDetail.id,
+    //   typeId: taskTypeIdTemp,
+    //   priorityId: taskPriorityTemp,
+    // };
+    const dataAddAssignee = { ...taskData, listUserAsign: assigneePutTemp };
+    const dataAddTaskId = { ...dataAddAssignee, taskId: taskId };
+    const data = { ...dataAddTaskId, taskName: nameTemp };
+    console.log("data update", data);
     projectService
-    .updateTask(data)
-    .then((result) => {
-      message.success("update thành công")
-      setRandomNumber(Math.random());
-    }).catch((err) => {
-      message.error("err")
-    });
+      .updateTask(data)
+      .then((result) => {
+        message.success("update thành công");
+        setRandomNumber(Math.random());
+      })
+      .catch((err) => {
+        message.error("err");
+      });
   };
+  const onRemoveTask = () => {
+    console.log("taskid", taskData.taskId);
+    projectService
+      .removeTask(taskData.taskId)
+      .then((result) => {
+        message.success("xoá thành công");
+        setIsModalTaskOpen(false);
+        setRandomNumber(Math.random());
+      })
+      .catch((err) => {});
+  };
+
+  const onDeleteComment = (id) => {
+    console.log("comment id", id);
+    commentService
+      .deleteComment(id)
+      .then((result) => {
+        message.success("xoá thành công");
+        setRandomNumber(Math.random());
+      })
+      .catch((err) => {});
+  };
+ 
+ 
+
+  const onEditComment = (data) => {
+    console.log("comment data", data);
+    setCommentEdit(data.commentContent);
+    setCommentId(data.id);
+  };
+  const handleEditComment = (e) => {
+    console.log("edit comment", e.target.value);
+    setCommentEdit(e.target.value);
+  };
+
+  const onUpdateComment = () => {
+    commentService
+      .updateComment(commentId, commentEdit)
+      .then((result) => {
+        message.success("success");
+        setRandomNumber(Math.random());
+      })
+      .catch((err) => {
+        message.error("err");
+      });
+  };
+  const contentComment = (
+    <div>
+      <Input defaultValue={commentEdit} onChange={handleEditComment}></Input>
+      <Button size="small" className="mt-1 " type="text" onClick={onUpdateComment}>
+      <SendOutlined/>
+      </Button>
+    </div>
+  );
+
   useEffect(() => {
     projectService
       .getTaskDetail(taskId)
@@ -892,7 +958,16 @@ const newTimeTracking = {
               </Select>
             </Form.Item>
 
-            <Form.Item label="Task name" name="taskName">
+            <Form.Item
+              label="Task name"
+              name="taskName"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your task name!",
+                },
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item label="Status" name="statusId">
@@ -962,7 +1037,16 @@ const newTimeTracking = {
               </Select>
             </Form.Item>
 
-            <Form.Item label="Assigners" name="listUserAsign">
+            <Form.Item
+              label="Assigners"
+              name="listUserAsign"
+              rules={[
+                {
+                  required: true,
+                  message: "Please add assigner!",
+                },
+              ]}
+            >
               <Select mode="multiple" placeholder="Please select Assigners">
                 {projectDetail?.members?.map((member, index) => {
                   return (
@@ -979,6 +1063,8 @@ const newTimeTracking = {
               label="Total Estimated Hours"
               rules={[
                 {
+                  required: true,
+                  message: "Please input Total Estimated Hours!",
                   type: "number",
                   min: 0,
                   max: 99,
@@ -996,6 +1082,8 @@ const newTimeTracking = {
               label="Hours spent"
               rules={[
                 {
+                  required: true,
+                  message: "Please input Hours spent!",
                   type: "number",
                   // min: 0,
                   // max:3,
@@ -1027,7 +1115,16 @@ const newTimeTracking = {
               </span>
             </Form.Item>
 
-            <Form.Item label="Description" name="description">
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input description!",
+                },
+              ]}
+            >
               <Input.TextArea rows={4} />
             </Form.Item>
             <Form.Item
@@ -1251,10 +1348,27 @@ const newTimeTracking = {
                                 gap: 10,
                               }}
                             >
-                              <Button size="small" className="button-resize">
-                                Edit
-                              </Button>
-                              <Button size="small" className="button-resize">
+                              <Popover
+                                placement="topLeft"
+                                content={contentComment}
+                                title="Edit Comment"
+                                trigger="click"
+                            
+                              >
+                                <Button
+                                  size="small"
+                                  className="button-resize"
+                                  onClick={() => onEditComment(item)}
+                                >
+                                  Edit
+                                </Button>
+                              </Popover>
+
+                              <Button
+                                size="small"
+                                className="button-resize"
+                                onClick={() => onDeleteComment(item.id)}
+                              >
                                 Delete
                               </Button>
                             </div>
@@ -1268,9 +1382,14 @@ const newTimeTracking = {
             </div>
           </Col>
           <Col span={10} offset={2}>
-            <Button style={{ marginLeft: "170px", marginBottom: "10px" }}>
-              Remove Task
-            </Button>
+            {USER.id == projectDetail?.creator?.id && (
+              <Button
+                onClick={onRemoveTask}
+                style={{ marginLeft: "170px", marginBottom: "10px" }}
+              >
+                Remove Task
+              </Button>
+            )}
             <Select
               onChange={onChangeStatus}
               style={{ width: "250px" }}
@@ -1347,13 +1466,15 @@ const newTimeTracking = {
                           })}
                         </Select>
                       </Row>
-                      <Button
-                        className="mt-2"
-                        size="small"
-                        onClick={onUpdateTask}
-                      >
-                        Update
-                      </Button>
+                      {USER.id == projectDetail?.creator?.id && (
+                        <Button
+                          className="mt-2"
+                          size="small"
+                          onClick={onUpdateTask}
+                        >
+                          Update
+                        </Button>
+                      )}
                     </div>
                   ),
                 },
