@@ -1,6 +1,7 @@
 .jira {
   font-family: 'Poppins', sans-serif;
   /* height:100%; */
+ 
 }
 
 
@@ -23,7 +24,7 @@
 } */
 /* .btnTrigger{
   background-color:transparent !important;
-} */ */
+} */ 
 
 .jiraLogo{
   color: #fff;
@@ -246,3 +247,6 @@ button:focus {
   height: 16px!important;
 }
 
+.btnTrigger:hover{
+background-color:white !important
+}

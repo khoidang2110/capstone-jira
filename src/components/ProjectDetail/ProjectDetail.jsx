@@ -735,6 +735,7 @@ export default function ProjectDetail() {
         <div
           style={{
             display: "flex",
+            flexWrap:"wrap",
             justifyContent: "space-around",
             height: "100%",
             paddingTop: "20px",
@@ -753,7 +754,7 @@ export default function ProjectDetail() {
                   }}
                   key={columnId}
                 >
-                  <div style={{ margin: 8 }}>
+                  <div>
                     <Droppable droppableId={columnId} key={columnId}>
                       {(provided, snapshot) => {
                         return (
@@ -763,7 +764,7 @@ export default function ProjectDetail() {
                             style={{
                               background: "#f3f4f6",
                               padding: 4,
-                              width: 230,
+                              width: 200,
                               minHeight: 100,
                               borderRadius: "6px",
                             }}
@@ -773,7 +774,7 @@ export default function ProjectDetail() {
                               style={{
                                 margin: "5px 5px 8px 5px",
                                 fontWeight: "600",
-                                fontSize: ".75rem",
+                                fontSize: ".65rem",
                                 lineHeight: "1rem",
                                 padding: "0.125rem 0.5rem 0.125rem 0.5rem",
                                 borderRadius: "4px",
@@ -817,7 +818,7 @@ export default function ProjectDetail() {
                                           }
                                         >
                                           <div className="ant-col ant-col-18">
-                                            <div className="iconBlue text-lg">
+                                            <div className="iconBlue text-sm">
                                               {item.taskName}
                                             </div>
                                             <div className="flex justify-start items-center mt-2">
@@ -851,7 +852,7 @@ export default function ProjectDetail() {
                                           </div>
                                           <div className="ant-col ant-col-6 pt-3">
                                             <Avatar.Group
-                                              maxCount={3}
+                                              maxCount={2}
                                               maxPopoverTrigger="click"
                                               size="medium"
                                               maxStyle={{

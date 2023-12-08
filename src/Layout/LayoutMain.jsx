@@ -122,7 +122,14 @@ export default function LayoutMain() {
     <>
       {USER ? (
         <Layout>
-          <Sider trigger={null} collapsible collapsed={collapsed} width={201} style={{ height:"100vh"}}>
+          <Sider trigger={null} collapsible collapsed={collapsed} width={201} style={{
+                        overflow: 'auto',
+                        height: '100vh',
+                        position: 'fixed',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                    }}>
             <div
               className="jiraLogo"
               onClick={() => {
@@ -131,17 +138,9 @@ export default function LayoutMain() {
             >
               JIRA
             </div>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Menu: {
-                    /* here is your component tokens */
-                    // darkItemBg:"252935"
-                  },
-                },
-              }}
-            >
+           
               <Menu
+              // style={{position:"fixed"}}
                 defaultSelectedKeys={["1"]}
                 theme="dark"
                 mode="inline"
@@ -151,14 +150,21 @@ export default function LayoutMain() {
 
                 // }}
               />
-            </ConfigProvider>
+          
           </Sider>
-          <Layout>
+          <Layout
+              style={{
+                transition: 'all 0.2s ease-in-out',
+                padding: 0,
+                marginLeft: `${collapsed ? '80px' : '200px'}`,
+            }}>
             <Header
               className="flex justify-between"
               style={{
                 padding: 0,
                 background: colorBgContainer,
+                padding: '10px 20px',
+                fontSize: '30px',
               }}
             >
               <Button
@@ -168,39 +174,43 @@ export default function LayoutMain() {
                 onClick={() => setCollapsed(!collapsed)}
                 style={{
                   fontSize: "16px",
-                  width: 64,
-                  height: 64,
+                  // width: 64,
+                  height: 46,
                 }}
               />
-              <span className="flex " style={{ fontWeight: "bold" }}>
+              <span className="flex " style={{ fontWeight: "600",fontSize:"12px" }}>
                 <p>Wellcome {USER.name}</p>
                 <Avatar
                   size={30}
                   className="mx-3 my-3 "
-                  style={{ fontSize: "12px", color: "black" }}
+                  style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
                   {USER.name.slice(0, 2).toUpperCase()}
                 </Avatar>
               </span>
             </Header>
             <Content
-              style={{
-                margin: "9px 9px",
-                //   padding: 24,
-                minHeight: 475,
-                //   background: colorBgContainer,
-              }}
+               style={{
+                padding: 24,
+                margin: '24px 16px ',
+                minHeight: '600px',
+                overflow: 'initial',
+                backgroundColor: "#fff",
+                // padding: "30px 15px",
+                borderRadius: "10px",
+                
+            }}
             >
-              <div
+              {/* <div
                 style={{
                   // overflow: 'scroll',
                   backgroundColor: "#fff",
                   padding: "30px 15px",
                   borderRadius: "10px",
                 }}
-              >
+              > */}
                 <Outlet />
-              </div>
+              {/* </div> */}
             </Content>
           </Layout>
         </Layout>

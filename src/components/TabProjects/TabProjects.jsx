@@ -128,12 +128,12 @@ export default function TabProjects() {
       title: "ID",
       dataIndex: "id",
       render: (text) => <p style={{ color: "#252935" }}>{text}</p>,
-      width: 80,
+      width: 70,
     },
     {
       title: "Project Name",
       dataIndex: "projectName",
-
+      width: 200,
       render: (text, record, index) => {
         return (
           <Tag color="purple">
@@ -154,6 +154,7 @@ export default function TabProjects() {
     {
       title: "Category",
       dataIndex: "categoryName",
+      width: 150,
       render: (text) => <p style={{ color: "#252935" }}>{text}</p>,
       sorter: {
         compare: (a, b) => a.math - b.math,
