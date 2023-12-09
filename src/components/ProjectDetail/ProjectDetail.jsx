@@ -762,9 +762,9 @@ export default function ProjectDetail() {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                             style={{
-                              background: "#f3f4f6",
+                              background: "#e4e8f1",
                               padding: 4,
-                              width: 200,
+                              width: 180,
                               minHeight: 100,
                               borderRadius: "6px",
                               marginBottom:"10px"
@@ -813,17 +813,17 @@ export default function ProjectDetail() {
                                         className="shadow-md"
                                       >
                                         <div
-                                          className="flex justify-between"
+                                          className=""
                                           onClick={() =>
                                             showModalTask(item.taskId)
                                           }
                                         >
-                                          <div className="ant-col ant-col-18">
-                                            <div className="iconBlue text-sm">
+                                         
+                                          <div className="flex justify-between items-center ">
+                                          <div className="iconBlue text-sm">
                                               {item.taskName}
                                             </div>
-                                            <div className="flex justify-start items-center mt-2">
-                                              <div className=" mr-2 h-5">
+                                            <div className=" mr-2 h-5">
                                                 {item.taskTypeDetail.taskType ==
                                                 "bug" ? (
                                                   <Tooltip
@@ -841,6 +841,10 @@ export default function ProjectDetail() {
                                                   </Tooltip>
                                                 )}
                                               </div>
+                                            </div>
+                                          
+                                            <div className="flex justify-between items-center pt-2 ">
+                                            
 
                                               <span
                                                 className={
@@ -849,13 +853,11 @@ export default function ProjectDetail() {
                                               >
                                                 {item.priorityTask.priority}
                                               </span>
-                                            </div>
-                                          </div>
-                                          <div className="ant-col ant-col-6 pt-3">
+                                              <div className="ant-col ant-col-6 ">
                                             <Avatar.Group
                                               maxCount={2}
                                               maxPopoverTrigger="click"
-                                              size="medium"
+                                              size="small"
                                               maxStyle={{
                                                 color: "#f56a00",
                                                 backgroundColor: "#fde3cf",
@@ -887,6 +889,9 @@ export default function ProjectDetail() {
                                               )}
                                             </Avatar.Group>
                                           </div>
+                                            </div>
+                                          
+                                        
                                         </div>
                                       </div>
                                     );
@@ -912,7 +917,7 @@ export default function ProjectDetail() {
         placement="right"
         onClose={onClose}
         open={open}
-        size="large"
+        size="medium"
       >
         <ConfigProvider
           theme={{
@@ -1068,7 +1073,7 @@ export default function ProjectDetail() {
             <p>Time tracker</p>
             <Form.Item
               name="originalEstimate"
-              label="Total Estimated Hours"
+              label="Estimated Hours"
               rules={[
                 {
                   required: true,
@@ -1117,7 +1122,7 @@ export default function ProjectDetail() {
                 onChange={onChangeTotalTime}
                 value={typeof spentTime === "number" ? spentTime : 0}
               />
-              <span className="flex space-x-96 font-medium">
+              <span className="flex justify-between font-medium">
                 <p>{spentTime} hour(s)spent</p>
                 <p>{totalTime - spentTime} hour(s)remaining</p>
               </span>
