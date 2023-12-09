@@ -310,11 +310,13 @@ background-color:white !important
   background-color: #252935 !important;
   box-shadow: none !important
 }
-.css-1adbn6x.ant-btn-primary {
+
+/* bi dinh button collapse */
+/* .css-1adbn6x.ant-btn-primary {
   color: #fff;
   background-color: #252935 !important;
   box-shadow: none !important
-}
+} */
 .css-dev-only-do-not-override-1adbn6x.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   color: black !important;
   border-color: #d9d9d9 !important;
