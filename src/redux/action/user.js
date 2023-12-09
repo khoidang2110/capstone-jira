@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { userService } from "../../service/service";
 import { SET_INFO } from "../constant/user";
 
@@ -13,9 +12,9 @@ export const loginAction = (formData, callback) => {
           type: SET_INFO,
           payload: res.data.content,
         });
-        toast.success("đăng nhập thành công");
+        // toast.success("đăng nhập thành công"); ngoài component
         localStorage.setItem("USER", JSON.stringify(res.data.content));
-        //call back dùng navigate vì dùng window.location.href bị reload trang
+        //call back dùng window.location.href dùng navigate vì dùng navigate là hook ngoài component ko được
         callback();
         //window.location.href("/");
       })

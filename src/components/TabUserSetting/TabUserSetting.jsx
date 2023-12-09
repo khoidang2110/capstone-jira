@@ -215,7 +215,7 @@ export default function TabUserSetting() {
                   Edit
                 </Button>
                 <Button
-                  className="px-3 mx-2 "
+                  className="px-3 mx-2 btnCancel"
                   type="text"
                   onClick={() => {
                     window.location.href = "/";

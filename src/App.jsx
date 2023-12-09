@@ -10,6 +10,7 @@ import NewProject from "./components/NewProject/NewProject";
 import LayoutMain from "./Layout/LayoutMain";
 import Register from "./pages/LoginPage/Register";
 import TabUserSetting from "./components/TabUserSetting/TabUserSetting";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 function App() {
   return (
     <div className="jira">
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="*" element={<NotFoundPage/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

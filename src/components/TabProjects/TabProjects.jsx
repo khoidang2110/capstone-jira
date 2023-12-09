@@ -291,6 +291,7 @@ export default function TabProjects() {
           <>
             <Space size="middle">
               <Button
+              type="primary"
                 className="btnBlue"
                 // type="text"
                 icon={<EditOutlined />}

@@ -122,7 +122,7 @@ export default function TabUsers() {
           <Space size="middle">
             <Button
               className="btnBlue"
-              // type="text"
+              type="primary"
               icon={<EditOutlined />}
               onClick={() => {
                 usersManageService
