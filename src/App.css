@@ -70,8 +70,8 @@
   color:#5f5f5f!important
 }
 .btnCancel:hover{
-  color: #ddd !important;
-  background-color:#5f5f5f!important
+  /* color: #ddd !important; */
+  background-color:#d4d0d0!important
 }
 .btnRemove{
   background-color: #ddd !important;
@@ -296,6 +296,14 @@ background-color:white !important
 }
 .css-dev-only-do-not-override-1adbn6x.ant-input-affix-wrapper:hover {
   border-color: black!important;
+}
+/* button collapse */
+.btnCollapse{
+  border-color: white !important;
+  box-shadow: none !important;
+}
+.btnCollapse:hover {
+  color: #b0b9c4!important;
 }
 .css-1adbn6x.ant-btn  {
   color: #fff;
