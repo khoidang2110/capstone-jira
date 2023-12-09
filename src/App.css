@@ -274,6 +274,9 @@ background-color:white !important
 .css-dev-only-do-not-override-1adbn6x.ant-pagination .ant-pagination-item-active a {
   color: #252935 !important;
 }
+.css-1adbn6x.ant-pagination .ant-pagination-item-active a {
+  color: #252935 !important;
+}
 .css-dev-only-do-not-override-1adbn6x.ant-btn-primary {
   color: #fff;
   background-color: #252935 !important;
