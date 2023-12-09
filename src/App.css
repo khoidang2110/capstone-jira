@@ -305,13 +305,15 @@ background-color:white !important
 .btnCollapse:hover {
   color: #b0b9c4!important;
 }
-.css-1adbn6x.ant-btn  {
+
+/* bi dinh button collapse */
+/* .css-1adbn6x.ant-btn  {
   color: #fff;
   background-color: #252935 !important;
   box-shadow: none !important
-}
+} */
 
-/* bi dinh button collapse */
+
 /* .css-1adbn6x.ant-btn-primary {
   color: #fff;
   background-color: #252935 !important;
