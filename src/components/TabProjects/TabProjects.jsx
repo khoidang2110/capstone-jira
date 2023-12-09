@@ -514,8 +514,8 @@ console.log("deleteProject",deleteProject)
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <p>Are you sure to delete this Project: {deleteProject?.projectName
-}</p>
+         <span className="flex"> <p>Are you sure to delete this Project: </p><p className="text-red-500  pl-1">  {deleteProject?.projectName
+}</p></span>
         </Modal>
       </ConfigProvider>
 

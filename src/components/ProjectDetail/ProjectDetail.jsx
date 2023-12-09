@@ -250,13 +250,13 @@ export default function ProjectDetail() {
     projectService
       .createTask(data)
       .then((result) => {
-        message.success("Đăng ký thành công");
+        message.success("Success");
         console.log("dk thanh cong", result);
         form.resetFields();
         setOpen(false);
       })
       .catch((err) => {
-        message.error("Đăng ký thất bại");
+        message.error("Error");
         console.log("dk thanh cong", err);
       });
     setRandomNumber(Math.random());
@@ -302,11 +302,11 @@ export default function ProjectDetail() {
       projectService
         .updateStatus(data)
         .then((result) => {
-          message.success("cập nhật thành công");
+          message.success("Update Task Successfully!");
           setRandomNumber(Math.random());
         })
         .catch((err) => {
-          // message.error("cập nhật thất bại");
+          message.error("Error");
         });
 
       //console.log("sourceItems",sourceItems)
@@ -332,10 +332,10 @@ export default function ProjectDetail() {
     projectService
       .addUserFromProject(item)
       .then((result) => {
-        message.success("thêm thành công");
+        message.success("user added");
       })
       .catch((err) => {
-        message.error("thêm thất bại");
+        message.error("error");
       });
     setRandomNumber(Math.random());
     SetSearchInput("");
@@ -348,11 +348,11 @@ export default function ProjectDetail() {
     projectService
       .removeUserFromProject(item)
       .then((result) => {
-        message.success("xoá thành công");
+        message.success("User deleted");
         //console.log("dk thanh cong", result);
       })
       .catch((err) => {
-        message.error("xoá thất bại");
+        message.error("Error");
         // console.log("dk thanh cong", err);
       });
     setRandomNumber(Math.random());
@@ -433,10 +433,10 @@ export default function ProjectDetail() {
     projectService
       .updateStatus(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
 
@@ -455,11 +455,11 @@ export default function ProjectDetail() {
     commentService
       .insertComment(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
         setCommentTemp("");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
     setRandomNumber(Math.random());
   };
@@ -477,7 +477,7 @@ export default function ProjectDetail() {
     projectService
       .updateDescription(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -496,7 +496,7 @@ export default function ProjectDetail() {
     projectService
       .updatePriority(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -517,7 +517,7 @@ export default function ProjectDetail() {
     projectService
       .updateEstimate(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -541,7 +541,7 @@ export default function ProjectDetail() {
     projectService
       .updateTimeTracking(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -587,11 +587,11 @@ export default function ProjectDetail() {
     projectService
       .updateTask(data)
       .then((result) => {
-        message.success("update thành công");
+        message.success("Updated");
         setRandomNumber(Math.random());
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
   const onRemoveTask = () => {
@@ -631,11 +631,11 @@ export default function ProjectDetail() {
     commentService
       .updateComment(commentId, commentEdit)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
         setRandomNumber(Math.random());
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
   const contentComment = (

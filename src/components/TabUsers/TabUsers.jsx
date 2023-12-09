@@ -224,7 +224,7 @@ export default function TabUsers() {
             rules={[
               {
                 required: true,
-                message: "Tên không được để trống",
+                message: "Please input your name!",
               },
             ]}
             hasFeedback
@@ -237,9 +237,9 @@ export default function TabUsers() {
             rules={[
               {
                 required: true,
-                message: "Email không được để trống",
+                message: "Please input your Email!",
               },
-              { type: "email", message: "Email không đúng định dạng" },
+              { type: "email", message: "The email address is illegal!" },
             ]}
             hasFeedback
           >
@@ -251,7 +251,7 @@ export default function TabUsers() {
             rules={[
               {
                 required: true,
-                message: "Số ĐT không được để trống",
+                message: "Please input your phone number!",
               },
             ]}
             hasFeedback
@@ -273,7 +273,8 @@ export default function TabUsers() {
         onCancel={handleCancel}
         width={400}
       >
-        <p>Are you sure to delete this user: {deleteUser?.name}</p>
+        
+        <span className="flex"> <p>Are you sure to delete this user: </p><p className="text-red-500  pl-1">  {deleteUser?.name}</p></span>
       </Modal>
     </div>
   );
