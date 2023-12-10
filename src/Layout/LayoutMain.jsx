@@ -168,8 +168,8 @@ export default function LayoutMain() {
               }}
             >
               <Button
-                className="btnTrigger"
-                type="text"
+                className="btnTrigger btnCollapse"
+                type="dashed"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={() => setCollapsed(!collapsed)}
                 style={{

@@ -162,7 +162,7 @@ export default function TabUserSetting() {
                 {
                   type: "email",
                   required: true,
-                  message: "Email không hợp lệ!",
+                  message: "The email address is illegal!",
                 },
               ]}
             >
@@ -183,7 +183,7 @@ export default function TabUserSetting() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your name!",
+                  message: "Please input your phone number!",
                 },
               ]}
             >
@@ -215,7 +215,7 @@ export default function TabUserSetting() {
                   Edit
                 </Button>
                 <Button
-                  className="px-3 mx-2 "
+                  className="px-3 mx-2 btnCancel"
                   type="text"
                   onClick={() => {
                     window.location.href = "/";

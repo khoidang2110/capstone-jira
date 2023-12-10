@@ -176,7 +176,7 @@ function Register() {
                   {
                     type: "email",
                     required: true,
-                    message: "Email không hợp lệ!",
+                    message: "The email address is illegal!",
                   },
                 ]}
               >

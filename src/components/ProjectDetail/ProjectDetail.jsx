@@ -250,13 +250,13 @@ export default function ProjectDetail() {
     projectService
       .createTask(data)
       .then((result) => {
-        message.success("Đăng ký thành công");
+        message.success("Success");
         console.log("dk thanh cong", result);
         form.resetFields();
         setOpen(false);
       })
       .catch((err) => {
-        message.error("Đăng ký thất bại");
+        message.error("Error");
         console.log("dk thanh cong", err);
       });
     setRandomNumber(Math.random());
@@ -302,11 +302,11 @@ export default function ProjectDetail() {
       projectService
         .updateStatus(data)
         .then((result) => {
-          message.success("cập nhật thành công");
+          message.success("Update Task Successfully!");
           setRandomNumber(Math.random());
         })
         .catch((err) => {
-          // message.error("cập nhật thất bại");
+          message.error("Error");
         });
 
       //console.log("sourceItems",sourceItems)
@@ -332,10 +332,10 @@ export default function ProjectDetail() {
     projectService
       .addUserFromProject(item)
       .then((result) => {
-        message.success("thêm thành công");
+        message.success("user added");
       })
       .catch((err) => {
-        message.error("thêm thất bại");
+        message.error("error");
       });
     setRandomNumber(Math.random());
     SetSearchInput("");
@@ -348,11 +348,11 @@ export default function ProjectDetail() {
     projectService
       .removeUserFromProject(item)
       .then((result) => {
-        message.success("xoá thành công");
+        message.success("User deleted");
         //console.log("dk thanh cong", result);
       })
       .catch((err) => {
-        message.error("xoá thất bại");
+        message.error("Error");
         // console.log("dk thanh cong", err);
       });
     setRandomNumber(Math.random());
@@ -433,10 +433,10 @@ export default function ProjectDetail() {
     projectService
       .updateStatus(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
 
@@ -455,11 +455,11 @@ export default function ProjectDetail() {
     commentService
       .insertComment(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
         setCommentTemp("");
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
     setRandomNumber(Math.random());
   };
@@ -477,7 +477,7 @@ export default function ProjectDetail() {
     projectService
       .updateDescription(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -496,7 +496,7 @@ export default function ProjectDetail() {
     projectService
       .updatePriority(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -517,7 +517,7 @@ export default function ProjectDetail() {
     projectService
       .updateEstimate(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -541,7 +541,7 @@ export default function ProjectDetail() {
     projectService
       .updateTimeTracking(data)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
       })
       .catch((err) => {
         message.error("Are you an assignee of this task?");
@@ -587,11 +587,11 @@ export default function ProjectDetail() {
     projectService
       .updateTask(data)
       .then((result) => {
-        message.success("update thành công");
+        message.success("Updated");
         setRandomNumber(Math.random());
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
   const onRemoveTask = () => {
@@ -631,11 +631,11 @@ export default function ProjectDetail() {
     commentService
       .updateComment(commentId, commentEdit)
       .then((result) => {
-        message.success("success");
+        message.success("Success");
         setRandomNumber(Math.random());
       })
       .catch((err) => {
-        message.error("err");
+        message.error("Error");
       });
   };
   const contentComment = (
@@ -764,9 +764,9 @@ export default function ProjectDetail() {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                             style={{
-                              background: "#f3f4f6",
+                              background: "#e4e8f1",
                               padding: 4,
-                              width: 200,
+                              width: 180,
                               minHeight: 100,
                               borderRadius: "6px",
                               marginBottom:"10px"
@@ -815,17 +815,17 @@ export default function ProjectDetail() {
                                         className="shadow-md"
                                       >
                                         <div
-                                          className="flex justify-between"
+                                          className=""
                                           onClick={() =>
                                             showModalTask(item.taskId)
                                           }
                                         >
-                                          <div className="ant-col ant-col-18">
-                                            <div className="iconBlue text-sm">
+                                         
+                                          <div className="flex justify-between items-center ">
+                                          <div className="iconBlue text-sm">
                                               {item.taskName}
                                             </div>
-                                            <div className="flex justify-start items-center mt-2">
-                                              <div className=" mr-2 h-5">
+                                            <div className=" mr-2 h-5">
                                                 {item.taskTypeDetail.taskType ==
                                                 "bug" ? (
                                                   <Tooltip
@@ -843,6 +843,10 @@ export default function ProjectDetail() {
                                                   </Tooltip>
                                                 )}
                                               </div>
+                                            </div>
+                                          
+                                            <div className="flex justify-between items-center pt-2 ">
+                                            
 
                                               <span
                                                 className={
@@ -851,13 +855,11 @@ export default function ProjectDetail() {
                                               >
                                                 {item.priorityTask.priority}
                                               </span>
-                                            </div>
-                                          </div>
-                                          <div className="ant-col ant-col-6 pt-3">
+                                              <div className="ant-col ant-col-6 ">
                                             <Avatar.Group
                                               maxCount={2}
                                               maxPopoverTrigger="click"
-                                              size="medium"
+                                              size="small"
                                               maxStyle={{
                                                 color: "#f56a00",
                                                 backgroundColor: "#fde3cf",
@@ -889,6 +891,9 @@ export default function ProjectDetail() {
                                               )}
                                             </Avatar.Group>
                                           </div>
+                                            </div>
+                                          
+                                        
                                         </div>
                                       </div>
                                     );
@@ -914,7 +919,7 @@ export default function ProjectDetail() {
         placement="right"
         onClose={onClose}
         open={open}
-        size="large"
+        size="medium"
       >
         <ConfigProvider
           theme={{
@@ -1070,7 +1075,7 @@ export default function ProjectDetail() {
             <p>Time tracker</p>
             <Form.Item
               name="originalEstimate"
-              label="Total Estimated Hours"
+              label="Estimated Hours"
               rules={[
                 {
                   required: true,
@@ -1119,7 +1124,7 @@ export default function ProjectDetail() {
                 onChange={onChangeTotalTime}
                 value={typeof spentTime === "number" ? spentTime : 0}
               />
-              <span className="flex space-x-96 font-medium">
+              <span className="flex justify-between font-medium">
                 <p>{spentTime} hour(s)spent</p>
                 <p>{totalTime - spentTime} hour(s)remaining</p>
               </span>

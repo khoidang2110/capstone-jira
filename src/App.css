@@ -47,9 +47,15 @@
   color: #fff !important;
   background-color:#252935 !important;
 }
+.btnBlue:hover{
+  background-color:#3d4458!important;
+}
 .btnRed{
   background-color:#FA264B !important;
   color: #fff !important;
+}
+.btnRed:hover{
+  background-color:#f74f6b !important;
 }
 .btnEdit {
   background-color: #ddd !important;
@@ -62,6 +68,10 @@
 .btnCancel{
   background-color: #ddd !important;
   color:#5f5f5f!important
+}
+.btnCancel:hover{
+  /* color: #ddd !important; */
+  background-color:#d4d0d0!important
 }
 .btnRemove{
   background-color: #ddd !important;
@@ -264,6 +274,9 @@ background-color:white !important
 .css-dev-only-do-not-override-1adbn6x.ant-pagination .ant-pagination-item-active a {
   color: #252935 !important;
 }
+.css-1adbn6x.ant-pagination .ant-pagination-item-active a {
+  color: #252935 !important;
+}
 .css-dev-only-do-not-override-1adbn6x.ant-btn-primary {
   color: #fff;
   background-color: #252935 !important;
@@ -287,17 +300,33 @@ background-color:white !important
 .css-dev-only-do-not-override-1adbn6x.ant-input-affix-wrapper:hover {
   border-color: black!important;
 }
-.css-1adbn6x.ant-btn  {
+/* button collapse */
+.btnCollapse{
+  border-color: white !important;
+  box-shadow: none !important;
+}
+.btnCollapse:hover {
+  color: #b0b9c4!important;
+}
+
+/* bi dinh button collapse */
+/* .css-1adbn6x.ant-btn  {
   color: #fff;
   background-color: #252935 !important;
   box-shadow: none !important
-}
-.css-1adbn6x.ant-btn-primary {
+} */
+
+
+/* .css-1adbn6x.ant-btn-primary {
   color: #fff;
   background-color: #252935 !important;
   box-shadow: none !important
-}
+} */
 .css-dev-only-do-not-override-1adbn6x.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   color: black !important;
   border-color: #d9d9d9 !important;
+}
+.css-1adbn6x.ant-pagination .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon, .css-1adbn6x.ant-pagination .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon {
+   color: black !important;
+ 
 }
