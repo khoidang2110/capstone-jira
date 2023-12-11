@@ -30,18 +30,27 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 export default function TabProjects() {
+  const [randomNumber, setRandomNumber] = useState("11");
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [project, setProject] = useState("");
   const [category, setCategory] = useState();
-  console.log(
-    "🚀 ~ file: TabProjects.jsx:35 ~ TabProjects ~ category:",
-    category
-  );
-  console.log(
-    "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
-    project
-  );
+
+  let userJson = localStorage.getItem("USER");
+  let USER = JSON.parse(userJson);
+  let data = JSON.parse(localStorage.getItem("USER"));
+const [projectData, setProjectData] = useState();
+  let { projectDataRedux } = useSelector((state) => state.projectReducer);
+  console.log("projectDataRedux", projectDataRedux);
+
+  // console.log(
+  //   "🚀 ~ file: TabProjects.jsx:35 ~ TabProjects ~ category:",
+  //   category
+  // );
+  // console.log(
+  //   "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
+  //   project
+  // );
 
   useEffect(() => {
     projectService
@@ -52,6 +61,18 @@ export default function TabProjects() {
       })
       .catch((err) => {});
   }, []);
+  useEffect(() => {
+    projectService
+      .getProjectList()
+      .then((result) => {
+        // console.log("chay updatae");
+            setProjectData(result.data.content);
+      
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }, [randomNumber]);
   const showDrawer = () => {
     form.resetFields();
     setOpen(true);
@@ -76,9 +97,12 @@ export default function TabProjects() {
       .updateProject(project.id, values)
       .then((res) => {
         message.success("Edit thành công");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
+       
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1000);
+        setOpen(false);
+        setRandomNumber(Math.random());
       })
       .catch((err) => {
         console.log("🚀 ~ file: TabProjects.jsx:77 ~ onFinish ~ err:", err);
@@ -93,25 +117,33 @@ export default function TabProjects() {
     console.log("Failed:", errorInfo);
   };
 
-  let userJson = localStorage.getItem("USER");
-  let USER = JSON.parse(userJson);
-  let data = JSON.parse(localStorage.getItem("USER"));
-
-  let { projectDataRedux } = useSelector((state) => state.projectReducer);
-  console.log("projectDataRedux", projectDataRedux);
+ 
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
   const [toggleData, setToggleData] = useState([]);
-
+// lấy data redux
   useEffect(() => {
-    console.log("chạy ueff");
+    // console.log("chạy ueff của redux");
     if (projectDataRedux) {
       const projectDataReduxById = projectDataRedux.filter(
         (item) => item.creator.id == USER.id
       );
+      setProjectData(projectDataRedux);
       setProjectDataReduxById(projectDataReduxById);
       setToggleData(projectDataReduxById);
     }
   }, [projectDataRedux]);
+  // call api data 
+  useEffect(() => {
+    // console.log("chạy ueff lay api projectdata truc tiep");
+    if (projectData) {
+      const projectDataReduxById = projectData.filter(
+        (item) => item.creator.id == USER.id
+      );
+      setProjectData(projectData);
+      setProjectDataReduxById(projectDataReduxById);
+      setToggleData(projectDataReduxById);
+    }
+  }, [projectData]);
 
   const onChangeSwitch = (checked) => {
     console.log(`switch to ${checked}`);
@@ -119,7 +151,7 @@ export default function TabProjects() {
     if (checked == true) {
       setToggleData(projectDataReduxById);
     } else if (checked == false) {
-      setToggleData(projectDataRedux);
+      setToggleData(projectData);
     }
   };
 
@@ -146,20 +178,14 @@ export default function TabProjects() {
           </Tag>
         );
       },
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
+      
     },
     {
       title: "Category",
       dataIndex: "categoryName",
       width: 150,
       render: (text) => <p style={{ color: "#252935" }}>{text}</p>,
-      sorter: {
-        compare: (a, b) => a.math - b.math,
-        multiple: 2,
-      },
+    
     },
     {
       title: "Creator",
@@ -167,10 +193,7 @@ export default function TabProjects() {
       render: (text, record, index) => {
         return <div style={{ color: "#252935" }}>{record.creator?.name}</div>;
       },
-      sorter: {
-        compare: (a, b) => a.english - b.english,
-        multiple: 1,
-      },
+      
 
       width: 100,
     },
@@ -338,9 +361,10 @@ console.log("deleteProject",deleteProject)
       .deleteProject(deleteProject.id)
       .then((res) => {
         message.success("Xóa dự án thành công");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
+        setRandomNumber(Math.random());
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1000);
       })
       .catch((err) => {
         message.error("Xóa dự án thất bại");
@@ -475,35 +499,26 @@ console.log("deleteProject",deleteProject)
             </Form.Item>
 
             <Form.Item>
+            <Space style={{width:"100%", justifyContent:"center"}}>
               <Button
-                className="px-3 mx-2 "
-                type="primary"
+                className="btnBlue"
+               
                 htmlType="submit"
-                style={{
-                  backgroundColor: "#1890ff",
-                  borderRadius: "30px",
-                  // minWidth: "120px",
-                  // height: "50px",
-                }}
+         
               >
                 Submit
               </Button>
               <Button
-                className="px-3 mx-2 "
+                className="btnCancel"
                 type="text"
                 onClick={() => {
-                  window.location.href = "/";
+                  onClose();
                 }}
-                style={{
-                  backgroundColor: "#808080",
-                  borderRadius: "30px",
-                  color: "white",
-                  // minWidth: "120px",
-                  // height: "50px",
-                }}
+           
               >
                 Cancel
               </Button>
+              </Space>
             </Form.Item>
           </Form>
         </Drawer>
