@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   ConfigProvider,
@@ -51,7 +51,7 @@ export default function TabUsers() {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [user, setUser] = useState("");
-  console.log("user", user);
+  // console.log("user", user);
 
   const showDrawer = () => {
     form.resetFields();
@@ -61,7 +61,7 @@ export default function TabUsers() {
     setOpen(false);
   };
   const onFinish = (values) => {
-    console.log("values", values);
+    // console.log("values", values);
     let dataEdit = {
       id: values.userId,
       passWord: values.passWord,
@@ -72,7 +72,7 @@ export default function TabUsers() {
     usersManageService
       .editUser(dataEdit)
       .then((res) => {
-        message.success("Edit thành công");
+        message.success("Successfully updated!");
         // setTimeout(() => {
         //   window.location.reload();
         // }, 1000);
@@ -80,7 +80,7 @@ export default function TabUsers() {
       })
       .catch((err) => {
         console.log("err", err);
-        message.error("Edit thất bại");
+        message.error("Update failed!");
       });
   };
   const onFinishFailed = (errorInfo) => {
@@ -99,19 +99,19 @@ export default function TabUsers() {
     {
       title: "Name",
       dataIndex: "name",
-      
-      // width: 150,
+
+      width: 150,
     },
     {
       title: "Email",
       dataIndex: "email",
-     
-      // width: 200,
+
+      width: 200,
     },
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
-      // width: 150,
+      width: 150,
     },
     {
       title: "Action",
@@ -130,7 +130,9 @@ export default function TabUsers() {
                   .then((res) => {
                     // console.log("res", res)
                     setUser(res.data.content[0]);
-                    showDrawer();
+                    setTimeout(() => {
+                      showDrawer();
+                    }, 100);
                   })
                   .catch((err) => {
                     console.log("err", err);
@@ -182,10 +184,7 @@ export default function TabUsers() {
     usersManageService
       .deleteUser(deleteUser.userId)
       .then((res) => {
-        message.success("Xóa thành công!");
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1000);
+        message.success("User deleted!");
 
         setRandomNumber(Math.random());
       })
@@ -237,6 +236,7 @@ export default function TabUsers() {
         scroll={{
           y: 280,
         }}
+        rowKey={"userId"}
       />
       <Drawer
         title="Edit User"
