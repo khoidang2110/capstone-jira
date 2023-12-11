@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
+  ConfigProvider,
   Drawer,
   Form,
   Input,
@@ -12,8 +13,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
 import { setUsersData } from "../../redux/action/userManage";
-import { DeleteOutlined, EditOutlined, SearchOutlined } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -23,22 +27,23 @@ export default function TabUsers() {
   let { usersRedux } = useSelector((state) => state.usersManageReducer);
   const [userData, setUserData] = useState();
   const [randomNumber, setRandomNumber] = useState(11);
-  // console.log("user data",userData)
+  console.log("user data", userData);
   useEffect(() => {
-    setUserData(usersRedux)
-  },[]);
+    setUserData(usersRedux);
+  }, []);
 
   useEffect(() => {
     usersManageService
-    .getUsersList()
-    .then((result) => {
-      // console.log("users list layout", result.data.content);
-      // dispatch(setUsersData(result.data.content));
-      setUserData(result.data.content);
-    })
-    .catch((err) => {
-      console.log("err", err);
-    });
+      .getUsersList()
+      .then((result) => {
+        // console.log("users list layout", result.data.content);
+        // dispatch(setUsersData(result.data.content));
+        setUserData(result.data.content);
+        setGridData(userData);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   }, [randomNumber]);
   // console.log("usersDataRedux", usersRedux);
 
@@ -67,7 +72,7 @@ export default function TabUsers() {
     usersManageService
       .editUser(dataEdit)
       .then((res) => {
-        message.success("Edit thành công");
+        message.success("Successfully updated!");
         // setTimeout(() => {
         //   window.location.reload();
         // }, 1000);
@@ -75,108 +80,12 @@ export default function TabUsers() {
       })
       .catch((err) => {
         console.log("err", err);
-        message.error("Edit thất bại");
+        message.error("Update failed!");
       });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-// Filter User
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = useRef(null);
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: 'block',
-          }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? '#1677ff' : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{
-            backgroundColor: '#ffc069',
-            padding: 0,
-          }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
-  });
 
   // Modal Delete
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -185,47 +94,24 @@ export default function TabUsers() {
     {
       title: "User ID",
       dataIndex: "userId",
-       width: 80,
-      sorter: (item2, item1) => {
-        return item2.userId - item1.userId;
-      },
-      sortDirections: ['descend'],
+      width: 80,
     },
     {
       title: "Name",
       dataIndex: "name",
-      sorter: (item2, item1) => {
-        let name2 = item2.name?.trim().toLowerCase();
-        let name1 = item1.name?.trim().toLowerCase();
-        if (name2 < name1){
-          return -1;
-        }
-        return 1;
-      },
-       width: 150,
-      ...getColumnSearchProps('name'),
+
+      width: 150,
     },
     {
       title: "Email",
       dataIndex: "email",
-      sorter: (item2, item1) => {
-        let name2 = item2.email?.trim().toLowerCase();
-        let name1 = item1.email?.trim().toLowerCase();
-        if (name2 < name1){
-          return -1;
-        }
-        return 1;
-      },
-       width: 200,
+
+      width: 200,
     },
     {
       title: "Phone Number",
       dataIndex: "phoneNumber",
-      sorter: (item2, item1) => {
-        return item2.phoneNumber - item1.phoneNumber;
-      },
-      sortDirections: ['descend'],
-       width: 150,
+      width: 150,
     },
     {
       title: "Action",
@@ -268,14 +154,38 @@ export default function TabUsers() {
       },
     },
   ];
+
+  const [searchText, setSearchText] = useState("");
+  console.log("searchText", searchText);
+  let [filteredValue] = useState();
+  const [gridData, setGridData] = useState([]);
+  console.log("🚀 ~ file: TabUsers.jsx:179 ~ TabUsers ~ gridData:", gridData);
+  useEffect(() => {
+    if (userData) {
+      // setGridData(userData)
+      filteredValue = userData.filter((value) => {
+        return value.name.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setGridData(filteredValue);
+    }
+  }, [userData]);
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+    if (e.target.value === "") {
+      setGridData(userData);
+    } else {
+      filteredValue = userData.filter((value) => {
+        return value.name.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setGridData(filteredValue);
+    }
+  };
   const handleOk = () => {
     usersManageService
       .deleteUser(deleteUser.userId)
       .then((res) => {
-        message.success("Xóa thành công!");
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1000);
+        message.success("User deleted!");
+
         setRandomNumber(Math.random());
       })
       .catch((err) => {
@@ -297,10 +207,31 @@ export default function TabUsers() {
 
       // }}
     >
-      <div className="mb-2 font-medium">USER MANAGEMENT</div>
+      <ConfigProvider
+        theme={{
+          components: {
+            Input: {
+              /* here is your component tokens */
+              hoverBorderColor: "#AE8EBB",
+              activeBorderColor: "#AE8EBB",
+            },
+          },
+        }}
+      >
+        <Input
+          onChange={handleSearch}
+          value={searchText}
+          addonBefore={<SearchOutlined />}
+          allowClear
+          placeholder="Search User"
+          style={{ width: 200, marginBottom: "10px" }}
+        />
+      </ConfigProvider>
+
       <Table
         columns={columns}
-        dataSource={userData}
+        // dataSource={gridData.length ? gridData : userData}
+        dataSource={gridData}
         onChange={onChange}
         scroll={{
           y: 280,
@@ -333,7 +264,11 @@ export default function TabUsers() {
           // layout="vertical"
         >
           <Form.Item name="userId" label="">
-            <Input values={user?.userId} disabled={true} addonBefore="User Id:"/>
+            <Input
+              values={user?.userId}
+              disabled={true}
+              addonBefore="User Id:"
+            />
           </Form.Item>
           <Form.Item
             name="name"
@@ -375,11 +310,13 @@ export default function TabUsers() {
           >
             <Input values={user?.phoneNumber} />
           </Form.Item>
-          <Space style={{width:"100%", justifyContent:"center"}}>
-            <Button onClick={onClose} type="primary btnBlue" htmlType="submit">
+          <Space style={{ width: "100%", justifyContent: "center" }}>
+            <Button onClick={onClose} className="btnBlue" htmlType="submit">
               Submit
             </Button>
-            <Button onClick={onClose} className="btnCancel" type="text">Cancel</Button>
+            <Button onClick={onClose} className="btnCancel" type="text">
+              Cancel
+            </Button>
           </Space>
         </Form>
       </Drawer>
@@ -390,8 +327,11 @@ export default function TabUsers() {
         onCancel={handleCancel}
         width={400}
       >
-        
-        <span className="flex"> <p>Are you sure to delete this user: </p><p className="text-red-500  pl-1">  {deleteUser?.name}</p></span>
+        <span className="flex">
+          {" "}
+          <p>Are you sure to delete this user: </p>
+          <p className="text-red-500  pl-1"> {deleteUser?.name}</p>
+        </span>
       </Modal>
     </div>
   );
