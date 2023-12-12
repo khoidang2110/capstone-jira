@@ -160,7 +160,7 @@ const [projectData, setProjectData] = useState();
     {
       title: "Project Name",
       dataIndex: "projectName",
-      width: 120,
+      width: 100,
       render: (text, record, index) => {
         return (
           <Tag color="purple">

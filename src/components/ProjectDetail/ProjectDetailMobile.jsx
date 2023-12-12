@@ -1312,7 +1312,7 @@ export default function ProjectDetailMobile() {
                 label: "Task Info",
                 children: (
                   <div>
-                    <Divider orientation="left">Task Name</Divider>
+                    <Divider orientation="left" style={{fontSize:"14px"}}>Task Name</Divider>
                     <Input
                       // addonBefore="Name"
                       onChange={onChangeTaskName}
@@ -1472,7 +1472,7 @@ export default function ProjectDetailMobile() {
               },
             ]}
           />
-          <Divider orientation="left">Description</Divider>
+          <Divider orientation="left" style={{fontSize:"14px"}}>Description</Divider>
 
           <TextArea
             // showCount
@@ -1496,7 +1496,7 @@ export default function ProjectDetailMobile() {
             )}
           </div>
           <div className="w-full">
-            <Divider orientation="left">Comment</Divider>
+            <Divider orientation="left" style={{fontSize:"14px"}}>Comment</Divider>
             <Row>
               <Col>
                 <Avatar

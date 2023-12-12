@@ -1274,7 +1274,7 @@ export default function ProjectDetailTablet() {
       >
         <Row>
           <Col span={12}>
-            <Divider orientation="left">Description</Divider>
+            <Divider orientation="left" style={{fontSize:"14px"}}>Description</Divider>
 
             <TextArea
               // showCount
@@ -1295,7 +1295,7 @@ export default function ProjectDetailTablet() {
               </Button>
             )}
             <div>
-              <Divider orientation="left">Comment</Divider>
+              <Divider orientation="left" style={{fontSize:"14px"}}>Comment</Divider>
               <Row>
                 <Col>
                   <Avatar
@@ -1450,7 +1450,7 @@ export default function ProjectDetailTablet() {
                   label: "Task Info",
                   children: (
                     <div>
-                      <Divider orientation="left">Task Name</Divider>
+                      <Divider orientation="left" style={{fontSize:"14px"}}>Task Name</Divider>
                       <Input
                         // addonBefore="Name"
                         onChange={onChangeTaskName}
@@ -1572,7 +1572,7 @@ export default function ProjectDetailTablet() {
                       <br />
 
                       {/* <p>Time tracking</p> */}
-                      <Divider orientation="left"> Time Tracking</Divider>
+                      <Divider orientation="left" style={{fontSize:"14px"}}> Time Tracking</Divider>
 
                       <Row className="justify-between">
                         <p>Time Spent</p>
