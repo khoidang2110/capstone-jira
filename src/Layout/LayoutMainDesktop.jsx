@@ -12,7 +12,7 @@ import {
   TeamOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage/LoginPage.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjectData } from "../redux/action/project.js";
@@ -26,6 +26,7 @@ import { useState } from "react";
 
 const { Header, Sider, Content } = Layout;
 export default function LayoutMainDesktop() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -33,10 +34,11 @@ export default function LayoutMainDesktop() {
   } = theme.useToken();
   function getItem(label, key, icon, children) {
     return {
+      label,
       key,
       icon,
       children,
-      label,
+     
     };
   }
   let handleLogout = () => {
@@ -48,7 +50,7 @@ export default function LayoutMainDesktop() {
   const items = [
     getItem(
       "Project Maganement",
-      "1",
+      "/",
       <NavLink to="/">
         {" "}
         <UnorderedListOutlined />
@@ -56,7 +58,7 @@ export default function LayoutMainDesktop() {
     ),
     getItem(
       "Create Project",
-      "2",
+      "/newproject",
       <NavLink to="/newproject">
         {" "}
         <FolderAddOutlined />
@@ -64,7 +66,7 @@ export default function LayoutMainDesktop() {
     ),
     getItem(
       "User Management",
-      "3",
+      "/users",
       <NavLink to="/users">
         {" "}
         <TeamOutlined />
@@ -73,7 +75,7 @@ export default function LayoutMainDesktop() {
     ,
     getItem(
       "User Setting",
-      "4",
+      "/usersetting",
       <NavLink to="/usersetting">
         {" "}
         <SettingOutlined />
@@ -82,7 +84,7 @@ export default function LayoutMainDesktop() {
     ,
     getItem(
       "Logout",
-      "5",
+      "/login",
       <NavLink to="/login" onClick={handleLogout}>
         {" "}
         <LogoutOutlined />
@@ -141,7 +143,9 @@ export default function LayoutMainDesktop() {
            
               <Menu
               // style={{position:"fixed"}}
-                defaultSelectedKeys={["1"]}
+                // defaultSelectedKeys={["1"]}
+                selectedKeys={location.pathname}
+                defaultSelectedKeys={location.pathname}
                 theme="dark"
                 mode="inline"
                 items={items}

@@ -12,7 +12,7 @@ import {
   TeamOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage/LoginPage.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjectData } from "../redux/action/project.js";
@@ -27,16 +27,18 @@ import { useState } from "react";
 const { Header, Sider, Content } = Layout;
 export default function LayoutMainTablet() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   function getItem(label, key, icon, children) {
     return {
+      label,
       key,
       icon,
       children,
-      label,
+  
     };
   }
   let handleLogout = () => {
@@ -48,7 +50,7 @@ export default function LayoutMainTablet() {
   const items = [
     getItem(
       "Project Maganement",
-      "1",
+      "/",
       <NavLink to="/">
         {" "}
         <UnorderedListOutlined />
@@ -56,7 +58,7 @@ export default function LayoutMainTablet() {
     ),
     getItem(
       "Create Project",
-      "2",
+      "/newproject",
       <NavLink to="/newproject">
         {" "}
         <FolderAddOutlined />
@@ -64,7 +66,7 @@ export default function LayoutMainTablet() {
     ),
     getItem(
       "User Management",
-      "3",
+      "/users",
       <NavLink to="/users">
         {" "}
         <TeamOutlined />
@@ -73,7 +75,7 @@ export default function LayoutMainTablet() {
     ,
     getItem(
       "User Setting",
-      "4",
+      "/usersetting",
       <NavLink to="/usersetting">
         {" "}
         <SettingOutlined />
@@ -82,7 +84,7 @@ export default function LayoutMainTablet() {
     ,
     getItem(
       "Logout",
-      "5",
+      "/login",
       <NavLink to="/login" onClick={handleLogout}>
         {" "}
         <LogoutOutlined />

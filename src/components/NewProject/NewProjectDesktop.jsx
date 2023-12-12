@@ -41,7 +41,8 @@ const NewProjectDesktop = () => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
         setTimeout(() => {
-          window.location.href = "/";
+          // window.location.href = "/";
+          navigate("/");
         }, 1000);
 
         form.resetFields();
@@ -150,11 +151,13 @@ const NewProjectDesktop = () => {
               <Button className="px-3 mx-2 btnBlue" type="primary" htmlType="submit">
                 Submit
               </Button>
+              
               <Button
                 className="px-3 mx-2 btnCancel"
                 type="text"
                 onClick={() => {
-                  window.location.href = "/";
+                  // window.location.href = "/";
+                  navigate("/")
                 }}
               >
                 Cancel

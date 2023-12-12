@@ -1,20 +1,21 @@
 import { Button, ConfigProvider, Form, Input, Select, message } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
+import { useNavigate } from "react-router-dom";
 
 export default function TabUserSettingDesktop() {
-  let { usersRedux } = useSelector((state) => state.usersManageReducer);
-  console.log(
-    "🚀 ~ file: TabUserSetting.jsx:5 ~ TabUserSetting ~ usersRedux:",
-    usersRedux
-  );
+  const navigate = useNavigate();
   let data = JSON.parse(localStorage.getItem("USER"));
   console.log(
     "🚀 ~ file: TabUserSetting.jsx:11 ~ TabUserSetting ~ data:",
     data
   );
+
+const newData = data;
+console.log("newData",newData)
+
 
   const [form] = Form.useForm();
   const [componentDisabled, setComponentDisabled] = useState(true);
@@ -30,12 +31,16 @@ export default function TabUserSettingDesktop() {
     usersManageService
       .editUser(updateUser)
       .then((res) => {
-        message.success("Cập nhật thành công");
+        
+        message.success("Successfully updated!");
+        
+       
       })
       .catch((err) => {
-        message.error("Cập nhật thất bại ");
+        message.error("Failed to update!");
         console.log("🚀 ~ file: TabUserSetting.jsx:36 ~ onFinish ~ err:", err);
       });
+      newData = updateUser;
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -83,11 +88,11 @@ export default function TabUserSettingDesktop() {
               }
             }
             initialValues={{
-              id: data.id,
-              name: data.name,
+              id: newData?.id,
+              name: newData?.name,
               passWord: "",
-              email: data.email,
-              phoneNumber: data.phoneNumber,
+              email: newData?.email,
+              phoneNumber: newData?.phoneNumber,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -116,6 +121,7 @@ export default function TabUserSettingDesktop() {
                   // height: "50px",
                 }}
                 disabled={true}
+                value={newData?.userId}
               />
             </Form.Item>
 
@@ -136,7 +142,7 @@ export default function TabUserSettingDesktop() {
                   // width: "400px",
                   // height: "50px",
                 }}
-                value={data.name}
+                value={newData?.name}
               />
             </Form.Item>
 
@@ -168,12 +174,12 @@ export default function TabUserSettingDesktop() {
             >
               <Input
                 style={{
-                  // borderColor: "black",
+                  // borderColor: "black",e
                   // borderStyle: "dashed",
                   // width: "400px",
                   // height: "50px",
                 }}
-                value={data.email}
+                value={newData?.email}
               />
             </Form.Item>
 
@@ -195,7 +201,7 @@ export default function TabUserSettingDesktop() {
                   // height: "50px",
                 }}
                 // addonBefore={prefixSelector}
-                value={data.phoneNumber}
+                value={newData?.phoneNumber}
               />
             </Form.Item>
 
@@ -218,7 +224,8 @@ export default function TabUserSettingDesktop() {
                   className="px-3 mx-2 btnCancel"
                   type="text"
                   onClick={() => {
-                    window.location.href = "/";
+                    // window.location.href = "/";
+                    navigate("/");
                   }}
                   style={{
                     backgroundColor: "#808080",

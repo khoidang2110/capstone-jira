@@ -31,6 +31,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 };
 export default function TabProjectsDesktop() {
   const [randomNumber, setRandomNumber] = useState("11");
+  const [toggle,setToggle]=useState(true);
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [project, setProject] = useState("");
@@ -43,15 +44,6 @@ const [projectData, setProjectData] = useState();
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   console.log("projectDataRedux", projectDataRedux);
 
-  // console.log(
-  //   "🚀 ~ file: TabProjects.jsx:35 ~ TabProjects ~ category:",
-  //   category
-  // );
-  // console.log(
-  //   "🚀 ~ file: TabProjects.jsx:33 ~ TabProjects ~ project:",
-  //   project
-  // );
-
   useEffect(() => {
     projectService
       .projectCategory()
@@ -61,6 +53,8 @@ const [projectData, setProjectData] = useState();
       })
       .catch((err) => {});
   }, []);
+
+  //update project when delete
   useEffect(() => {
     projectService
       .getProjectList()
@@ -73,6 +67,7 @@ const [projectData, setProjectData] = useState();
         console.log("err", err);
       });
   }, [randomNumber]);
+
   const showDrawer = () => {
     form.resetFields();
     setOpen(true);
@@ -119,19 +114,20 @@ const [projectData, setProjectData] = useState();
 
  
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
-  const [toggleData, setToggleData] = useState([]);
-// lấy data redux
-  // useEffect(() => {
-  //   // console.log("chạy ueff của redux");
-  //   if (projectDataRedux) {
-  //     const projectDataReduxById = projectDataRedux.filter(
-  //       (item) => item.creator.id == USER.id
-  //     );
-  //     setProjectData(projectDataRedux);
-  //     setProjectDataReduxById(projectDataReduxById);
-  //     setToggleData(projectDataReduxById);
-  //   }
-  // }, [projectDataRedux]);
+  //const [toggleData, setToggleData] = useState([]);
+//lấy data redux
+  useEffect(() => {
+    // console.log("chạy ueff của redux");
+    if (projectDataRedux) {
+      const projectDataReduxById = projectDataRedux.filter(
+        (item) => item.creator.id == USER.id
+      );
+       setProjectData(projectDataRedux);
+      setProjectDataReduxById(projectDataReduxById);
+      //setToggleData(projectDataReduxById);
+    }
+  }, [projectDataRedux]);
+
   // call api data 
   useEffect(() => {
     // console.log("chạy ueff lay api projectdata truc tiep");
@@ -141,7 +137,7 @@ const [projectData, setProjectData] = useState();
       );
       setProjectData(projectData);
       setProjectDataReduxById(projectDataReduxById);
-      setToggleData(projectDataReduxById);
+      //setToggleData(projectDataReduxById);
     }
   }, [projectData]);
 
@@ -149,12 +145,38 @@ const [projectData, setProjectData] = useState();
     console.log(`switch to ${checked}`);
 
     if (checked == true) {
-      setToggleData(projectDataReduxById);
+      setToggle(true)
+      // setToggleData(projectDataReduxById);
     } else if (checked == false) {
-      setToggleData(projectData);
+      // setToggleData(projectDataRedux);
+      setToggle(false)
     }
   };
 
+ 
+  // Modal Delete
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteProject, setDeleteProject] = useState();
+// console.log("deleteProject",deleteProject)
+  const handleOk = () => {
+    projectService
+      .deleteProject(deleteProject.id)
+      .then((res) => {
+        message.success("Xóa dự án thành công");
+        setRandomNumber(Math.random());
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1000);
+      })
+      .catch((err) => {
+        message.error("Xóa dự án thất bại");
+      })
+      .finally(setIsModalOpen(false));
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+   
+  };
   const columns = [
     {
       title: "ID",
@@ -351,31 +373,6 @@ const [projectData, setProjectData] = useState();
       },
     },
   ];
-
-  // Modal Delete
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteProject, setDeleteProject] = useState();
-console.log("deleteProject",deleteProject)
-  const handleOk = () => {
-    projectService
-      .deleteProject(deleteProject.id)
-      .then((res) => {
-        message.success("Xóa dự án thành công");
-        setRandomNumber(Math.random());
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 1000);
-      })
-      .catch((err) => {
-        message.error("Xóa dự án thất bại");
-      })
-      .finally(setIsModalOpen(false));
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-   
-  };
-
   return (
     <div className="">
       <ConfigProvider
@@ -534,14 +531,25 @@ console.log("deleteProject",deleteProject)
         </Modal>
       </ConfigProvider>
 
-      <Table
-        columns={columns}
-        dataSource={toggleData}
-        onChange={onChange}
-        scroll={{
-          y: 200,
-        }}
-      />
+      {toggle === true ?
+ <Table
+ size="small"
+   columns={columns}
+   dataSource={projectDataReduxById}
+   onChange={onChange}
+   scroll={{
+     y: 200,
+   }}
+ /> :<Table
+  size="small"
+    columns={columns}
+    dataSource={projectData}
+    onChange={onChange}
+    scroll={{
+      y: 200,
+    }}
+  />
+}
     </div>
   );
 }

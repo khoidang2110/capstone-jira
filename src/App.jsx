@@ -16,7 +16,7 @@ function App() {
     <div className="jira">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LayoutMain />}>
+          <Route element={<LayoutMain />}>
             <Route path="/" element={<TabProjects />}></Route>
             <Route path="/users" element={<TabUsers />}></Route>
             <Route

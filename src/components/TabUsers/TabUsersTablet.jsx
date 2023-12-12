@@ -224,6 +224,7 @@ export default function TabUsersTablet() {
       </ConfigProvider>
 
       <Table
+      size="small"
         columns={columns}
         // dataSource={gridData.length ? gridData : userData}
         dataSource={gridData}

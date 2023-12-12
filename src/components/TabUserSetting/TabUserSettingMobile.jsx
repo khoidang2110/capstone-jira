@@ -7,16 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function TabUserSettingMobile() {
   const navigate = useNavigate()
-  let { usersRedux } = useSelector((state) => state.usersManageReducer);
-  console.log(
-    "🚀 ~ file: TabUserSetting.jsx:5 ~ TabUserSetting ~ usersRedux:",
-    usersRedux
-  );
+
   let data = JSON.parse(localStorage.getItem("USER"));
   console.log(
     "🚀 ~ file: TabUserSetting.jsx:11 ~ TabUserSetting ~ data:",
     data
   );
+
+  const newData = data;
+console.log("newData",newData)
 
   const [form] = Form.useForm();
   const [componentDisabled, setComponentDisabled] = useState(true);
@@ -32,12 +31,15 @@ export default function TabUserSettingMobile() {
     usersManageService
       .editUser(updateUser)
       .then((res) => {
-        message.success("Cập nhật thành công");
+        message.success("Successfully updated!");
+        // form.resetFields();
+        // navigate("/" );
       })
       .catch((err) => {
-        message.error("Cập nhật thất bại ");
+        message.error("Failed to update!");
         console.log("🚀 ~ file: TabUserSetting.jsx:36 ~ onFinish ~ err:", err);
       });
+      newData = updateUser;
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -85,11 +87,11 @@ export default function TabUserSettingMobile() {
               }
             }
             initialValues={{
-              id: data.id,
-              name: data.name,
+              id: newData?.id,
+              name: newData?.name,
               passWord: "",
-              email: data.email,
-              phoneNumber: data.phoneNumber,
+              email: newData?.email,
+              phoneNumber: newData?.phoneNumber,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -118,6 +120,7 @@ export default function TabUserSettingMobile() {
                   // height: "50px",
                 }}
                 disabled={true}
+                value={newData?.userId}
               />
             </Form.Item>
 
@@ -138,7 +141,7 @@ export default function TabUserSettingMobile() {
                   // width: "400px",
                   // height: "50px",
                 }}
-                value={data.name}
+                value={newData?.name}
               />
             </Form.Item>
 
@@ -175,7 +178,7 @@ export default function TabUserSettingMobile() {
                   // width: "400px",
                   // height: "50px",
                 }}
-                value={data.email}
+                value={newData?.email}
               />
             </Form.Item>
 
@@ -197,7 +200,7 @@ export default function TabUserSettingMobile() {
                   // height: "50px",
                 }}
                 // addonBefore={prefixSelector}
-                value={data.phoneNumber}
+                value={newData?.phoneNumber}
               />
             </Form.Item>
 
