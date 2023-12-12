@@ -14,7 +14,7 @@ import { loginAction } from "../../redux/action/user";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { Option } = Select;
@@ -29,20 +29,22 @@ function Register() {
     userService
       .register(newUser)
       .then((res) => {
-        message.success("Đăng ký thành công");
+        message.success("Successful Registration!");
         let inforUser = {
           email: values?.email,
           passWord: values?.passWord,
         };
         let onSuccess = () => {
-          window.location.href = "/";
+          // message.success("Success");
+          // window.location.href = "/";
+          navigate("/login");
         };
         dispatch(loginAction(inforUser, onSuccess));
         form.resetFields();
       })
       .catch((err) => {
         console.log("🚀 ~ file: Register.jsx:22 ~ onFinish ~ err:", err);
-        message.error("Đăng ký thất bại");
+        message.error("Register failed");
       });
   };
   const onFinishFailed = (errorInfo) => {
@@ -79,14 +81,16 @@ function Register() {
             }}
           >
             <Form
-             className=" flex flex-col align-center justify-center"
+              className=" flex flex-col align-center justify-center"
               form={form}
               name="register"
-              style={{
-                // maxWidth: 800,
-                // maxHeight: 800,
-                // width:300
-              }}
+              style={
+                {
+                  // maxWidth: 800,
+                  // maxHeight: 800,
+                  // width:300
+                }
+              }
               initialValues={{
                 name: "",
                 passWord: "",
@@ -96,10 +100,10 @@ function Register() {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
-              
             >
-              
-              <div className="mb-2 font-medium m-4 text-center">FORM REGISTER</div>
+              <div className="mb-2 font-medium m-4 text-center">
+                FORM REGISTER
+              </div>
               <Form.Item
                 label="Name"
                 name="name"
@@ -111,16 +115,16 @@ function Register() {
                 ]}
               >
                 <Input
-                  style={{
-                    // borderColor: "black",
-                    // borderStyle: "dashed",
-                    // width: "300px",
-                    // height: "50px",
-                  }}
+                  style={
+                    {
+                      // borderColor: "black",
+                      // borderStyle: "dashed",
+                      // width: "300px",
+                      // height: "50px",
+                    }
+                  }
                 />
               </Form.Item>
-
-              
 
               <Form.Item
                 label="Password"
@@ -128,11 +132,11 @@ function Register() {
                 rules={[{ required: true }]}
               >
                 <Input
-                  style={{
-                
-                    // width: "300px",
-                   
-                  }}
+                  style={
+                    {
+                      // width: "300px",
+                    }
+                  }
                   type="password"
                 />
               </Form.Item>
@@ -160,11 +164,11 @@ function Register() {
                 ]}
               >
                 <Input
-                  style={{
-                  
-                    // width: "200px",
-                  
-                  }}
+                  style={
+                    {
+                      // width: "200px",
+                    }
+                  }
                   type="password"
                 />
               </Form.Item>
@@ -181,11 +185,11 @@ function Register() {
                 ]}
               >
                 <Input
-                  style={{
-                   
-                    // width: "200px",
-                 
-                  }}
+                  style={
+                    {
+                      // width: "200px",
+                    }
+                  }
                 />
               </Form.Item>
 
@@ -201,9 +205,11 @@ function Register() {
               >
                 <Input
                   addonBefore={prefixSelector}
-                  style={{
-                    // width: "100%",
-                  }}
+                  style={
+                    {
+                      // width: "100%",
+                    }
+                  }
                 />
               </Form.Item>
 

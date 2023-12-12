@@ -51,13 +51,15 @@ export default function TabUsersTablet() {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [user, setUser] = useState("");
-  // console.log("user", user);
+
+  console.log("user", user);
 
   const showDrawer = () => {
     form.resetFields();
     setOpen(true);
   };
   const onClose = () => {
+    // form.resetFields();
     setOpen(false);
   };
   const onFinish = (values) => {
@@ -90,65 +92,6 @@ export default function TabUsersTablet() {
   // Modal Delete
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteUser, setDeleteUser] = useState();
-  const columns = [
-    {
-      title: "User ID",
-      dataIndex: "userId",
-      width: 80,
-    },
-    {
-      title: "Name",
-      dataIndex: "name",
-
-      width: 150,
-    },
-  
-    {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      width: 150,
-    },
-    {
-      title: "Action",
-      key: "action",
-
-      render: (_, record) => {
-        return (
-          <Space size="middle">
-            <Button
-              className="btnBlue"
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={() => {
-                usersManageService
-                  .getUser(record.userId)
-                  .then((res) => {
-                    // console.log("res", res)
-                    setUser(res.data.content[0]);
-                    setTimeout(() => {
-                      showDrawer();
-                    }, 100);
-                  })
-                  .catch((err) => {
-                    console.log("err", err);
-                  });
-              }}
-            ></Button>
-            <Button
-              type="text"
-              className="btnRed"
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                // console.log(record);
-                setDeleteUser(record);
-                setIsModalOpen(true);
-              }}
-            ></Button>
-          </Space>
-        );
-      },
-    },
-  ];
 
   const [searchText, setSearchText] = useState("");
   console.log("searchText", searchText);
@@ -192,6 +135,64 @@ export default function TabUsersTablet() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const handleEdit = (id) => {
+    console.log("bam edit", id);
+    const newData = gridData.find((item) => item.userId == id);
+    console.log("newData", newData);
+    setUser(newData);
+    setTimeout(() => {
+      showDrawer();
+    }, 300);
+  };
+  const columns = [
+    {
+      title: "User ID",
+      dataIndex: "userId",
+      width: 80,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+
+      width: 150,
+    },
+
+    {
+      title: "Phone Number",
+      dataIndex: "phoneNumber",
+      width: 150,
+    },
+    {
+      title: "Action",
+      key: "action",
+
+      render: (_, record) => {
+        return (
+          <Space size="middle">
+            <Button
+              className="btnBlue"
+              type="primary"
+              icon={<EditOutlined />}
+              onClick={
+                () => handleEdit(record.userId)
+                
+              }
+            ></Button>
+            <Button
+              type="text"
+              className="btnRed"
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                // console.log(record);
+                setDeleteUser(record);
+                setIsModalOpen(true);
+              }}
+            ></Button>
+          </Space>
+        );
+      },
+    },
+  ];
   return (
     <div
       className=""
@@ -224,7 +225,7 @@ export default function TabUsersTablet() {
       </ConfigProvider>
 
       <Table
-      size="small"
+        size="small"
         columns={columns}
         // dataSource={gridData.length ? gridData : userData}
         dataSource={gridData}
@@ -232,7 +233,6 @@ export default function TabUsersTablet() {
         scroll={{
           y: 200,
         }}
-      
         rowKey={"userId"}
       />
       <Drawer
@@ -240,7 +240,6 @@ export default function TabUsersTablet() {
         width={300}
         onClose={onClose}
         open={open}
-      
         styles={{
           body: {
             paddingBottom: 80,

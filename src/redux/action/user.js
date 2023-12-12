@@ -20,6 +20,7 @@ export const loginAction = (formData, callback) => {
       })
       .catch((err) => {
         console.log(err);
+    
       });
   };
 };

@@ -6,7 +6,7 @@ import {
   TwitterCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../redux/action/user";
@@ -23,6 +23,7 @@ export default function LoginPage() {
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    message.error("Fail to login!!!")
   };
   return (
     <div>
