@@ -229,8 +229,9 @@ export default function TabUsersTablet() {
         dataSource={gridData}
         onChange={onChange}
         scroll={{
-          y: 280,
+          y: 200,
         }}
+      
         rowKey={"userId"}
       />
       <Drawer
@@ -238,6 +239,7 @@ export default function TabUsersTablet() {
         width={300}
         onClose={onClose}
         open={open}
+      
         styles={{
           body: {
             paddingBottom: 80,

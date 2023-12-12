@@ -157,11 +157,11 @@ export default function LayoutMainDesktop() {
                 transition: 'all 0.2s ease-in-out',
                 padding: 0,
                 marginLeft: `${collapsed ? '80px' : '200px'}`,
+                
             }}>
             <Header
               className="flex justify-between"
               style={{
-                padding: 0,
                 background: colorBgContainer,
                 padding: '10px 20px',
                 fontSize: '30px',
@@ -191,8 +191,8 @@ export default function LayoutMainDesktop() {
             </Header>
             <Content
                style={{
-                padding: 24,
-                margin: '24px 16px ',
+                padding: 10,
+                margin: '10px 10px ',
                 minHeight: '300px',
                 overflow: 'initial',
                 backgroundColor: "#fff",

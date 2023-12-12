@@ -161,7 +161,7 @@ export default function LayoutMainTablet() {
             <Header
               className="flex justify-between"
               style={{
-                padding: 0,
+
                 background: colorBgContainer,
                 padding: '10px 20px',
                 fontSize: '30px',
@@ -191,8 +191,8 @@ export default function LayoutMainTablet() {
             </Header>
             <Content
                style={{
-                padding: 24,
-                margin: '24px 16px ',
+                padding: 10,
+                margin: '10px 10px ',
                 minHeight: '300px',
                 overflow: 'initial',
                 backgroundColor: "#fff",

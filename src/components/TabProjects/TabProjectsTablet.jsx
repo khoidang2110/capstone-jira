@@ -121,17 +121,18 @@ const [projectData, setProjectData] = useState();
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
   const [toggleData, setToggleData] = useState([]);
 // lấy data redux
-  useEffect(() => {
-    // console.log("chạy ueff của redux");
-    if (projectDataRedux) {
-      const projectDataReduxById = projectDataRedux.filter(
-        (item) => item.creator.id == USER.id
-      );
-      setProjectData(projectDataRedux);
-      setProjectDataReduxById(projectDataReduxById);
-      setToggleData(projectDataReduxById);
-    }
-  }, [projectDataRedux]);
+  // useEffect(() => {
+  //   // console.log("chạy ueff của redux");
+  //   if (projectDataRedux) {
+  //     const projectDataReduxById = projectDataRedux.filter(
+  //       (item) => item.creator.id == USER.id
+  //     );
+  //     setProjectData(projectDataRedux);
+  //     setProjectDataReduxById(projectDataReduxById);
+  //     setToggleData(projectDataReduxById);
+  //   }
+  // }, [projectDataRedux]);
+
   // call api data 
   useEffect(() => {
     // console.log("chạy ueff lay api projectdata truc tiep");
@@ -340,7 +341,7 @@ const [projectData, setProjectData] = useState();
   // Modal Delete
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteProject, setDeleteProject] = useState();
-console.log("deleteProject",deleteProject)
+// console.log("deleteProject",deleteProject)
   const handleOk = () => {
     projectService
       .deleteProject(deleteProject.id)
@@ -524,7 +525,7 @@ console.log("deleteProject",deleteProject)
         dataSource={toggleData}
         onChange={onChange}
         scroll={{
-          y: 280,
+          y: 200,
         }}
       />
     </div>

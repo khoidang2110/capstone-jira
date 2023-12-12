@@ -234,7 +234,7 @@ export default function TabUsersDesktop() {
         dataSource={gridData}
         onChange={onChange}
         scroll={{
-          y: 280,
+          y: 200,
         }}
         rowKey={"userId"}
       />
