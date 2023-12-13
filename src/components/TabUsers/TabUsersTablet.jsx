@@ -10,9 +10,9 @@ import {
   Table,
   message,
 } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
-import { setUsersData } from "../../redux/action/userManage";
+
 import {
   DeleteOutlined,
   EditOutlined,
@@ -23,23 +23,29 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 export default function TabUsersTablet() {
-  const dispatch = useDispatch();
+ 
   let { usersRedux } = useSelector((state) => state.usersManageReducer);
+  console.log("lay usersRedux",usersRedux)
   const [userData, setUserData] = useState();
   const [randomNumber, setRandomNumber] = useState(11);
+  const [gridData, setGridData] = useState([]);
+  console.log("🚀 ~ file: TabUsers.jsx:179 ~ TabUsers ~ gridData:", gridData);
   console.log("user data", userData);
   useEffect(() => {
+    console.log("chay ueff setuserdata")
     setUserData(usersRedux);
+    // setGridData(usersRedux);
   }, []);
 
   useEffect(() => {
+    console.log("chay ueff load userlist, set user data")
     usersManageService
       .getUsersList()
       .then((result) => {
         // console.log("users list layout", result.data.content);
         // dispatch(setUsersData(result.data.content));
         setUserData(result.data.content);
-        setGridData(userData);
+        // setGridData(userData);
       })
       .catch((err) => {
         console.log("err", err);
@@ -52,7 +58,7 @@ export default function TabUsersTablet() {
   const [form] = Form.useForm();
   const [user, setUser] = useState("");
 
-  console.log("user", user);
+  // console.log("user", user);
 
   const showDrawer = () => {
     form.resetFields();
@@ -94,11 +100,11 @@ export default function TabUsersTablet() {
   const [deleteUser, setDeleteUser] = useState();
 
   const [searchText, setSearchText] = useState("");
-  console.log("searchText", searchText);
+  // console.log("searchText", searchText);
   let [filteredValue] = useState();
-  const [gridData, setGridData] = useState([]);
-  console.log("🚀 ~ file: TabUsers.jsx:179 ~ TabUsers ~ gridData:", gridData);
+
   useEffect(() => {
+    console.log("chay ueff khi co userData, set grid data")
     if (userData) {
       // setGridData(userData)
       filteredValue = userData.filter((value) => {
@@ -144,6 +150,7 @@ export default function TabUsersTablet() {
       showDrawer();
     }, 300);
   };
+
   const columns = [
     {
       title: "User ID",
