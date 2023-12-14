@@ -143,7 +143,8 @@ export default function LayoutMainMobile() {
            
               <Menu
               // style={{position:"fixed"}}
-                defaultSelectedKeys={["1"]}
+              selectedKeys={location.pathname}
+              defaultSelectedKeys={location.pathname}
                 theme="dark"
                 mode="inline"
                 items={items}

@@ -23,11 +23,11 @@ const onChange = (pagination, filters, sorter, extra) => {
 };
 export default function TabUsersDesktop() {
   let { usersRedux } = useSelector((state) => state.usersManageReducer);
-  console.log("lay usersRedux",usersRedux)
+  // console.log("lay usersRedux",usersRedux)
   const [userData, setUserData] = useState();
   const [randomNumber, setRandomNumber] = useState(11);
   const [gridData, setGridData] = useState([]);
-  console.log("🚀 ~ file: TabUsers.jsx:179 ~ TabUsers ~ gridData:", gridData);
+  // console.log("🚀 ~ file: TabUsers.jsx:179 ~ TabUsers ~ gridData:", gridData);
   console.log("user data", userData);
   useEffect(() => {
     console.log("chay ueff setuserdata")
@@ -102,7 +102,7 @@ export default function TabUsersDesktop() {
   let [filteredValue] = useState();
 
   useEffect(() => {
-    console.log("chay ueff khi co userData, set grid data")
+    // console.log("chay ueff khi co userData, set grid data")
     if (userData) {
       // setGridData(userData)
       filteredValue = userData.filter((value) => {
