@@ -25,22 +25,25 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-
+import { setProjectData } from "../../redux/action/project";
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 export default function TabProjectsTablet() {
+  const dispatch = useDispatch();
   const [randomNumber, setRandomNumber] = useState("11");
-  const [toggle,setToggle]=useState(true);
+  const [toggle, setToggle] = useState(true);
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const [project, setProject] = useState("");
+  const [project, setProject] = useState(null);
   const [category, setCategory] = useState();
 
   let userJson = localStorage.getItem("USER");
   let USER = JSON.parse(userJson);
   let data = JSON.parse(localStorage.getItem("USER"));
-const [projectData, setProjectData] = useState();
+  const [projectData, setProjectDataCom] = useState();
+  console.log("🚀 ~ file:  projectData:", projectData)
+  
   let { projectDataRedux } = useSelector((state) => state.projectReducer);
   console.log("projectDataRedux", projectDataRedux);
 
@@ -60,23 +63,30 @@ const [projectData, setProjectData] = useState();
       .getProjectList()
       .then((result) => {
         // console.log("chay updatae");
-            setProjectData(result.data.content);
+      
+         dispatch(setProjectData(result.data.content));
+
+        setProjectDataCom(result.data.content);
       
       })
       .catch((err) => {
         console.log("err", err);
       });
   }, [randomNumber]);
+  // useEffect(()=>{
+  //   dispatch(setProjectData(projectData));
+  // },[randomNumber])
 
+  //reset field khi project đổi
+  useEffect(() => form.resetFields(), [project]);
   const showDrawer = () => {
-    form.resetFields();
+    // form.resetFields();
     setOpen(true);
   };
   const onClose = () => {
     // window.location.href = "/";
+
     setOpen(false);
-    form.resetFields();
-    
   };
   const onFinish = (values) => {
     console.log("🚀 ~ file: TabProjects.jsx:60 ~ onFinish ~ values:", values);
@@ -92,7 +102,7 @@ const [projectData, setProjectData] = useState();
       .updateProject(project.id, values)
       .then((res) => {
         message.success("Edit thành công");
-       
+
         // setTimeout(() => {
         //   window.location.href = "/";
         // }, 1000);
@@ -112,30 +122,30 @@ const [projectData, setProjectData] = useState();
     console.log("Failed:", errorInfo);
   };
 
- 
   const [projectDataReduxById, setProjectDataReduxById] = useState([]);
   //const [toggleData, setToggleData] = useState([]);
-//lấy data redux
+  //lấy data redux
   useEffect(() => {
     // console.log("chạy ueff của redux");
     if (projectDataRedux) {
       const projectDataReduxById = projectDataRedux.filter(
         (item) => item.creator.id == USER.id
       );
-       setProjectData(projectDataRedux);
+      setProjectDataCom(projectDataRedux);
       setProjectDataReduxById(projectDataReduxById);
       //setToggleData(projectDataReduxById);
     }
   }, [projectDataRedux]);
 
-  // call api data 
+  // call api data
   useEffect(() => {
     // console.log("chạy ueff lay api projectdata truc tiep");
     if (projectData) {
       const projectDataReduxById = projectData.filter(
         (item) => item.creator.id == USER.id
       );
-      setProjectData(projectData);
+      setProjectDataCom(projectData);
+    
       setProjectDataReduxById(projectDataReduxById);
       //setToggleData(projectDataReduxById);
     }
@@ -145,19 +155,18 @@ const [projectData, setProjectData] = useState();
     console.log(`switch to ${checked}`);
 
     if (checked == true) {
-      setToggle(true)
+      setToggle(true);
       // setToggleData(projectDataReduxById);
     } else if (checked == false) {
       // setToggleData(projectDataRedux);
-      setToggle(false)
+      setToggle(false);
     }
   };
 
- 
   // Modal Delete
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteProject, setDeleteProject] = useState();
-// console.log("deleteProject",deleteProject)
+  // console.log("deleteProject",deleteProject)
   const handleOk = () => {
     projectService
       .deleteProject(deleteProject.id)
@@ -175,10 +184,8 @@ const [projectData, setProjectData] = useState();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-   
   };
   const columns = [
-    
     {
       title: "Project Name",
       dataIndex: "projectName",
@@ -195,14 +202,12 @@ const [projectData, setProjectData] = useState();
           </Tag>
         );
       },
-      
     },
     {
       title: "Category",
       dataIndex: "categoryName",
       width: 150,
       render: (text) => <p style={{ color: "#252935" }}>{text}</p>,
-    
     },
     {
       title: "Members",
@@ -321,7 +326,7 @@ const [projectData, setProjectData] = useState();
           <>
             <Space size="middle">
               <Button
-              type="primary"
+                type="primary"
                 className="btnBlue"
                 // type="text"
                 icon={<EditOutlined />}
@@ -329,14 +334,11 @@ const [projectData, setProjectData] = useState();
                   projectService
                     .getProjectDetail(record.id)
                     .then((res) => {
+                      // form.resetFields();
                       setProject(res.data.content);
-                    //   setTimeout(function(){
-                    //     showDrawer();
-                    // },100);
-                     
-                      setTimeout(() => {
-                        showDrawer();
-                      }, 100);
+                    })
+                    .then(() => {
+                      showDrawer();
                     })
                     .catch((err) => {
                       console.log("jsx:257 ~ TabProjects ~ err:", err);
@@ -400,7 +402,7 @@ const [projectData, setProjectData] = useState();
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project.projectCategory?.name,
+              categoryId: project?.projectCategory?.name,
               description: project?.description,
               // remember: true,
             }}
@@ -433,11 +435,13 @@ const [projectData, setProjectData] = useState();
               rules={[]}
             >
               <Input
-                style={{
-                  // borderColor: "black",
-                  // borderStyle: "dashed",
-                  // height: "50px",
-                }}
+                style={
+                  {
+                    // borderColor: "black",
+                    // borderStyle: "dashed",
+                    // height: "50px",
+                  }
+                }
                 values={project?.projectName}
               />
             </Form.Item>
@@ -449,11 +453,13 @@ const [projectData, setProjectData] = useState();
               rules={[]}
             >
               <Select
-                style={{
-                  // borderColor: "black",
-                  // borderStyle: "dashed",
-                  // height: "50px",
-                }}
+                style={
+                  {
+                    // borderColor: "black",
+                    // borderStyle: "dashed",
+                    // height: "50px",
+                  }
+                }
                 values={{
                   value: project?.projectCategory?.id,
                   label: project?.projectCategory?.name,
@@ -482,25 +488,19 @@ const [projectData, setProjectData] = useState();
             </Form.Item>
 
             <Form.Item>
-            <Space style={{width:"100%", justifyContent:"center"}}>
-              <Button
-                className="btnBlue"
-               
-                htmlType="submit"
-         
-              >
-                Submit
-              </Button>
-              <Button
-                className="btnCancel"
-                type="text"
-                onClick={() => {
-                  onClose();
-                }}
-           
-              >
-                Cancel
-              </Button>
+              <Space style={{ width: "100%", justifyContent: "center" }}>
+                <Button className="btnBlue" htmlType="submit">
+                  Submit
+                </Button>
+                <Button
+                  className="btnCancel"
+                  type="text"
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  Cancel
+                </Button>
               </Space>
             </Form.Item>
           </Form>
@@ -512,31 +512,34 @@ const [projectData, setProjectData] = useState();
           onOk={handleOk}
           onCancel={handleCancel}
         >
-         <span className="flex"> <p>Are you sure to delete this Project: </p><p className="text-red-500  pl-1">  {deleteProject?.projectName
-}</p></span>
+          <span className="flex">
+            {" "}
+            <p>Are you sure to delete this Project: </p>
+            <p className="text-red-500  pl-1"> {deleteProject?.projectName}</p>
+          </span>
         </Modal>
       </ConfigProvider>
-{toggle === true ?
- <Table
- size="small"
-   columns={columns}
-   dataSource={projectDataReduxById}
-   onChange={onChange}
-   scroll={{
-     y: 200,
-   }}
- /> :<Table
-  size="small"
-    columns={columns}
-    dataSource={projectData}
-    onChange={onChange}
-    scroll={{
-      y: 200,
-    }}
-  />
-}
-      
-      
+      {toggle === true ? (
+        <Table
+          size="small"
+          columns={columns}
+          dataSource={projectDataReduxById}
+          onChange={onChange}
+          scroll={{
+            y: 200,
+          }}
+        />
+      ) : (
+        <Table
+          size="small"
+          columns={columns}
+          dataSource={projectData}
+          onChange={onChange}
+          scroll={{
+            y: 200,
+          }}
+        />
+      )}
     </div>
   );
 }

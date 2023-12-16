@@ -139,14 +139,16 @@ export default function TabUsersDesktop() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => form.resetFields(), [user]);
   const handleEdit = (id) => {
     console.log("bam edit", id);
     const newData = gridData.find((item) => item.userId == id);
     console.log("newData", newData);
     setUser(newData);
-    setTimeout(() => {
-      showDrawer();
-    }, 300);
+    // setTimeout(() => {
+    //   showDrawer();
+    // }, 300);
+    showDrawer();
   };
   
   const columns = [

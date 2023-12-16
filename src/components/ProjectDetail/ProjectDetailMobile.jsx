@@ -156,16 +156,19 @@ export default function ProjectDetailMobile() {
         });
         setAssigneeTemp(map1);
       })
+      .then(()=>{
+        setIsModalTaskOpen(true);
+      })
       .catch((err) => {
         console.log("err task detail", err);
       });
 
-    setTimeout(() => {
-      console.log("Delayed for 0.5 second.");
-      setIsModalTaskOpen(true);
-    }, "200");
+    // setTimeout(() => {
+    //   console.log("Delayed for 0.5 second.");
+    //   setIsModalTaskOpen(true);
+    // }, "200");
   };
-
+  useEffect(() => form.resetFields(), [assigneeTemp]);
   const handleCancelTask = () => {
     setIsModalTaskOpen(false);
     setTaskData({});

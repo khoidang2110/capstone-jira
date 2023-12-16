@@ -40,10 +40,11 @@ const NewProjectDesktop = () => {
       .then((res) => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
-        setTimeout(() => {
-          // window.location.href = "/";
-          navigate("/");
-        }, 1000);
+        navigate("/");
+        // setTimeout(() => {
+        //   // window.location.href = "/";
+        
+        // }, 1000);
 
         form.resetFields();
         setRandomNumber(Math.random());

@@ -40,11 +40,11 @@ const NewProjectMobile = () => {
       .then((res) => {
         console.log(" NewProject.jsx:45 ~ .then ~ res:", res);
         message.success("Đăng ký thành công");
-        setTimeout(() => {
-          // window.location.href = "/";
-          navigate("/");
-        }, 1000);
-
+        // setTimeout(() => {
+        //   // window.location.href = "/";
+        
+        // }, 1000);
+        navigate("/");
         form.resetFields();
         setRandomNumber(Math.random());
       })
