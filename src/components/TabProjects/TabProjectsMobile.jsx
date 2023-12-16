@@ -191,7 +191,7 @@ export default function TabProjectsMobile() {
     {
       title: "Project Name",
       dataIndex: "projectName",
-      width: 100,
+      
       render: (text, record, index) => {
         return (
           <Tag color="purple">
@@ -210,7 +210,7 @@ export default function TabProjectsMobile() {
     {
       title: "Action",
       key: "action",
-
+      width: 90,
       render: (_, record) => {
         return (
           <>
