@@ -185,13 +185,13 @@ export default function LayoutMainTablet() {
                 }}
               />
               <span className="flex " style={{ fontWeight: "600",fontSize:"12px" }}>
-              {curUser ?  <p>Wellcome {curUser?.name}</p>  : <p>Wellcome {USER?.name}</p> }
+              {curUser ?  <p>{curUser?.name}</p>  : <p> {USER?.name}</p> }
               <Avatar
                   size={30}
                   className="mx-3 my-3 "
                   style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
-                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER.name.slice(0, 2).toUpperCase()  }
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER?.name?.slice(0, 2).toUpperCase()  }
                 </Avatar>
               </span>
             </Header>

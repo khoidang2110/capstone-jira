@@ -191,7 +191,7 @@ export default function LayoutMainDesktop() {
                   className="mx-3 my-3 "
                   style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
-                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER.name.slice(0, 2).toUpperCase()  }
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER?.name?.slice(0, 2).toUpperCase()  }
                 </Avatar>
               </span>
             </Header>

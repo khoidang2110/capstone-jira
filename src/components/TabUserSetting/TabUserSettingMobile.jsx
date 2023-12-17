@@ -65,10 +65,10 @@ console.log("newData",newData)
       })
       .then(()=>{
           usersManageService
-              .getUser(newData.id)
+              .getUser(data.id)
               .then((result) => {
                  console.log("user api", result.data.content[0]);
-                dispatch(setInfoAction(result.data.content[0]));
+                dispatch(setInfoAction(result.data.content[1]));
                 // localStorage.setItem("USER", JSON.stringify(result.data.content[0]));
               })
               .catch((err) => {

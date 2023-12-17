@@ -35,7 +35,7 @@ export default function LayoutMainMobile() {
   console.log("curUSER",curUser)
   const navigate = useNavigate();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -187,7 +187,7 @@ export default function LayoutMainMobile() {
                   className="mx-3 my-3 "
                   style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
-                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER.name.slice(0, 2).toUpperCase()  }
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER?.name?.slice(0, 2).toUpperCase()  }
                 </Avatar>
               </span>
             </Header>
