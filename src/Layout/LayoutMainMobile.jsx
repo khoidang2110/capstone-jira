@@ -26,9 +26,16 @@ import { useState } from "react";
 
 const { Header, Sider, Content } = Layout;
 export default function LayoutMainMobile() {
+  let userJson = localStorage.getItem("USER");
+  let USER = JSON.parse(userJson);
+  // console.log("USER",USER)
+
+  const dispatch = useDispatch();
+  let curUser  = useSelector((state) => state.userReducer.user);
+  console.log("curUSER",curUser)
   const navigate = useNavigate();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -47,6 +54,28 @@ export default function LayoutMainMobile() {
     // vừa chuyển trang vừa reload
     // window.location.href="/"
   };
+  useEffect(() => {
+    projectService
+      .getProjectList()
+      .then((result) => {
+        // console.log("project list layout", result.data.content);
+        dispatch(setProjectData(result.data.content));
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }, []);
+  useEffect(() => {
+    usersManageService
+      .getUsersList()
+      .then((result) => {
+        // console.log("users list layout", result.data.content);
+        dispatch(setUsersData(result.data.content));
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }, []);
   const items = [
     getItem(
       "Project Maganement",
@@ -91,35 +120,6 @@ export default function LayoutMainMobile() {
       </NavLink>
     ),
   ];
-  // let { info } = useSelector((state) => state.userReducer);
-  // console.log("lấy info", info);
-  let userJson = localStorage.getItem("USER");
-  let USER = JSON.parse(userJson);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    projectService
-      .getProjectList()
-      .then((result) => {
-        // console.log("project list layout", result.data.content);
-        dispatch(setProjectData(result.data.content));
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  }, []);
-  useEffect(() => {
-    usersManageService
-      .getUsersList()
-      .then((result) => {
-        // console.log("users list layout", result.data.content);
-        dispatch(setUsersData(result.data.content));
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  }, []);
-
   return (
     <>
       {USER ? (
@@ -181,13 +181,13 @@ export default function LayoutMainMobile() {
                 }}
               /> */}
               <span className="flex " style={{ fontWeight: "600",fontSize:"12px" }}>
-                <p>Wellcome {USER.name}</p>
-                <Avatar
+              {curUser ?  <p>Wellcome {curUser?.name}</p>  : <p>Wellcome {USER?.name}</p> }
+              <Avatar
                   size={30}
                   className="mx-3 my-3 "
                   style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
-                  {USER.name.slice(0, 2).toUpperCase()}
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER.name.slice(0, 2).toUpperCase()  }
                 </Avatar>
               </span>
             </Header>

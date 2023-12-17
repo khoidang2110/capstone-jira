@@ -4,17 +4,46 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
 import { useNavigate } from "react-router-dom";
+import { setInfoAction } from "../../redux/action/user";
+import { useDispatch } from "react-redux";
 
 export default function TabUserSettingDesktop() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let data = JSON.parse(localStorage.getItem("USER"));
   console.log(
     "🚀 ~ file: TabUserSetting.jsx:11 ~ TabUserSetting ~ data:",
     data
   );
+  let reduxUser  = useSelector((state) => state.userReducer.user);
+  console.log("🚀 ~ file:reduxUser:", reduxUser)
 
-const newData = data;
+  const [newData, setNewData] = useState(data);
+
 console.log("newData",newData)
+  let initValue = {}
+  if(reduxUser){
+    initValue = {
+      id: reduxUser.userId,
+      name: reduxUser.name,
+      passWord: "",
+      email: reduxUser.email,
+      phoneNumber: reduxUser.phoneNumber,
+    
+    }
+  } else {
+    initValue = {
+      
+        id: newData?.id,
+        name: newData?.name,
+        passWord: "",
+        email: newData?.email,
+        phoneNumber: newData?.phoneNumber,
+      
+    }
+  }
+// const newData = data;
+
 
 
   const [form] = Form.useForm();
@@ -33,6 +62,20 @@ console.log("newData",newData)
       .then((res) => {
         
         message.success("Successfully updated!");
+        setNewData(updateUser);
+       
+      })
+      .then(()=>{
+          usersManageService
+              .getUser(newData.id)
+              .then((result) => {
+                 console.log("user api", result.data.content[0]);
+                dispatch(setInfoAction(result.data.content[0]));
+                // localStorage.setItem("USER", JSON.stringify(result.data.content[0]));
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
         
        
       })
@@ -40,12 +83,12 @@ console.log("newData",newData)
         message.error("Failed to update!");
         console.log("🚀 ~ file: TabUserSetting.jsx:36 ~ onFinish ~ err:", err);
       });
-      newData = updateUser;
+      
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
+  // useEffect(() => form.resetFields(), [newData]);
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
@@ -87,13 +130,7 @@ console.log("newData",newData)
                 width:300
               }
             }
-            initialValues={{
-              id: newData?.id,
-              name: newData?.name,
-              passWord: "",
-              email: newData?.email,
-              phoneNumber: newData?.phoneNumber,
-            }}
+            initialValues={initValue}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"

@@ -23,9 +23,17 @@ import {
 } from "../service/service.js";
 import { setUsersData } from "../redux/action/userManage.js";
 import { useState } from "react";
+import { setInfoAction } from "../redux/action/user.js";
 
 const { Header, Sider, Content } = Layout;
 export default function LayoutMainTablet() {
+  let userJson = localStorage.getItem("USER");
+  let USER = JSON.parse(userJson);
+  // console.log("USER",USER)
+
+  const dispatch = useDispatch();
+  let curUser  = useSelector((state) => state.userReducer.user);
+  console.log("curUSER",curUser)
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
@@ -91,12 +99,7 @@ export default function LayoutMainTablet() {
       </NavLink>
     ),
   ];
-  // let { info } = useSelector((state) => state.userReducer);
-  // console.log("lấy info", info);
-  let userJson = localStorage.getItem("USER");
-  let USER = JSON.parse(userJson);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     projectService
       .getProjectList()
@@ -182,13 +185,13 @@ export default function LayoutMainTablet() {
                 }}
               />
               <span className="flex " style={{ fontWeight: "600",fontSize:"12px" }}>
-                <p> {USER.name}</p>
-                <Avatar
+              {curUser ?  <p>Wellcome {curUser?.name}</p>  : <p>Wellcome {USER?.name}</p> }
+              <Avatar
                   size={30}
                   className="mx-3 my-3 "
                   style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
                 >
-                  {USER.name.slice(0, 2).toUpperCase()}
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER.name.slice(0, 2).toUpperCase()  }
                 </Avatar>
               </span>
             </Header>

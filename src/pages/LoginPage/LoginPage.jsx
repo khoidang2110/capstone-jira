@@ -9,17 +9,20 @@ import {
 import { Button, Checkbox, Form, Input, message } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../../redux/action/user";
+import { loginAction, setInfoAction } from "../../redux/action/user";
 export default function LoginPage() {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const onFinish = (values) => {
+    // dispatch(setInfoAction(values));
     console.log("values", values);
     //let onSuccess = () => (window.location.href = "/");
-    let onSuccess = () => (window.location.href = "/");
-    
 
+
+    let onSuccess = () => (window.location.href = "/");
     dispatch(loginAction(values, onSuccess));
+
+    
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
