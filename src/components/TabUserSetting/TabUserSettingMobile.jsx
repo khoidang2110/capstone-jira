@@ -1,10 +1,12 @@
 import { Button, ConfigProvider, Form, Input, Select, message } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { usersManageService } from "../../service/service";
 import { useNavigate } from "react-router-dom";
+import { setInfoAction } from "../../redux/action/user";
 import { useDispatch } from "react-redux";
+
 export default function TabUserSettingMobile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,7 +69,7 @@ console.log("newData",newData)
           usersManageService
               .getUser(data.id)
               .then((result) => {
-                 console.log("user api", result.data.content[0]);
+                 console.log("user api", result.data.content);
                 dispatch(setInfoAction(result.data.content[1]));
                 // localStorage.setItem("USER", JSON.stringify(result.data.content[0]));
               })
@@ -86,6 +88,7 @@ console.log("newData",newData)
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  // useEffect(() => form.resetFields(), [newData]);
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
