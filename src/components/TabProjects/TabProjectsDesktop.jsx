@@ -420,7 +420,7 @@ export default function TabProjectsDesktop() {
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project?.projectCategory?.name,
+              categoryId: project?.projectCategory?.id,
               description: project?.description,
               // remember: true,
             }}

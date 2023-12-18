@@ -36,6 +36,7 @@ export default function TabProjectsTablet() {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [project, setProject] = useState(null);
+  console.log("project",project)
   const [category, setCategory] = useState();
 
   let userJson = localStorage.getItem("USER");
@@ -90,14 +91,14 @@ export default function TabProjectsTablet() {
   };
   const onFinish = (values) => {
     console.log("🚀 ~ file: TabProjects.jsx:60 ~ onFinish ~ values:", values);
-    let dataUpdate = {
-      id: values.id,
-      projectName: values.projectName,
-      creator: data.id,
-      description: values.description,
-      // categoryId: values.category,
-      categoryId: project?.projectCategory?.id.toString(),
-    };
+    // let dataUpdate = {
+    //   id: values.id,
+    //   projectName: values.projectName,
+    //   creator: data.id,
+    //   description: values.description,
+    //   // categoryId: values.category,
+    //   categoryId: project?.projectCategory?.id.toString(),
+    // };
     projectService
       .updateProject(project.id, values)
       .then((res) => {
@@ -113,10 +114,10 @@ export default function TabProjectsTablet() {
         console.log("🚀 ~ file: TabProjects.jsx:77 ~ onFinish ~ err:", err);
         message.error("Edit thất bại");
       });
-    console.log(
-      "🚀 ~ file: TabProjects.jsx:70 ~ onFinish ~ dataUpdate:",
-      dataUpdate
-    );
+    // console.log(
+    //   "🚀 ~ file: TabProjects.jsx:70 ~ onFinish ~ dataUpdate:",
+    //   dataUpdate
+    // );
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -402,7 +403,7 @@ export default function TabProjectsTablet() {
             initialValues={{
               id: project?.id,
               projectName: project?.projectName,
-              categoryId: project?.projectCategory?.name,
+              categoryId: project?.projectCategory?.id,
               description: project?.description,
               // remember: true,
             }}
