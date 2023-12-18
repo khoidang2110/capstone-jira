@@ -6,6 +6,7 @@ import { usersManageService } from "../../service/service";
 import { useNavigate } from "react-router-dom";
 import { setInfoAction } from "../../redux/action/user";
 import { useDispatch } from "react-redux";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 export default function TabUserSettingDesktop() {
   const navigate = useNavigate();
@@ -69,8 +70,11 @@ console.log("newData",newData)
           usersManageService
               .getUser(data.id)
               .then((result) => {
-                 console.log("user api", result.data.content);
-                dispatch(setInfoAction(result.data.content[1]));
+
+                //  console.log("user api", result.data.content);
+                  const nowUser = result.data.content.find(item=>item.userId==data.id)
+                  // console.log("now user",nowUser)
+                dispatch(setInfoAction(nowUser));
                 // localStorage.setItem("USER", JSON.stringify(result.data.content[0]));
               })
               .catch((err) => {

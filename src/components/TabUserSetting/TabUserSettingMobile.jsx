@@ -69,9 +69,9 @@ console.log("newData",newData)
           usersManageService
               .getUser(data.id)
               .then((result) => {
-                 console.log("user api", result.data.content);
-                dispatch(setInfoAction(result.data.content[1]));
-                // localStorage.setItem("USER", JSON.stringify(result.data.content[0]));
+                const nowUser = result.data.content.find(item=>item.userId==data.id)
+                // console.log("now user",nowUser)
+              dispatch(setInfoAction(nowUser));
               })
               .catch((err) => {
                 console.log("err", err);
